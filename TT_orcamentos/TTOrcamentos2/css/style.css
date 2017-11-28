@@ -1,0 +1,722 @@
+@font-face {
+    font-family: 'Roboto';
+    src: url('/font/Roboto-Regular.ttf'); 
+}
+
+.header{
+  height: 100px;
+  width: 100%;
+  margin-top: 0px;
+  padding: 0;
+  background-color: cornflowerblue;
+}
+.navbar{
+  min-height: 100px !important;
+}
+.modal-header{
+    padding: 15px;
+    border-bottom: 1px solid #e5e5e5;
+}
+.modal-title {
+    margin-left: 20% !important;
+    font-size: 24px;
+}
+.menu{
+      margin-top: 18px;
+}
+.body{
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+  height: 100%;
+background-color: #e7e7e7;
+}
+
+#bg {
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  min-width: 100%;
+  min-height: 100%;
+}
+
+
+.Login{
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+    -webkit-overflow-scrolling: touch;
+    outline: 0;
+}
+.Login .submit{
+  margin-left: 20%;
+}
+.remember_me{
+  margin-left: 20%;
+}
+.btnSubmit{
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    color: #fff;
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+}
+.LoginUserInput{
+    width: 60%;
+    margin-left: 20%;
+    text-align: -webkit-center;
+    height: 40px;
+    font-size: x-large;
+}
+
+.ui-state-active a{
+    background-color:cornflowerblue !important;
+
+}
+
+		ul.ui-tabs-nav{
+			margin: 0px;
+			padding: 0px;
+			list-style: none;
+		}
+		ul.ui-tabs-nav li{
+			background: none;
+			color: #222;
+			display: inline-block;
+			padding: 10px 15px;
+			cursor: pointer;
+		}
+        ul.ui-tabs-nav li a{
+			background: none;
+			color: #222;
+			display: inline-block;
+			padding: 10px 15px;
+			cursor: pointer;
+		}
+
+		ul.ui-tabs-nav li.current{
+			background: #ededed;
+			color: #222;
+		}
+
+		#tabs div{
+			display: none;
+
+			padding: 15px;
+		}
+
+		#tabs div.current{
+			display: inherit;
+		}
+
+
+
+.vertical-alignment-helper {
+    display:table;
+    height: 100%;
+    width: 100%;
+    pointer-events:none; /* This makes sure that we can still click outside of the modal to close it */
+}
+.vertical-align-center {
+    /* To center vertically */
+    display: table-cell;
+    vertical-align: middle;
+    pointer-events:none;
+}
+.modal-content {
+    /* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
+    width:inherit;
+    height:inherit;
+    /* To center horizontally */
+    margin: 0 auto;
+    pointer-events: all;
+}
+
+.formNav{
+width: 100%;
+}
+.tab-control{
+  height: 55px;
+}
+.formNav li{
+      float: left;
+    list-style: none;
+    margin-left: 60px;
+    margin-top: 20px;
+    height: 20px;
+}
+.ProjectForm{
+    width: 80%;
+    margin-left: 10%;
+    background-color: white;
+
+}
+.ui-helper-hidden-accessible{
+  display: none;
+}
+.tab-container{
+  margin-top: 20px;
+}
+.ListContainer{
+  width: 80%;
+  margin-left: 10%;
+  background-color: white;
+}
+.ListFilters{
+      padding-top: 50px;
+    width: 80%;
+    margin-left: 10%;
+}
+.listagem{
+  padding-top: 70px;
+}
+.FornecedorCheck{
+    display: none;
+    max-width: 22px;
+    float: right;
+}
+.FornecedorError{
+    display: none;
+    max-width: 22px;
+    float: right;
+}
+.ui-menu{
+    list-style: none;
+    font-size: 21px;
+    border: lightblue 1px solid;
+    max-width: 20%;
+    background: white;
+    border-radius: 7px;
+}
+.ui-menu li{
+    list-style: none;
+    font-size: 21px;
+    margin-left: -35px;
+}
+.addBtn{
+  max-width: 25px;
+  float: right;
+  margin-right: 50px;
+}
+.DayHeader{
+    border: 1px solid grey;
+    border-radius: 5px;
+    height: 45px;
+    width: 100%;
+    margin-top: 22px;
+    background-color: white;
+    line-height: 2;
+    font-size: 20px;
+    padding-left: 24px;
+}
+.row{
+  margin-top: 10px;
+}
+
+/* Style the tab */
+div.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+div.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+}
+
+
+/* Change background color of buttons on hover */
+div.tab button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+div.tab button.active {
+    background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+    padding-bottom: 50px
+}
+
+.AlojTableType, .AlojNPax{
+    width: 100% !important;
+    max-width: 120px;
+    float: left;
+}
+
+.AlojTableNumberIn
+{
+        max-width: 75px !important;
+}
+
+
+.AlojTableNumber
+{
+        max-width: 75px !important;
+}
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+        width: 40%;
+}
+
+/* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.ProjectMenu{
+  float: right;
+
+}
+.SaveIcon{
+    max-width: 35px;
+    margin-right: 15px;
+    margin-top: 6px;
+}
+
+.modal-content2{
+      position: relative;
+
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #999;
+    border: 1px solid rgba(0,0,0,.2);
+    border-radius: 6px;
+    outline: 0;
+    -webkit-box-shadow: 0 3px 9px rgba(0,0,0,.5);
+    box-shadow: 0 3px 9px rgba(0,0,0,.5);
+        background-color: #fefefe;
+    margin: 8% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 60%;
+    height: auto;
+}
+.modal-content3{
+    position: relative;
+
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #999;
+    border: 1px solid rgba(0,0,0,.2);
+    border-radius: 6px;
+    outline: 0;
+    -webkit-box-shadow: 0 3px 9px rgba(0,0,0,.5);
+    box-shadow: 0 3px 9px rgba(0,0,0,.5);
+        background-color: #fefefe;
+    margin: 8% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 40%;
+    height: auto;
+}
+.modal-content4{
+    position: relative;
+
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #999;
+    border: 1px solid rgba(0,0,0,.2);
+    border-radius: 6px;
+    outline: 0;
+    -webkit-box-shadow: 0 3px 9px rgba(0,0,0,.5);
+    box-shadow: 0 3px 9px rgba(0,0,0,.5);
+        background-color: #fefefe;
+    margin: 8% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 75%;
+    height: auto;
+}
+
+.tablinks:not(:first-child){
+    display: none;
+}
+.ProjectMenu button{
+    display: none
+}
+.ProjectMenu button:last-child
+{
+    display: block;
+}
+
+
+.TitleTabela{
+        
+        margin-top: 20px;
+       margin-bottom: 10px;
+           font-size: 31px;
+}
+.TitleDefinition{
+        
+        margin-top: 20px;
+       margin-bottom: 10px;
+           font-size: 21px;
+}
+.LabelOrcamento{
+    float: right;
+    margin-right: 25px;
+    color: darkseagreen;
+}
+.AddOrcamentoBtn{
+    display: none;
+}
+.AlojamentoHoteis {
+    width:70% !important ;
+}
+.AlojamentoHoteis > ul > li{
+    border: 1px solid lightsalmon;
+    margin-left:5px;
+
+}
+
+.ProjectoFicheiros{
+    width: 50%;
+    float: right;
+    background-color: #f8f8f8;
+    min-height: 100px;
+}
+.AlojamentoResume{
+    width:30%;
+    float:right;
+    background-color:#f8f8f8;
+    min-height:300px;
+    display:none;
+}
+#OverviewOrcamentos{
+    float:left;
+    width:30%;
+}
+.AddOrcamentoBtn, .SaveOrcamentoBtn,.AddAlojamento,.AddVoo,.AddDiaria,.AddFornecedor,.AddServicos,.GuardarOrcamentoAlojamento{
+    font-size: 16px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    border: 0px;
+    background-color: cornflowerblue;
+    border-radius: 5px;
+    height: 45px;
+    color: white;
+}
+
+
+.guardarInfo{
+    font-size: 16px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    border: 0px;
+    background-color: cornflowerblue;
+    border-radius: 5px;
+    height: 45px;
+    color: white;
+}
+.AddBtnHotel {
+    background-color: white;
+    color: white;
+    border: 0px;
+}
+.AddBtnFornecedor,.GetBtnFornecedor, .GetBill, .RemoveBtnFornecedor{
+    background-color: white;
+    color: white;
+    border: 0px;
+}
+.removeFornecedor{
+        height: 30px;
+}
+.removeFornecedor:hover{
+        height: 35px;
+}
+
+.AlojamentoOverview .AlojTotaisPax{
+    color:green;
+}
+.rmvAlojType{
+    height:22px;
+}
+.AlojamentoOverview .AlojTotais{
+    color:red;
+}
+
+.AlojTotaisPax{
+    color:green;
+}
+.AlojTotais{
+    color:red;
+}
+
+.GetIcon{
+        height: 40px;
+}
+.GetIcon:hover{
+height: 50px;
+}
+
+
+.AddDiariaBtn{
+        background-color: white;
+    color: white;
+    border: 0px;
+    float: right;
+        margin-right: 20px;
+
+}
+.AddPagamento, .AddIcon{
+        height: 32px;
+}
+.AddPagamento, .AddIcon:hover{
+height: 34px;
+}
+
+.AddPagamento{
+        height: 32px;
+}
+.AddPagamento:hover{
+height: 34px;
+}
+
+
+
+.AddDiariaInRow{
+        height: 32px;
+}
+.AddDiariaInRow:hover{
+height: 34px;
+}
+
+
+.hotelAddForm{
+    background-color: white;
+    height: 30%;
+    width: 60%;
+    margin-left: 20%;
+    margin-top: 10%;
+}
+
+.caixa{
+       height: 95%;
+
+}
+
+
+.circliful .outer {
+    fill: transparent;
+    stroke: #333;
+    stroke-width: 19.8;
+    stroke-dasharray: 534;
+    transition: stroke-dashoffset 1s;
+    -webkit-animation-play-state: running;
+    /* firefox bug fix - won't rotate at 90deg angles */
+    -moz-transform: rotate(-89deg) translateX(-190px);
+}
+
+/* full circle 25 empty 534 */
+.circliful .inner {
+    fill: transparent;
+    stroke: orange;
+    stroke-width: 20;
+    stroke-dasharray: 534;
+    transition: stroke-dashoffset 1s;
+    -webkit-animation-play-state: running;
+    /* firefox bug fix - won't rotate at 90deg angles */
+    -moz-transform: rotate(-89deg) translateX(-190px);
+    stroke-dashoffset: 0;
+}
+
+.circliful {
+    overflow: visible !important;
+
+}
+
+.svg-container {
+    width: 100%;
+    margin: 0 auto;
+    overflow: visible;
+}
+
+svg .icon {
+    font-family: FontAwesome;
+}
+
+.InfoObs{
+        max-width: 22px;
+    float: center;
+    margin-right: 10px;
+}
+.OpIcons img{
+    max-width: 22px;
+    float: right;
+    margin-right: 10px;
+}
+.OpIcons img:hover{
+    max-width: 24px;
+}
+
+.Selected{
+    background-color: #DDDEFD !important;
+}
+.AlojamentoOverview tr th {
+
+    min-width: 200px;
+
+}
+
+
+.ListaDividas, .ListaDPagamentos{
+    width: 100%;
+}
+.ListaDPagamentos tr:nth-child(1){
+      background-color: green;
+}
+.ListaDividas tr:nth-child(1){
+      background-color: red;
+}
+
+.AddBtnPagamento{
+    background-color: green;
+    border: 0px;
+}
+
+.ListaDividas, .ListaDPagamentos tr:nth-child(even) {
+    background-color: white;
+}
+
+
+#AlojamentoRecords,#VoosRecords,.DiariaTables,#FornecedoresRecords, #ServicosRecords, #AlojamentoVerRecords, #ListaOrcamentos, #VoosVerRecords, #DiariaVerRecords, #ServicosVerRecords, #Listaprojectos{
+    width: 100%;
+}
+th {
+    text-align: center;
+    font-size: 15px;
+    height: 70px;
+}
+#ListaOrcamentos td, th {
+
+    border: 1px solid #dddddd !important;
+    text-align: center !important;
+    padding: 8px;
+    font-size: 16px;
+}
+
+#ListaOrcamentos tr:nth-child(even) {
+    background-color: white;
+}
+
+
+table {
+    border-collapse: collapse;
+}
+
+td, th {
+
+    border: 1px solid #dddddd;
+    text-align: center !important;
+    padding: 8px;
+        font-size: 16px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+
+.smNumInput{
+    width: 80px;
+}
+.paraVenda{
+    background-color: red;
+
+}
+.Lucro{
+    background-color: green;
+}
+
+#accordion h3{
+    height: 54px;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+    border-radius: 20px;
+    line-height: 2;
+    padding-left: 20px;
+}
+
+#Listaprojectos{
+    margin-top: 15px;
+}
+
+@media screen and (max-width: 1366px) {
+.ProjectForm {
+    width: 98%;
+    margin-left: 1%;
+    background-color: white;
+}
+.smNumInput {
+    width: 50px;
+}
+}
+.RecTotais{
+        float: right;
+    margin-right: 50px;
+}
+
+
