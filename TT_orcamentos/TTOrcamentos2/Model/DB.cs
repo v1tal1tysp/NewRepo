@@ -24,6 +24,10 @@ namespace TTOrcamentos2.Model {
         static public IMongoCollection<Tipo_Iva> Tipo_Iva { get; set; } = Database.GetCollection<Tipo_Iva>("Tipo_Iva");
         static public IMongoCollection<Ivas> Ivas { get; set; } = Database.GetCollection<Ivas>("Ivas");
         static public IMongoCollection<Cambio> Cambio { get; set; } = Database.GetCollection<Cambio>("Cambio");
+        static public IMongoCollection<ServicosTT_Tipos> ServicosTT_Tipos { get; set; } = Database.GetCollection<ServicosTT_Tipos>("ServicosTT_Tipos");
+        static public IMongoCollection<Quartos> Quartos { get; set; } = Database.GetCollection<Quartos>("Quartos");
+
+        
 
     }
 }

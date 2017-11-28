@@ -15,6 +15,23 @@ namespace TTOrcamentos2.Model {
             this.name = name;
         }
 
+        public static TypeOfCost Get(string name)
+        {
+            try
+            {
+                TypeOfCost tipocusto = DB.TypeOfCost.Find(x => x.name == name).FirstOrDefault();
+                if (tipocusto != null)
+                {
+                    return tipocusto;
+                }
+
+                return null;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Erro Inserir Utilizador" + e.ToString());
+            }
+        }
         public static bool Insert(string name)
         {
             try

@@ -3286,7 +3286,7 @@ $("#TabelaFornecedor").click(function () {
 
 
     var FornecedorNome = $("#FornecedorNome").val();
-    var FornecedorTipoServico = $("#FornecedorTipoServico option:selected").val()
+    var FornecedorTipoServico = $("#FornecedorTipoServico option:selected").text()
     var FornecedorPais = $("#FornecedorPais option:selected").text();
     var FornecedorPaisID = $("#FornecedorPais option:selected").val();
     var FornecedorCidade = $("#FornecedorCidade").val();
@@ -3302,8 +3302,30 @@ $("#TabelaFornecedor").click(function () {
     var FornecedorUrl = $("#FornecedorUrl").val();
     var FornecedorContribuinte = $("#FornecedorContribuinte").val();
     var FornecedorTipoFornecedor = $("#FornecedorTipoFornecedor option:selected").val()
+    var FornecedorTipoFornecedor = $("#FornecedorTipoFornecedor option:selected").val()
+
+
 
     var data = {
+
+            "TipoFornecedo":  ,
+            "Country":  ,
+            "cidade":  ,
+            "tipocusto":  ,
+            "nome": FornecedorNome ,
+            "nomecomercial": FornecedorNomeComercial ,
+            "morada": FornecedorMorada ,
+            "localidade":  FornecedorLocalidade,
+            "codigopostal": FornecedorCodigoPostal ,
+            "telefone":  FornecedorTelemovel,
+            "fax":  FornecedorFax,
+            "telemovel":  FornecedorTelemovel,
+            "contacto":  FornecedorContacto,
+            "email": FornecedorEmail ,
+            "url":  FornecedorUrl,
+            "contribuinte":FornecedorContribuinte  , 
+            "categoria ":  "1" ,
+
 
         "tipofornecedoreidv": FornecedorTipoFornecedor,
         "paisidv": FornecedorPaisID,
@@ -4268,6 +4290,23 @@ $(document).ready(function () {
 
 function loadPageAuxTables() {
 
+    $.get('api/Postman/getAllServicosTT_Tipos',
+    function (returnedData) {
+        var items = JSON.parse(returnedData);
+
+        $.each(items, function (idx, el) {
+            var id = el.Id;
+            var nome = el.name;
+            $("#ServicosTipoServico").append($("<option />").val(id).text(nome));
+        });
+
+
+        returnedData = null;
+    }).fail(function () {
+        console.log("Erro ao fazer ao carregar os getAllEstados!");
+    });
+
+
     $.get('api/Postman/getAllEstados',
         function (returnedData) {
             var items = JSON.parse(returnedData);
@@ -4287,10 +4326,7 @@ function loadPageAuxTables() {
 
     $.get('api/Postman/getAllQuartos',
             function (returnedData) {
-                var hiddentext = JSON.stringify(returnedData);
-
-                $("#quartos").val(hiddentext);
-
+                  $("#quartos").val(returnedData);
                 returnedData = null;
             }).fail(function () {
                 console.log("Erro ao fazer ao carregar os getAllQuartos!");

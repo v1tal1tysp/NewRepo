@@ -269,6 +269,8 @@
     <Compile Include="Model\Fornecedor.cs" />
     <Compile Include="Model\Ivas.cs" />
     <Compile Include="Model\ProjectoTT.cs" />
+    <Compile Include="Model\Quartos.cs" />
+    <Compile Include="Model\ServicosTT_Tipos.cs" />
     <Compile Include="Model\stringUtil.cs" />
     <Compile Include="Model\TipoFornecedor.cs" />
     <Compile Include="Model\Tipo_Iva.cs" />

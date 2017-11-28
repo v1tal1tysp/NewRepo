@@ -324,8 +324,6 @@ namespace TTOrcamentos2.Controllers
             return ObjList;
         }
 
-
-
         [HttpPost]
         [Route("api/Postman/getProjectoFiles")]
         public List<dynamic> getProjectoFiles(string id)
@@ -443,60 +441,49 @@ namespace TTOrcamentos2.Controllers
         }
 
 
+
+
         /*AUX*/
 
         [HttpGet]
         [Route("api/Postman/getAllQuartos")]
-        public List<aux_quartos> getAllQuartos()
+        public string getAllQuartos()
         {
-            List<aux_quartos> ObjList = new List<aux_quartos>();
+            string tst = string.Empty;
+            List<Quartos> ObjList = new List<Quartos>();
             try
             {
-                using (var conn = new SqlConnection(TTOrcamentos2.Properties.Settings.Default.ConnectionString))
-                using (var command = new SqlCommand("getAllQuartos", conn)
-                {
-                    CommandType = CommandType.StoredProcedure
-                })
-                {
-                    conn.Open();
-                    SqlDataReader reader = command.ExecuteReader();
+                ObjList = Quartos.GetAll();
 
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            aux_quartos obj = new aux_quartos();
-
-                            obj.quartoidv = reader.GetString(0);
-                            obj.q_nome = reader.GetString(1);
-                            obj.capacidade = reader.GetInt32(2);
-                            obj.predefenido = reader.GetBoolean(3);
-
-                            ObjList.Add(obj);
-
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("No rows found.");
-                    }
-                    reader.Close();
-                    conn.Close();
-                }
-                return ObjList;
+                return JsonConvert.SerializeObject(ObjList); ;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
 
-            return ObjList;
+            return tst;
         }
 
+        [HttpGet]
+        [Route("api/Postman/getAllServicosTT_Tipos")]
+        public string getAllServicosTT_Tipos()
+        {
+            string tst = string.Empty;
+            List<ServicosTT_Tipos> ObjList = new List<ServicosTT_Tipos>();
+            try
+            {
+                ObjList = ServicosTT_Tipos.GetAll();
 
+                return JsonConvert.SerializeObject(ObjList); ;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
-
-
+            return tst;
+        }
 
 
         [HttpGet]
@@ -648,8 +635,13 @@ namespace TTOrcamentos2.Controllers
 
         [HttpPost]
         [Route("api/Postman/insertFornecedor")]
-        public fornecedor insertFornecedor([FromBody]fornecedor fornecedor)
+        public void insertFornecedor([FromBody]Fornecedor fornecedor)
         {
+
+   
+
+
+            /*
 
             SqlConnection conn = new SqlConnection(TTOrcamentos2.Properties.Settings.Default.ConnectionString);
             SqlCommand cmd = new SqlCommand("insertFornecedor", conn);
@@ -717,7 +709,7 @@ namespace TTOrcamentos2.Controllers
                 conn.Close();
             }
             return newObject;
-
+            */
         }
 
         [HttpPost]
@@ -883,9 +875,6 @@ namespace TTOrcamentos2.Controllers
             return newObject;
 
         }
-
-
-
       
         [HttpPost]
         [Route("api/Postman/insertFicheiro")]

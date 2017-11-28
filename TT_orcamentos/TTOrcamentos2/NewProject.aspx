@@ -514,22 +514,22 @@
                         <div class="modal-content2">
                             <span class="close ClosebtnDiaria">&times;</span>
                             <div class="TitleTabela">Adicionar Item diario</div>
-                            <input type="hidden" id="DiariaAuxDia" >
-                            <input type="hidden" id="DataDeexecucao" >
+                            <input type="hidden" id="DiariaAuxDia" />
+                            <input type="hidden" id="DataDeexecucao" />
                             <div class="panel-body">
                                 <!-- Fornecedor & Commissao-->
                                 <div class="row">
                                 <label for="example-number-input" class="col-lg-2 col-form-label">Fornecedor</label>
                                 <div class="col-lg-3">
-                                    <input type="hidden" class="form-control" id="DiariaFornecedorID">
-                                    <input class="form-control fornecedor" type="text" id="DiariaFornecedor">
+                                    <input type="hidden" class="form-control" id="DiariaFornecedorID"/>
+                                    <input class="form-control fornecedor" type="text" id="DiariaFornecedor"/>
                                 </div>
                                  <div class="col-lg-1">
-                                    <button type="button" class="AddBtnFornecedor" style="padding: 0px"><img class="AddIcon 4" src="img\add_btn.png" alt="Guardar"></button>
+                                    <button type="button" class="AddBtnFornecedor" style="padding: 0px"><img class="AddIcon 4" src="img\add_btn.png" alt="Guardar"/></button>
                                 </div>
                                     <label for="MargemAloj" class="col-lg-1 col-form-label">Comisão</label>
                                     <div class="col-lg-2">
-                                        <input class="form-control" type="number" id="DiariaComisao" value="0" min="0" step=0.01>
+                                        <input class="form-control" type="number" id="DiariaComisao" value="0" min="0" step="0.01"/>
                                     </div>
 
                                 </div>
@@ -555,7 +555,7 @@
                                     </div>
                                     <label for="example-number-input" class="col-lg-1 col-form-label">Markup</label>
                                     <div class="col-lg-2">
-                                        <input class="form-control" type="number" value="" id="DiariaMarkup">
+                                        <input class="form-control" type="number" value="" id="DiariaMarkup"/>
                                     </div>
                                 </div>
                                 <!--Margem &  markup-->
@@ -563,15 +563,15 @@
 
                                     <label for="example-number-input" class="col-lg-2 col-form-label">Nome do Serviço</label>
                                     <div class="col-lg-4">
-                                        <input class="form-control" type="text" value="" id="DiariaNomeServico">
+                                        <input class="form-control" type="text" value="" id="DiariaNomeServico"/>
                                     </div>
                                     <label for="example-number-input" class="col-lg-1 col-form-label">Margem</label>
                                     <div class="col-lg-2">
-                                        <input class="form-control" type="number" value="08" id="DiariaMargem">
+                                        <input class="form-control" type="number" value="08" id="DiariaMargem"/>
                                     </div>
                                     <label for="MargemAloj" class="col-lg-1 col-form-label">net</label>
                                     <div class="col-lg-2">
-                                        <input class="form-control" type="number" id="DiariaNet" value="0"  min="0" step=0.01>
+                                        <input class="form-control" type="number" id="DiariaNet" value="0"  min="0" step="0.01"/>
                                     </div>
 
                                 </div>
@@ -584,23 +584,23 @@
                                     </div>
                                     <label for="example-number-input" class="col-lg-2 col-form-label">Quantidade</label>
                                     <div class="col-lg-4">
-                                        <input class="form-control" type="number" value="" id="DiariaQuantidade">
+                                        <input class="form-control" type="number" value="" id="DiariaQuantidade"/>
                                     </div>
                                     </br>
                                     <label for="example-datetime-local-input" class="col-lg-2 col-form-label">Data</label>
                                     <div class="col-lg-2">
-                                        <input class="form-control" type="date" value="2011-08-19" id="DiariaData">
+                                        <input class="form-control" type="date" value="2011-08-19" id="DiariaData"/>
                                     </div>
                                 </div>
                                 <!--Forma de pagamento &  Data de Pagamento-->
                                 <div class="row">
                                     <label for="example-number-input" class="col-lg-2 col-form-label">Forma de pagar</label>
                                     <div class="col-lg-4">
-                                        <input class="form-control" type="text" value="Advance 50%" id="DiariaPagamento">
+                                        <input class="form-control" type="text" value="Advance 50%" id="DiariaPagamento"/>
                                     </div>
                                     <label for="example-number-input" class="col-lg-2 col-form-label">Data de pagamento</label>
                                     <div class="col-lg-2">
-                                        <input class="form-control" type="date" value="" id="DiariaDataPagamento">
+                                        <input class="form-control" type="date" value="" id="DiariaDataPagamento"/>
                                     </div>
                                 </div>
 
@@ -633,23 +633,6 @@
                                 <label for="example-text-input" class="col-lg-2 col-form-label">Tipo de Serviço</label>
                                 <div class="col-lg-4">
                                     <select name="TipoServico" id="ServicosTipoServico" class="form-control">
-                                        <option value="1">Balcão de aeroporto ANA – Lisboa</option>
-                                        <option value="2">Balcão de aeroporto ANA – Porto</option>
-                                        <option value="3">Voos staff – Partida Lisboa</option>
-                                        <option value="4">Voos staff – Partida Porto </option>
-                                        <option value="5">Voos staff – Internos</option>
-                                        <option value="6">Ligações staff Lisboa / Porto / Lisboa</option>
-                                        <option value="7">Alojamento staff SGL</option>
-                                        <option value="8">Alojamento staff DBL/TWN</option>
-                                        <option value="9">Acompanhamento interno</option>
-                                        <option value="10">Acompanhamento externo</option>
-                                        <option value="11">Documentações de viagem</option>
-                                        <option value="12">Seguro de viagem</option>
-                                        <option value="13">Produção e imagem</option>
-                                        <option value="14">Plataforma de viagem</option>
-                                        <option value="15">Viagem de inspeção</option>
-                                        <option value="16">Despesas administrativas</option>
-                                        <option value="17">Comunicações e economato</option>
                                     </select>
                                 </div>
                             </div>
@@ -667,11 +650,11 @@
                                 </div>
                                 <label for="MargemAloj" class="col-lg-1 col-form-label">net</label>
                                 <div class="col-lg-1">
-                                    <input class="form-control" type="number" id="ServicosNet" value="0"  min="0" step=0.01>
+                                    <input class="form-control" type="number" id="ServicosNet" value="0"  min="0" step="0.01"/>
                                 </div>
                                 <label for="MargemAloj" class="col-lg-1 col-form-label">Comisão</label>
                                 <div class="col-lg-1">
-                                    <input class="form-control" type="number" id="ServicosComisao" value="0" min="0" step=0.01>
+                                    <input class="form-control" type="number" id="ServicosComisao" value="0" min="0" step="0.01"/>
                                 </div>
 
                             </div>
@@ -679,11 +662,11 @@
                             <div class="row">
                                 <label for="example-number-input" class="col-lg-2 col-form-label">Margem</label>
                                 <div class="col-lg-1">
-                                    <input class="form-control" type="number" value="08" id="ServicosMargem"  min="0" step=0.01>
+                                    <input class="form-control" type="number" value="08" id="ServicosMargem"  min="0" step="0.01"/>
                                 </div>
                                 <label for="example-number-input" class="col-lg-1 col-form-label">Markup</label>
                                 <div class="col-lg-2">
-                                    <input class="form-control" type="number" value="" id="ServicosMarkup">
+                                    <input class="form-control" type="number" value="" id="ServicosMarkup"/>
                                 </div>
                                 <label for="example-text-input" class="col-lg-1 col-form-label">Iva</label>
                                 <div class="col-lg-2">
@@ -701,7 +684,7 @@
                                 </div>
                                 <label for="example-number-input" class="col-lg-2 col-form-label">Quantidade</label>
                                 <div class="col-lg-4">
-                                    <input class="form-control" type="number" value="" id="ServicosQuantidade">
+                                    <input class="form-control" type="number" value="" id="ServicosQuantidade"/>
                                 </div>
                             </div>
                             <!--Forma de pagamento &  Data de Pagamento-->
@@ -1002,8 +985,8 @@
 
                                         <div class="col-lg-4">
                                             <button  type="button" class="AddFornecedor" id="TabelaFornecedor">Adicionar Pagamento</button>
-                                            <img class="FornecedorCheck" src="img\check.png" alt="Guardar">
-                                            <img class="FornecedorError" src="img\remove.png" alt="Guardar">
+                                            <img class="FornecedorCheck" src="img\check.png" alt="Guardar"/>
+                                            <img class="FornecedorError" src="img\remove.png" alt="Guardar"/>
                                         </div>
                                     </div>
                                 </div>
