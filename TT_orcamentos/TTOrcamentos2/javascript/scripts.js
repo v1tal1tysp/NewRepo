@@ -3305,9 +3305,8 @@ $(".AddFornecedor").click(function () {
     var FornecedorTipoFornecedor = $("#FornecedorTipoTerceiro option:selected").text();
 
 
-
     var data = {
-        "Id": "",
+        "Id": "a",
         "TipoFornecedor": FornecedorTipoFornecedor,
         "Country": FornecedorPais,
         "cidade": FornecedorCidade,
@@ -3323,8 +3322,7 @@ $(".AddFornecedor").click(function () {
         "contacto":  FornecedorContacto,
         "email": FornecedorEmail ,
         "url":  FornecedorUrl,
-        "contribuinte":FornecedorContribuinte  , 
-        "categoria ":  "1"
+        "contribuinte":FornecedorContribuinte  
     };
     sendFornecedor(data, FornecedorLocalOrigem);
 

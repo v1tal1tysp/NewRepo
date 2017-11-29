@@ -635,14 +635,14 @@ namespace TTOrcamentos2.Controllers
 
         [HttpPost]
         [Route("api/Postman/insertFornecedor")]
-        public void insertFornecedor(JObject fornecedortxt)
+        public void insertFornecedor(JObject fornecedor)
         {
 
-            dynamic t = fornecedortxt;
-            //teste.TipoFornecedor,
-            //teste.Country,teste.cidade,teste.tipocusto ,teste.nome ,teste.nomecomercial,teste.morada,teste.localidade,teste.codigopostal ,teste.telefone ,teste.fax,teste.telemovel ,teste.contacto ,teste.email,teste.url,teste.contribuinte
+            Fornecedor album = fornecedor.ToObject<Fornecedor>();
 
-            Fornecedor.Insert(t.TipoFornecedor.value, t.Country, t.cidade, t.tipocusto, t.nome, t.nomecomercial, t.morada, t.localidade, t.codigopostal, t.telefone, t.fax, t.telemovel, t.contacto, t.email, t.url, t.contribuinte);
+
+
+            Fornecedor.Insert(album);
 
 
             /*
