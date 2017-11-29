@@ -8,9 +8,9 @@ namespace TTOrcamentos2.Model {
     public class Fornecedor {
         private ObjectId Id { get; set; }
         private string TipoFornecedor { get; set; }
-        private Country Country { get; set; }
-        private City cidade { get; set; }
-        private TypeOfCost tipocusto { get; set; }
+        private string Country { get; set; }
+        private string cidade { get; set; }
+        private string tipocusto { get; set; }
         private string nome { get; set; }
         private string nomecomercial { get; set; }
         private string morada { get; set; }
@@ -23,11 +23,10 @@ namespace TTOrcamentos2.Model {
         private string email { get; set; }
         private string url { get; set; }
         private string contribuinte { get; set; }
-        private string categoria { get; set; }
 
 
 
-        public Fornecedor(string TipoFornecedor, Country Country, City cidade, TypeOfCost tipocusto, string nome, string nomecomercial, string morada, string localidade, string codigopostal, string telefone, string fax, string telemovel, string contacto, string email, string url, string contribuinte, string categoria)
+        public Fornecedor(string TipoFornecedor, string Country, string cidade, string tipocusto, string nome, string nomecomercial, string morada, string localidade, string codigopostal, string telefone, string fax, string telemovel, string contacto, string email, string url, string contribuinte)
         {
             this.TipoFornecedor = TipoFornecedor;
             this.Country = Country;
@@ -45,15 +44,15 @@ namespace TTOrcamentos2.Model {
             this.email = email;
             this.url = url;
             this.contribuinte = contribuinte;
-            this.categoria = categoria;
+            
 
         }
 
-        public static bool Insert(string TipoFornecedor, Country Country, City cidade, TypeOfCost tipocusto, string nome, string nomecomercial, string morada, string localidade, string codigopostal, string telefone, string fax, string telemovel, string contacto, string email, string url, string contribuinte, string categoria)
+        public static bool Insert(string TipoFornecedor, string Country, string cidade, string tipocusto, string nome, string nomecomercial, string morada, string localidade, string codigopostal, string telefone, string fax, string telemovel, string contacto, string email, string url, string contribuinte)
         {
             try
             {
-                Fornecedor newuser = new Fornecedor(TipoFornecedor, Country, cidade, tipocusto, nome, nomecomercial, morada, localidade, codigopostal,  telefone,  fax, telemovel,  contacto,  email,  url,  contribuinte,  categoria);
+                Fornecedor newuser = new Fornecedor(TipoFornecedor, Country, cidade, tipocusto, nome, nomecomercial, morada, localidade, codigopostal,  telefone,  fax, telemovel,  contacto,  email,  url,  contribuinte);
                 DB.Fornecedor.InsertOne(newuser);
 
                 return true;
@@ -64,7 +63,7 @@ namespace TTOrcamentos2.Model {
                 throw new Exception("Erro Inserir Fornecedor" + e.ToString());
             }
         }
-
+        
         public static bool Update(Fornecedor user)
         {
             try

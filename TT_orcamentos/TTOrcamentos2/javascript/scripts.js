@@ -2320,7 +2320,8 @@ function sendVoo(objectToSend, save) {
 function sendFornecedor(objectToSend, idTab) {
 
     var res;
-    $.post('api/Postman/insertFornecedor', objectToSend,
+    var sedem = JSON.stringify(objectToSend);
+    $.post('api/Postman/insertFornecedor',  objectToSend,
         function (returnedData) {
 
             if (returnedData != "")
@@ -3279,7 +3280,7 @@ $("#AddAlojamento").click(function () {
 
 
 
-$("#TabelaFornecedor").click(function () {
+$(".AddFornecedor").click(function () {
 
 
     var FornecedorLocalOrigem = parseInt($("#FiredInsert").val());
@@ -3301,48 +3302,29 @@ $("#TabelaFornecedor").click(function () {
     var FornecedorEmail = $("#FornecedorEmail").val();
     var FornecedorUrl = $("#FornecedorUrl").val();
     var FornecedorContribuinte = $("#FornecedorContribuinte").val();
-    var FornecedorTipoFornecedor = $("#FornecedorTipoFornecedor option:selected").val()
-    var FornecedorTipoFornecedor = $("#FornecedorTipoFornecedor option:selected").val()
+    var FornecedorTipoFornecedor = $("#FornecedorTipoTerceiro option:selected").text();
 
 
 
     var data = {
-
-            "TipoFornecedo":  ,
-            "Country":  ,
-            "cidade":  ,
-            "tipocusto":  ,
-            "nome": FornecedorNome ,
-            "nomecomercial": FornecedorNomeComercial ,
-            "morada": FornecedorMorada ,
-            "localidade":  FornecedorLocalidade,
-            "codigopostal": FornecedorCodigoPostal ,
-            "telefone":  FornecedorTelemovel,
-            "fax":  FornecedorFax,
-            "telemovel":  FornecedorTelemovel,
-            "contacto":  FornecedorContacto,
-            "email": FornecedorEmail ,
-            "url":  FornecedorUrl,
-            "contribuinte":FornecedorContribuinte  , 
-            "categoria ":  "1" ,
-
-
-        "tipofornecedoreidv": FornecedorTipoFornecedor,
-        "paisidv": FornecedorPaisID,
-        "tipocustoidv": FornecedorTipoFornecedor,
-        "f_nome": FornecedorNome,
-        "f_nomecomercial": FornecedorNomeComercial,
-        "f_morada": FornecedorMorada,
-        "f_localidade": FornecedorLocalidade,
-        "f_codigopostal": FornecedorCodigoPostal,
-        "f_telefone": FornecedorTelemovel,
-        "f_fax": FornecedorFax,
-        "f_telemovel": FornecedorTelemovel,
-        "f_contacto": FornecedorContacto,
-        "f_email": FornecedorEmail,
-        "f_url": FornecedorUrl,
-        "f_contribuinte": FornecedorContribuinte,
-        "f_categoria": "1"
+        "Id": "",
+        "TipoFornecedor": FornecedorTipoFornecedor,
+        "Country": FornecedorPais,
+        "cidade": FornecedorCidade,
+        "tipocusto": FornecedorTipoServico,
+        "nome": FornecedorNome ,
+        "nomecomercial": FornecedorNomeComercial ,
+        "morada": FornecedorMorada ,
+        "localidade":  FornecedorLocalidade,
+        "codigopostal": FornecedorCodigoPostal ,
+        "telefone":  FornecedorTelemovel,
+        "fax":  FornecedorFax,
+        "telemovel":  FornecedorTelemovel,
+        "contacto":  FornecedorContacto,
+        "email": FornecedorEmail ,
+        "url":  FornecedorUrl,
+        "contribuinte":FornecedorContribuinte  , 
+        "categoria ":  "1"
     };
     sendFornecedor(data, FornecedorLocalOrigem);
 
