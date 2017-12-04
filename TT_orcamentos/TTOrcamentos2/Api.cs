@@ -17,6 +17,12 @@ namespace TT_orcamentos
     {
         public static List<dynamic> GetAllProjectos()
         {
+
+            var listprj = ProjectoTT.GetAll();
+
+            var listorcamentos = Orcamentos.GetAll();
+
+
             List<dynamic> ObjList = new List<dynamic>();
             try
             {

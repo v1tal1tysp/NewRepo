@@ -2,11 +2,12 @@
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Web;
 namespace TTOrcamentos2.Model {
     public class Fornecedor {
-        private ObjectId Id { get; set; }
+        public ObjectId Id { get; set; }
         public string TipoFornecedor { get; set; }
         public string Country { get; set; }
         public string cidade { get; set; }
@@ -78,7 +79,60 @@ namespace TTOrcamentos2.Model {
                 throw new Exception("Erro Inserir Fornecedor" + e.ToString());
             }
         }
-        
+
+        public static List<dynamic> GetAllSearch(string term)
+        {
+            List<dynamic> lista = new List<dynamic>();
+            try
+            {
+                var filter = Builders<Fornecedor>.Filter.Empty;
+                var nlt = DB.Fornecedor.Find(filter).ToList();
+
+                foreach (var item in nlt)
+                {
+                    var fname = item.nome.ToLower();
+                    var last = item.nomecomercial.ToLower();
+                    
+                    term = term.ToLower();
+                    if (fname.Contains(term) || last.Contains(term))
+                    {
+                        dynamic obj = new ExpandoObject();
+                        obj.id = item.Id;
+                        obj.Nome = item.nome;
+
+                        lista.Add(item);
+                    }
+                }
+
+                return lista;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Erro search Fornecedor" + e.ToString());
+            }
+        }
+
+        public static Fornecedor Get(string name)
+        {
+            try
+            {
+                Fornecedor fornecedor = DB.Fornecedor.Find(x => x.nome == name).FirstOrDefault();
+                if (fornecedor != null)
+                {
+                    return fornecedor;
+                }
+
+                return null;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Erro get Fornecedor" + e.ToString());
+            }
+        }
+
+
+
+
         public static bool Update(Fornecedor user)
         {
             try

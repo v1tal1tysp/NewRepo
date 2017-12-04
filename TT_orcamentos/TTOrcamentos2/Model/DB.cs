@@ -15,7 +15,7 @@ namespace TTOrcamentos2.Model {
         static public IMongoCollection<Fornecedor> Fornecedor { get; set; } = Database.GetCollection<Fornecedor>("Fornecedor");
         static public IMongoCollection<Usertype> Usertype { get; set; } = Database.GetCollection<Usertype>("Usertype");
         static public IMongoCollection<Users> User { get; set; } = Database.GetCollection<Users>("User");
-        static public IMongoCollection<ProjectoTT> ProjectosTT { get; set; } = Database.GetCollection<ProjectoTT>("ProjectoTT");
+        static public IMongoCollection<ProjectoTT> ProjectoTT { get; set; } = Database.GetCollection<ProjectoTT>("ProjectoTT");
         static public IMongoCollection<TipoFornecedor> TipoFornecedor { get; set; } = Database.GetCollection<TipoFornecedor>("TipoFornecedor");
         static public IMongoCollection<TypeOfCost> TypeOfCost { get; set; } = Database.GetCollection<TypeOfCost>("TypeOfCost");
         static public IMongoCollection<Estado> Estado { get; set; } = Database.GetCollection<Estado>("Estado");
@@ -27,7 +27,10 @@ namespace TTOrcamentos2.Model {
         static public IMongoCollection<ServicosTT_Tipos> ServicosTT_Tipos { get; set; } = Database.GetCollection<ServicosTT_Tipos>("ServicosTT_Tipos");
         static public IMongoCollection<Quartos> Quartos { get; set; } = Database.GetCollection<Quartos>("Quartos");
 
+        static public IMongoCollection<Orcamentos> Orcamentos { get; set; } = Database.GetCollection<Orcamentos>("Orcamentos");
         
+
+
 
     }
 }

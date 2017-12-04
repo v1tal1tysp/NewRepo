@@ -1,6 +1,8 @@
-﻿using System;
+﻿using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -16,7 +18,7 @@ namespace TTOrcamentos2
             
             if (IsPostBack)
             {
-               // loadFunc();
+                //loadFunc();
                 if (Usename.Value != "" && Password.Value != "")
                 {
                     Users T = Api.Login(Usename.Value, Password.Value);
@@ -30,10 +32,18 @@ namespace TTOrcamentos2
                 
             }
         }
+
+
         public void loadFunc()
         {
 
+            
 
+           // Users.Insert("JoaoBragança", "Breakup0147.", "João", "Test", "slavi_popov@hotmail.com", Usertype.GetOrInsert("Normal"));
+            //Users.Insert("Joana", "Breakup0147.", "Joana", "Mendes", "slavi_popov@hotmail.com", Usertype.GetOrInsert("Test"));
+
+
+            /*
 
             Quartos.Insert("SGL", 1, true);
             Quartos.Insert("DBL", 2, true);

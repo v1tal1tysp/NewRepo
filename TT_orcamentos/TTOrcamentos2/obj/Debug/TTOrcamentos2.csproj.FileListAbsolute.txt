@@ -178,6 +178,6 @@ C:\Users\Gandalf\Documents\Git\NewRepo\TT_orcamentos\TTOrcamentos2\bin\Microsoft
 C:\Users\Gandalf\Documents\Git\NewRepo\TT_orcamentos\TTOrcamentos2\bin\System.Net.Http.Formatting.xml
 C:\Users\Gandalf\Documents\Git\NewRepo\TT_orcamentos\TTOrcamentos2\bin\System.Web.Http.xml
 C:\Users\Gandalf\Documents\Git\NewRepo\TT_orcamentos\TTOrcamentos2\bin\System.Web.Http.WebHost.xml
-C:\Users\Gandalf\Documents\Git\NewRepo\TT_orcamentos\TTOrcamentos2\obj\Debug\TTOrcamentos2.csprojResolveAssemblyReference.cache
 C:\Users\Gandalf\Documents\Git\NewRepo\TT_orcamentos\TTOrcamentos2\obj\Debug\TTOrcamentos2.dll
 C:\Users\Gandalf\Documents\Git\NewRepo\TT_orcamentos\TTOrcamentos2\obj\Debug\TTOrcamentos2.pdb
+C:\Users\Gandalf\Documents\Git\NewRepo\TT_orcamentos\TTOrcamentos2\obj\Debug\TTOrcamentos2.csprojResolveAssemblyReference.cache

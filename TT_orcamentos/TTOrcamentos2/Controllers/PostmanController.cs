@@ -635,159 +635,54 @@ namespace TTOrcamentos2.Controllers
 
         [HttpPost]
         [Route("api/Postman/insertFornecedor")]
-        public void insertFornecedor(JObject fornecedor)
+        public Fornecedor insertFornecedor(JObject fornecedor)
         {
 
             Fornecedor album = fornecedor.ToObject<Fornecedor>();
-
-
-
             Fornecedor.Insert(album);
+            Fornecedor newFornecedor = Fornecedor.Get(album.nome);
+            return newFornecedor;
 
-
-            /*
-
-            SqlConnection conn = new SqlConnection(TTOrcamentos2.Properties.Settings.Default.ConnectionString);
-            SqlCommand cmd = new SqlCommand("insertFornecedor", conn);
-            cmd.CommandType = CommandType.StoredProcedure;
-
-
-            cmd.Parameters.AddWithValue("@fornecedoridv", SqlDbType.VarChar).Value = "";
-            cmd.Parameters.AddWithValue("@tipofornecedoreidv", SqlDbType.VarChar).Value = fornecedor.tipofornecedoreidv;
-            cmd.Parameters.AddWithValue("@paisidv", SqlDbType.VarChar).Value = fornecedor.paisidv;
-            cmd.Parameters.AddWithValue("@tipocustoidv", SqlDbType.VarChar).Value = fornecedor.tipocustoidv;
-            cmd.Parameters.AddWithValue("@f_nome", SqlDbType.VarChar).Value = fornecedor.f_nome;
-            cmd.Parameters.AddWithValue("@f_nomecomercial", SqlDbType.VarChar).Value = fornecedor.f_nomecomercial;
-            cmd.Parameters.AddWithValue("@f_morada", SqlDbType.VarChar).Value = fornecedor.f_morada;
-            cmd.Parameters.AddWithValue("@f_localidade", SqlDbType.VarChar).Value = fornecedor.f_localidade;
-            cmd.Parameters.AddWithValue("@f_codigopostal", SqlDbType.VarChar).Value = fornecedor.f_codigopostal;
-            cmd.Parameters.AddWithValue("@f_telefone", SqlDbType.VarChar).Value = fornecedor.f_telefone;
-            cmd.Parameters.AddWithValue("@f_fax", SqlDbType.VarChar).Value = fornecedor.f_fax;
-            cmd.Parameters.AddWithValue("@f_telemovel", SqlDbType.VarChar).Value = fornecedor.f_telemovel;
-            cmd.Parameters.AddWithValue("@f_contacto", SqlDbType.VarChar).Value = fornecedor.f_contacto;
-            cmd.Parameters.AddWithValue("@f_email", SqlDbType.VarChar).Value = fornecedor.f_email;
-            cmd.Parameters.AddWithValue("@f_url", SqlDbType.VarChar).Value = fornecedor.f_url;
-            cmd.Parameters.AddWithValue("@f_contribuinte", SqlDbType.VarChar).Value = fornecedor.f_contribuinte;
-            cmd.Parameters.AddWithValue("@f_categoria", SqlDbType.VarChar).Value = fornecedor.f_categoria;
-
-            fornecedor newObject = new fornecedor();
-
-            newObject.fornecedoridv = "";
-            try
-            {
-                conn.Open();
-
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        newObject.fornecedoridv = reader.GetString(0);
-                        newObject.tipofornecedoreidv = reader.GetString(1);
-                        newObject.paisidv = reader.GetString(2);
-                        newObject.tipocustoidv = reader.GetString(3);
-                        newObject.f_nome = reader.GetString(4);
-                        newObject.f_nomecomercial = reader.GetString(5);
-                        newObject.f_morada = reader.GetString(6);
-                        newObject.f_localidade = reader.GetString(7);
-                        newObject.f_codigopostal = reader.GetString(8);
-                        newObject.f_telefone = reader.GetString(9);
-                        newObject.f_fax = reader.GetString(10);
-                        newObject.f_telemovel = reader.GetString(11);
-                        newObject.f_contacto = reader.GetString(12);
-                        newObject.f_email = reader.GetString(13);
-                        newObject.f_url = reader.GetString(14);
-                        newObject.f_contribuinte = reader.GetString(15);
-                        newObject.f_categoria = reader.GetString(16);
-                    }
-                    return newObject;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Execption adding account. " + ex.Message);
-            }
-            finally
-            {
-                conn.Close();
-            }
-            return newObject;
-            */
         }
 
         [HttpPost]
         [Route("api/Postman/insertProjectoTT")]
-        public projectos insertProjecto([FromBody]projectos prj)
+        public string insertProjecto(JObject prj)
         {
- 
+            ProjectoTT newFornecedor = new ProjectoTT();
 
-            SqlConnection conn = new SqlConnection(TTOrcamentos2.Properties.Settings.Default.ConnectionString);
-            SqlCommand cmd = new SqlCommand("insertProjectoTT", conn);
-            cmd.CommandType = CommandType.StoredProcedure;
-            if(prj.projectoidv == null)
+            var t= prj.GetValue("ClienteID").ToString();
+
+            var projecto = prj.GetValue("projecto");
+
+
+            string id = string.Empty;
+            ProjectoTT Projecto = projecto.ToObject<ProjectoTT>();
+
+            if (ProjectoTT.Insert(Projecto, out id))
             {
-                prj.projectoidv = "";
+                return id;
             }
-
-            if(prj.DataEntrada == DateTime.MinValue)
-            {
-                prj.DataEntrada = DateTime.Now;
-            }
-            cmd.Parameters.AddWithValue("@projectoidv", SqlDbType.VarChar).Value = prj.projectoidv;
-            cmd.Parameters.AddWithValue("@estadoidv", SqlDbType.VarChar).Value = prj.estadoidv;
-            cmd.Parameters.AddWithValue("@sigavidv", SqlDbType.VarChar).Value = prj.sigavidv;
-            cmd.Parameters.AddWithValue("@p_nome", SqlDbType.VarChar).Value = prj.p_nome;
-            cmd.Parameters.AddWithValue("@p_descricao", SqlDbType.VarChar).Value = prj.p_descricao;
-            cmd.Parameters.AddWithValue("@fornecedoridv", SqlDbType.VarChar).Value = prj.fornecedoridv;
-            cmd.Parameters.AddWithValue("@AccountManager", SqlDbType.Int).Value = prj.AccountManager;
-            cmd.Parameters.AddWithValue("@Designer", SqlDbType.Int).Value = prj.Designer;
-            cmd.Parameters.AddWithValue("@DataEntrada", SqlDbType.DateTime).Value = prj.DataEntrada;
-            cmd.Parameters.AddWithValue("@NomeContacto", SqlDbType.VarChar).Value = prj.NomeContacto;
-
-            projectos newObject = new projectos();
-
-            try
-            {
-                conn.Open();
-
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        newObject.projectoidv = reader.GetString(0);
-                        newObject.estadoidv = reader.GetString(1);
-                        newObject.sigavidv = reader.GetString(2);
-                        newObject.p_nome = reader.GetString(3);
-                        newObject.p_descricao = reader.GetString(4);
-                        newObject.fornecedoridv = reader.GetString(5);
-                        newObject.AccountManager = reader.GetInt32(6);
-                        newObject.Designer = reader.GetInt32(7);
-                        newObject.DataEntrada = reader.GetDateTime(8);
-                        newObject.NomeContacto = reader.GetString(9);
-                    }
-                    return newObject;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Execption adding account. " + ex.Message);
-            }
-            finally
-            {
-                conn.Close();
-            }
-            return newObject;
+            return id;
+                   
 
         }
         [HttpPost]
         [Route("api/Postman/insertOrcamento")]
-        public orcamentos insertOrcamento([FromBody]orcamentos prj)
+        public string insertOrcamento(JObject orca)
         {
 
+            Orcamentos Orcamentos = orca.ToObject<Orcamentos>();
 
+            string id = string.Empty;
+            if (Orcamentos.Insert(Orcamentos, out id))
+            {
+                return id;
+            }
+
+            return id;
+            
+            /*
             SqlConnection conn = new SqlConnection(TTOrcamentos2.Properties.Settings.Default.ConnectionString);
             SqlCommand cmd = new SqlCommand("insertOrcamento", conn);
             cmd.CommandType = CommandType.StoredProcedure;
@@ -877,7 +772,7 @@ namespace TTOrcamentos2.Controllers
                 conn.Close();
             }
             return newObject;
-
+            */
         }
       
         [HttpPost]
@@ -1471,46 +1366,14 @@ namespace TTOrcamentos2.Controllers
         
         [HttpPost]
         [Route("api/Postman/pesquisaFornecedor")]
-        public List<fornecedor> pesquisaFornecedor(JObject mystr)
+        public List<dynamic> pesquisaFornecedor(JObject mystr)
         {
+            List<dynamic> lista = new List<dynamic>();
             dynamic json = mystr;
-            List<fornecedor> lista =  new List<fornecedor>();
-            SqlConnection conn = new SqlConnection(TTOrcamentos2.Properties.Settings.Default.ConnectionString);
-            SqlCommand cmd = new SqlCommand("pesquisaFornecedor", conn);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.Add("@pesquisa", SqlDbType.VarChar).Value = json.PesquisaFornecedor;
-            try
-            {
-                conn.Open();
-                SqlDataReader reader = cmd.ExecuteReader();
+            string input = json.PesquisaFornecedor;
+            var tc = Fornecedor.GetAllSearch(input);
 
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        fornecedor obj = new fornecedor();
-
-                        obj.fornecedoridv = reader.GetString(0);
-                        obj.f_nome = reader.GetString(1);
-                        obj.f_nomecomercial = reader.GetString(2);
-
-
-                        lista.Add(obj);
-
-                    }
-
-                }
-                reader.Close();
-                return lista;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Execption adding account. " + ex.Message);
-            }
-            finally
-            {
-                conn.Close();
-            }
+            return tc;
         }
 
 
@@ -1519,44 +1382,23 @@ namespace TTOrcamentos2.Controllers
         [Route("api/Postman/PesquisaUser")]
         public List<dynamic> PesquisaUser(JObject mystr)
         {
-            dynamic json = mystr;
+
             List<dynamic> lista = new List<dynamic>();
-            SqlConnection conn = new SqlConnection(TTOrcamentos2.Properties.Settings.Default.ConnectionString);
-            SqlCommand cmd = new SqlCommand("PesquisaUser", conn);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.Add("@pesquisa", SqlDbType.VarChar).Value = json.PesquisaFornecedor;
-            try
+            dynamic json = mystr;
+            string input = json.PesquisaFornecedor;
+            var tc = Users.GetAllSearch(input);
+
+            foreach (var item in tc)
             {
-                conn.Open();
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        dynamic obj = new ExpandoObject();
-
-                        obj.id = reader.GetInt32(0);
-                        obj.Nome = reader.GetString(1);
- 
-
-
-                        lista.Add(obj);
-
-                    }
-
-                }
-                reader.Close();
-                return lista;
+                dynamic obj = new ExpandoObject();
+                obj.id = item.Id.ToString();
+                obj.Nome = item.Firstname + " " + item.LastName;
+                 
+                lista.Add(obj);
             }
-            catch (Exception ex)
-            {
-                throw new Exception("Execption adding account. " + ex.Message);
-            }
-            finally
-            {
-                conn.Close();
-            }
+            return lista;
+
+
         }
 
     }

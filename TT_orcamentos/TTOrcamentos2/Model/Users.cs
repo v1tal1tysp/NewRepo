@@ -3,6 +3,7 @@ using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace TTOrcamentos2.Model {
@@ -26,10 +27,13 @@ namespace TTOrcamentos2.Model {
             this.type = type;
         }
 
+
         public static bool Insert(string Username, string Paswordtext, string Firstname, string LastName, string Email, Usertype type)
         {
             try
             {
+
+
                 Users newuser = new Users(Username, Paswordtext, Firstname, LastName, Email, type);
                 DB.User.InsertOne(newuser);
 
@@ -39,6 +43,58 @@ namespace TTOrcamentos2.Model {
             {
 
                 throw new Exception("Erro Inserir Utilizador" + e.ToString());
+            }
+        }
+
+
+        public static List<Users> GetAllSearch(string term)
+        {
+            List<Users> lista = new List<Users>();
+            try
+            {
+                var filter = Builders<Users>.Filter.Empty;
+                var nlt = DB.User.Find(filter).ToList();
+
+                foreach (var item in nlt)
+                {
+                    var fname = item.Firstname.ToLower();
+                    var last = item.LastName.ToLower();
+                    var userna = item.Username.ToLower();
+                    term = term.ToLower();
+                    if (fname.Contains(term) || last.Contains(term) || userna.Contains(term))
+                    {
+                        lista.Add(item);
+                    }
+                }
+
+                return lista;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Erro search users" + e.ToString());
+            }
+        }
+        public static List<Users> Get(string text)
+        {
+
+            try
+            {
+
+               
+                var filter = Builders<Users>.Filter.Eq("Firstname", text.ToString()) & Builders<Users>.Filter.Eq("LastName", text.ToString());
+                var result = DB.User.Find(filter).ToList();
+
+                if (result != null)
+                {
+
+                    return result;
+                }
+
+                return null;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Erro Get Utilizador :" + e.ToString());
             }
         }
 

@@ -7,37 +7,66 @@ using System.Web;
 
 namespace TTOrcamentos2.Model {
     public class ProjectoTT {
-        private ObjectId Id { get; set; }
-        private Estado estado { get; set; }
-        private string sigav { get; set; }
-        private string Nome { get; set; }
-        private string descricao { get; set; }
-        private Fornecedor Cliente { get; set; }
-        private Users AccountManager { get; set; }
-        private Users Designer { get; set; }
-        private DateTime DataEntrada { get; set; }
-        private string NomeContacto { get; set; }
+        public ObjectId Id { get; set; }
+        public string estado { get; set; }
+        public string sigav { get; set; }
+        public string Nome { get; set; }
+        public string descricao { get; set; }
+        public string ClienteId { get; set; }
+        public string Cliente { get; set; }
+        public string AccountManagerId { get; set; }
+        public string AccountManager { get; set; }
+        public string DesignerId { get; set; }
+        public string Designer { get; set; }
+        public DateTime DataEntrada { get; set; }
+        public string NomeContacto { get; set; }
 
-        public ProjectoTT(Estado estado, string sigav, string nome, string p_descricao, Fornecedor Cliente, Users AccountManager, Users Designer, DateTime dataentrada, string NomeContacto)
+        public ProjectoTT()
+        {
+
+        }
+
+
+        public ProjectoTT(string estado, string sigav, string nome, string p_descricao, string ClienteId, string Cliente, string AccountManagerId, string AccountManager, string DesignerId, string Designer, DateTime dataentrada, string NomeContacto)
         {
             this.estado = estado;
             this.sigav = sigav;
             this.Nome = nome;
             this.descricao = p_descricao;
             this.Cliente = Cliente;
+            this.ClienteId = ClienteId;
+            this.AccountManagerId = AccountManagerId;
             this.AccountManager = AccountManager;
             this.Designer = Designer;
+            this.DesignerId = DesignerId;
             this.DataEntrada = dataentrada;
             this.NomeContacto = NomeContacto;
 
         }
 
-        public bool Insert(Estado estado, string sigav, string nome, string p_descricao, Fornecedor Cliente, Users AccountManager, Users Designer, DateTime dataentrada, string NomeContacto)
+        public bool Insert(string estado, string sigav, string nome, string p_descricao, string ClienteId, string Cliente, string AccountManagerId, string AccountManager, string DesignerId, string Designer, DateTime dataentrada, string NomeContacto)
         {
             try
             {
-                ProjectoTT newObj = new ProjectoTT(estado, sigav, nome, p_descricao, Cliente, AccountManager, Designer, dataentrada, NomeContacto);
-                DB.ProjectosTT.InsertOne(newObj);
+                ProjectoTT newObj = new ProjectoTT(estado, sigav, nome, p_descricao, ClienteId, Cliente, AccountManagerId, AccountManager, DesignerId, Designer, dataentrada, NomeContacto);
+                DB.ProjectoTT.InsertOne(newObj);
+                return true;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Erro Inserir Projecto : " + e.ToString());
+            }
+        }
+
+        public static bool Insert(ProjectoTT proj, out string id)
+        {
+
+            try
+            {
+                proj.Id = ObjectId.GenerateNewId();
+                id = proj.Id.ToString();
+
+                DB.ProjectoTT.InsertOne(proj);
                 return true;
             }
             catch (Exception e)
@@ -50,7 +79,7 @@ namespace TTOrcamentos2.Model {
         {
             try
             {
-                DB.ProjectosTT.ReplaceOne(c => c.Id == proj.Id, proj);
+                DB.ProjectoTT.ReplaceOne(c => c.Id == proj.Id, proj);
                 return true;
             }
             catch (Exception e)
@@ -63,7 +92,7 @@ namespace TTOrcamentos2.Model {
         {
             try
             {
-                DB.ProjectosTT.DeleteOne(x => x.Id == proj.Id);
+                DB.ProjectoTT.DeleteOne(x => x.Id == proj.Id);
                 return true;
             }
             catch (Exception e)
@@ -71,5 +100,23 @@ namespace TTOrcamentos2.Model {
                 throw new Exception("Erro delete Projecto :" + e.ToString());
             }
         }
+
+        public static List<ProjectoTT> GetAll()
+        {
+            List<ProjectoTT> lista = new List<ProjectoTT>();
+            try
+            {
+                var filter = Builders<ProjectoTT>.Filter.Empty;
+                lista =  DB.ProjectoTT.Find(filter).ToList();
+
+                return lista;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Erro Pesquisar ProjectoTT " + e.ToString());
+            }
+        }
+
+
     }
 }
