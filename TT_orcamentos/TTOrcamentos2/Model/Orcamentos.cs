@@ -1,4 +1,5 @@
 ﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -9,9 +10,10 @@ using System.Web;
 namespace TTOrcamentos2.Model {
     public class Orcamentos {
 
+        [BsonId]
         public ObjectId Id { get; set; }
         public string projectoidv { get; set; }
-        public string estadoidv { get; set; }
+        public Estado estado { get; set; }
         public string tipoivaidv { get; set; }
         public string ivaidv { get; set; }
         public string cambioidv { get; set; }
@@ -31,10 +33,10 @@ namespace TTOrcamentos2.Model {
         public bool pe { get; set; }
         public DateTime DataUpdate { get; set; }
 
-        public Orcamentos(string projectoidv, string estadoidv, string tipoivaidv, string ivaidv, string cambioidv, double c_valor, string o_nome, DateTime o_datacriacao, DateTime o_datainicio, int o_numeropessoas, int o_numerodias, int o_numeronoites, double o_margemvenda, double o_markup, string o_descricao, string active, string parrentorcamentoidv, int Versao, bool pe, DateTime DataUpdate)
+        public Orcamentos(string projectoidv, Estado estadoidv, string tipoivaidv, string ivaidv, string cambioidv, double c_valor, string o_nome, DateTime o_datacriacao, DateTime o_datainicio, int o_numeropessoas, int o_numerodias, int o_numeronoites, double o_margemvenda, double o_markup, string o_descricao, string active, string parrentorcamentoidv, int Versao, bool pe, DateTime DataUpdate)
         {
             this.projectoidv = projectoidv;
-            this.estadoidv = estadoidv;
+            this.estado = estadoidv;
             this.tipoivaidv = tipoivaidv;
             this.ivaidv = ivaidv;
             this.cambioidv = cambioidv;
@@ -56,7 +58,7 @@ namespace TTOrcamentos2.Model {
 
         }
 
-        public static bool Insert(string projectoidv, string estadoidv, string tipoivaidv, string ivaidv, string cambioidv, double c_valor, string o_nome, DateTime o_datacriacao, DateTime o_datainicio, int o_numeropessoas, int o_numerodias, int o_numeronoites, double o_margemvenda, double o_markup, string o_descricao, string active, string parrentorcamentoidv, int Versao, bool pe, DateTime DataUpdate)
+        public static bool Insert(string projectoidv, Estado estadoidv, string tipoivaidv, string ivaidv, string cambioidv, double c_valor, string o_nome, DateTime o_datacriacao, DateTime o_datainicio, int o_numeropessoas, int o_numerodias, int o_numeronoites, double o_margemvenda, double o_markup, string o_descricao, string active, string parrentorcamentoidv, int Versao, bool pe, DateTime DataUpdate)
         {
             try
             {

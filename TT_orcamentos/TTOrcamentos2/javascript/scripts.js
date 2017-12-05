@@ -171,6 +171,8 @@ function savecurrentProject() {
 
     /*PROJETO*/
     var Projetoestadoidv = $("#ProjectEstado option:selected").val();
+    var ProjetoestadoName = $("#ProjectEstado option:selected").text();
+
     var Projetosigavidv = $("#ProjectoSigav").val();
     var Projetop_nome = $("#ProjectName").val();
     var Projetop_descricao = $("#ProjectDescription").val();
@@ -191,6 +193,7 @@ function savecurrentProject() {
     var projectoidv = projectID; /*Este é hidden*/
     var fornecedoridv = $("#ProjectoFornecedorID").val();/*Este é hidden*/
     var estadoidv = $("#OrcamentoEstado option:selected").val();
+    var estadonome = $("#OrcamentoEstado option:selected").text();
     var tipoivaidv = $("#OrcamentoTipoIva option:selected").val();
     var ivaidv = $("#OrcamentoIva option:selected").val();
     var datadeiniciar = ConvertDateForSend($("#OrcamentoDataInicio").val());
@@ -225,7 +228,7 @@ function savecurrentProject() {
     var orcamento = {
         "_id": orcamentoidv,
         "projectoidv": projectoidv,
-        "estadoidv": estadoidv,
+        "estado": { "_id": estadoidv, "Name": estadonome },
         "tipoivaidv": tipoivaidv,
         "ivaidv": ivaidv,
         "cambioidv": cambioidv,
@@ -248,9 +251,10 @@ function savecurrentProject() {
 
     var projecto = {
         "ClienteID": ProjectoFornecedorid,
+        "estado" : {"_id": Projetoestadoidv, "Name": ProjetoestadoName},
         "projecto": {
             "_id": projectoidv,
-            "estado": Projetoestadoidv,
+            "estado": { "_id": Projetoestadoidv, "Name": ProjetoestadoName },
             "sigav": Projetosigavidv,
             "Nome": Projetop_nome,
             "descricao": Projetop_descricao,
@@ -729,15 +733,15 @@ function LoadingProjecto(id, IdOrc) {
     var orcamentos = JSON.parse(returnedDataOrcamentos);
     var obj = JSON.parse(returnedData);
 
-    projectID = obj.projectoidv;
+    projectID = obj.Id;
 
     GetProjectoFiles(projectID);
-    $("#ProjectEstado").val(parseInt(obj.estadoidv));
-    $("#ProjectoSigav").val(obj.sigavidv);
-    $("#ProjectName").val(obj.p_nome);
-    $("#ProjectoFornecedor").val(obj.f_nome);
-    $("#ProjectoFornecedorID").val(obj.fornecedorIdv);
-    $("#ProjectDescription").val(obj.p_descricao);
+    $("#ProjectEstado").val(obj.estadoidv);
+    $("#ProjectoSigav").val(obj.sigav);
+    $("#ProjectName").val(obj.Nome);
+    $("#ProjectoFornecedor").val(obj.Cliente);
+    $("#ProjectoFornecedorID").val(obj.ClienteId);
+    $("#ProjectDescription").val(obj.descricao);
     $("#ProjectoNomeContacto").val(obj.NomeContacto);
 
     $("#ProjectoDesignerName").val(obj.Designer);
@@ -2195,14 +2199,15 @@ function sendFornecedor(objectToSend, idTab) {
     var res;
     var sedem = JSON.stringify(objectToSend);
     $.post('api/Postman/insertFornecedor', objectToSend,
-        function (returnedData) {
+        function (id) {
 
-            if (returnedData != "") {
+            if (id != "") {
                 $(".FornecedorCheck").css("display", "block");
 
-
+                var nome = $("#FornecedorNome").val();
+                var nomecomercial = $("#FornecedorNomeComercial").val();
                 /*Esta Função inseres os valores na pagina*/
-                FornecedorInsertInputs(returnedData, idTab);
+                FornecedorInsertInputs(id, nome, nomecomercial, idTab);
 
                 setTimeout(function () {
                     $("#NovoFornecedorModel").toggle("slow");
@@ -4259,13 +4264,13 @@ function loadPageAuxTables() {
 
 
 }
-function FornecedorInsertInputs(data, id) {
+function FornecedorInsertInputs(id, nome, nomecomercial, idtab) {
+    nome
+    var FORNECEDORIDV = id;
+    var F_NOMECOMECIAL = nome;
+    var F_NOME = nomecomercial;
 
-    var FORNECEDORIDV = data.Id;
-    var F_NOMECOMECIAL = data.nome;
-    var F_NOME = data.nomecomercial;
-
-    switch (id) {
+    switch (idtab) {
         case 1:/*Geral */
             $("#ProjectoFornecedorID").val(FORNECEDORIDV);
             $("#ProjectoFornecedor").val(F_NOMECOMECIAL);
@@ -4288,9 +4293,6 @@ function FornecedorInsertInputs(data, id) {
             $("#ServicosFornecedor").val(F_NOMECOMECIAL);
             break;
     }
-
-
-
 }
 Number.prototype.formatMoney = function (c, d, t) {
     var n = this,

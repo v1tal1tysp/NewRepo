@@ -10,6 +10,7 @@ using TT_orcamentos.Models.classes;
 using TTOrcamentos2.Models.DbModels;
 using TTOrcamentos2.Models.SPs;
 using TTOrcamentos2.Model;
+using MongoDB.Driver;
 
 namespace TT_orcamentos
 {
@@ -22,107 +23,65 @@ namespace TT_orcamentos
 
             var listorcamentos = Orcamentos.GetAll();
 
-
             List<dynamic> ObjList = new List<dynamic>();
-            try
-            {
-                using (var conn = new SqlConnection(TTOrcamentos2.Properties.Settings.Default.ConnectionString))
-                using (var command = new SqlCommand("getAllProjectos", conn)
-                {
-                    CommandType = CommandType.StoredProcedure
-                })
-                {
-                    conn.Open();
-                    SqlDataReader reader = command.ExecuteReader();
 
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            dynamic obj = new ExpandoObject();
-
-                            obj.f_nome = reader.GetString(0);
-                            obj.projectoidv = reader.GetString(1);
-                            obj.p_nome = reader.GetString(2);
-                            obj.p_descricao = reader.GetString(3);
-                            obj.sigavidv = reader.GetString(4);
-                            obj.orcamentoidv = reader.GetString(5);
-                            obj.o_nome = reader.GetString(6);
-                            obj.EstadoProjecto = reader.GetString(7);
-                            obj.EstadoOrcamento = reader.GetString(8);
-                            obj.o_datainicio = reader.GetDateTime(9);
-                            obj.pe = reader.GetBoolean(10);
-                            obj.o_numeropessoas = reader.GetInt32(11);
-
-                            ObjList.Add(obj);
-
-                        }
-                        reader.Close();
-                    }
-                    else
-                    {
-                        Console.WriteLine("No rows found.");
-                    }
-                    conn.Close();
-                }
-                
-                return ObjList;
-            }
-            catch (Exception ex)
+            foreach (var prj in listprj)
             {
 
-                
+                  foreach (var orc in listorcamentos)
+                  {
+                      if(prj.Id.ToString() == orc.projectoidv)
+                      {
+
+                        dynamic obj = new ExpandoObject();
+
+                        obj.f_nome = prj.Cliente;
+                        obj.p_nome = prj.Nome;
+                        obj.projectoidv = prj.Id.ToString();
+                        obj.p_descricao = prj.descricao;
+                        obj.sigavidv = prj.sigav;
+                        obj.orcamentoidv = orc.Id.ToString();
+                        obj.o_nome = orc.o_nome;
+                        obj.EstadoProjecto = prj.estado.Name;
+                        obj.EstadoOrcamento = orc.estado.Name;
+                        obj.o_datainicio = orc.o_datainicio;
+                        obj.pe = orc.pe;
+                        obj.o_numeropessoas = orc.o_numeropessoas;
+
+                        ObjList.Add(obj);
+
+                        
+                      }
+                  }
             }
+
             return ObjList;
+
         }
+
+
+
         public static List<dynamic> getAllActiveOrcamentos(string idProjecto)
         {
-            List<dynamic> ObjList = new List<dynamic>();
-            try
+
+            var filter = Builders<Orcamentos>.Filter.Where(x => x.projectoidv == idProjecto);
+
+            var lista = DB.Orcamentos.Find(filter).ToList();
+            List<dynamic> nlista = new List<dynamic>();
+            foreach (var item in lista)
             {
-                using (var conn = new SqlConnection(TTOrcamentos2.Properties.Settings.Default.ConnectionString))
-                using (var command = new SqlCommand("getAllActiveOrcamentos", conn)
+                if (item.active)
                 {
-                    CommandType = CommandType.StoredProcedure
-                })
-                {
-                    command.Parameters.Add("@projectoidv", SqlDbType.VarChar).Value = idProjecto;
-
-                    conn.Open();
-                    SqlDataReader reader = command.ExecuteReader();
-
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            dynamic obj = new ExpandoObject();
-
-                            obj.projectoidv = reader.GetString(0);
-                            obj.orcamentoidv = reader.GetString(1);
-                            obj.o_nome = reader.GetString(2);
-                            obj.pe = reader.GetBoolean(3);
-
-                            ObjList.Add(obj);
-
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("No rows found.");
-                    }
-                    reader.Close();
-                    conn.Close();
-
+                    nlista.Add(item);
                 }
-                return ObjList;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
             }
 
-            return ObjList;
+            return nlista;
         }
+
+
+
+
         public static List<dynamic> GetAllOrcamentos(string idProjecto, string orcamentoidv)
         {
             List<dynamic> ObjList = new List<dynamic>();
@@ -538,61 +497,10 @@ namespace TT_orcamentos
         public static dynamic GetProjecto(string idProjecto)
         {
 
-            dynamic obj = new ExpandoObject();
-            try
-            {
+            var proj = ProjectoTT.Get(idProjecto);
 
-                using (var conn = new SqlConnection(TTOrcamentos2.Properties.Settings.Default.ConnectionString))
-                using (var command = new SqlCommand("getProjecto", conn)
-                {
-                    CommandType = CommandType.StoredProcedure,
-                })
-                {
-                    command.Parameters.Add("@projectoidv", SqlDbType.VarChar).Value = idProjecto;
-                    conn.Open();
-                    SqlDataReader reader = command.ExecuteReader();
+            return proj;
 
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-
-                            obj.projectoidv = reader.GetString(0);
-                            obj.estadoidv = reader.GetString(1);
-                            obj.sigavidv = reader.GetString(2);
-                            obj.p_nome = reader.GetString(3);
-                            obj.p_descricao = reader.GetString(4);
-                            obj.fornecedorIdv = reader.GetString(5);
-                            obj.AccountManager = reader.GetInt32(6);
-                            obj.Designer = reader.GetInt32(7);
-                            obj.DataEntrada = reader.GetDateTime(8);
-                            obj.NomeContacto = reader.GetString(9);
-                            obj.f_nome = reader.GetString(10);
-                            obj.f_nomecomercial = reader.GetString(11);
-                            obj.AccountManagerName = reader.GetString(12);
-                            obj.Designer = reader.GetString(13);
-
-
-
-
-                            return obj;
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("No rows found.");
-                    }
-                    reader.Close();
-                    conn.Close();
-
-                }
-                return obj;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            return obj;
         }
 
 
