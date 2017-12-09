@@ -8,6 +8,7 @@ using System.Web;
 
 namespace TTOrcamentos2.Model {
     public class Estado {
+
         [BsonId]
         public ObjectId Id { get; set; }
         public string Name { get; set; }

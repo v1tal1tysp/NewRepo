@@ -124,7 +124,10 @@ $(".AddOrcamentoPe").click(function () {
 $("#SaveNewOrcamento").click(function () {
     var cty = $("#ListaOrcamentos").find("tr");
     var cnt = cty.length - 1;
-    ParrentOrcamentoID = OrcamentoID;
+    if (ParrentOrcamentoID === "0") {
+        ParrentOrcamentoID = OrcamentoID;
+    }
+
     OrcamentoID = "";
 
     var d = new Date();
@@ -193,9 +196,13 @@ function savecurrentProject() {
     var projectoidv = projectID; /*Este é hidden*/
     var fornecedoridv = $("#ProjectoFornecedorID").val();/*Este é hidden*/
     var estadoidv = $("#OrcamentoEstado option:selected").val();
+
     var estadonome = $("#OrcamentoEstado option:selected").text();
     var tipoivaidv = $("#OrcamentoTipoIva option:selected").val();
+    var tipoivanome = $("#OrcamentoTipoIva option:selected").text();
+
     var ivaidv = $("#OrcamentoIva option:selected").val();
+    var ivaidvnome = $("#OrcamentoIva option:selected").text();
     var datadeiniciar = ConvertDateForSend($("#OrcamentoDataInicio").val());
     var o_datainicio = datadeiniciar;
     var o_numeronoites = parseInt($("#OrcamentoNoites").val());
@@ -205,6 +212,8 @@ function savecurrentProject() {
 
 
     var OrcamentoCambioTXT = $("#OrcamentoMoedaCompra option:selected").val();
+    var OrcamentoCambioTXTNome = $("#OrcamentoMoedaCompra option:selected").text();
+
     var CambioArr = OrcamentoCambioTXT.split("-");
     var cambioidv = CambioArr[0];
     var c_valor = parseFloat(CambioArr[1])
@@ -224,33 +233,42 @@ function savecurrentProject() {
     var DataUpdate2 = new Date().toISOString();
     var DataUpdate = DataUpdate2;
 
-    var orcamentoPai = ParrentOrcamentoID;
+    if (ParrentOrcamentoID === "" || ParrentOrcamentoID === null ||  ParrentOrcamentoID === "0") {
+        var orcamentoPai = "0";
+    } else {
+        var orcamentoPai = ParrentOrcamentoID;
+    }
+    
     var orcamento = {
-        "_id": orcamentoidv,
-        "projectoidv": projectoidv,
-        "estado": { "_id": estadoidv, "Name": estadonome },
-        "tipoivaidv": tipoivaidv,
-        "ivaidv": ivaidv,
-        "cambioidv": cambioidv,
-        "c_valor": c_valor,
-        "o_nome": o_nome,
-        "o_datacriacao": o_datacriacao,
-        "o_datainicio": o_datainicio,
-        "o_numeropessoas": o_numeropessoas,
-        "o_numerodias": o_numerodias,
-        "o_numeronoites": o_numeronoites,
-        "o_margemvenda": o_margemvenda,
-        "o_markup": o_markup,
-        "o_descricao": o_descricao,
-        "active": true,
-        "parrentorcamentoidv": orcamentoPai,
-        "Versao": Versao,
-        "pe": pe,
-        "DataUpdate": DataUpdate
+        "orcamentoidvId": orcamentoidv,
+        "Orcamento": {
+            "_id": orcamentoidv,
+            "projectoidv": projectoidv,
+            "estado": { "_id": estadoidv, "Name": estadonome },
+            "tipoivaidv": { "_id": tipoivaidv, "name": tipoivanome },
+            "ivaidv": { "_id": ivaidv, "name": ivaidvnome },
+            "cambioidv": { "_id": cambioidv, "name": OrcamentoCambioTXTNome, "value": c_valor },
+            "c_valor": c_valor,
+            "o_nome": o_nome,
+            "o_datacriacao": o_datacriacao,
+            "o_datainicio": o_datainicio,
+            "o_numeropessoas": o_numeropessoas,
+            "o_numerodias": o_numerodias,
+            "o_numeronoites": o_numeronoites,
+            "o_margemvenda": o_margemvenda,
+            "o_markup": o_markup,
+            "o_descricao": o_descricao,
+            "active": true,
+            "parrentorcamentoidv": orcamentoPai,
+            "Versao": Versao,
+            "pe": pe,
+            "DataUpdate": DataUpdate
+        }
     };
 
     var projecto = {
         "ClienteID": ProjectoFornecedorid,
+        "id": projectoidv,
         "estado" : {"_id": Projetoestadoidv, "Name": ProjetoestadoName},
         "projecto": {
             "_id": projectoidv,
@@ -743,12 +761,12 @@ function LoadingProjecto(id, IdOrc) {
     $("#ProjectoFornecedorID").val(obj.ClienteId);
     $("#ProjectDescription").val(obj.descricao);
     $("#ProjectoNomeContacto").val(obj.NomeContacto);
-
+    $("#ProjectoDesigner").val(obj.DesignerId);
     $("#ProjectoDesignerName").val(obj.Designer);
-
-    $("#ProjectoAccountManagerName").val(obj.AccountManagerName);
-
-
+    
+    $("#ProjectoAccountManagerName").val(obj.AccountManager);
+    $("#ProjectoAccountManager").val(obj.AccountManagerId);
+    
 
 
     $(".AddOrcamentoBtn").css("display", "block");
@@ -802,16 +820,16 @@ function LoadingOrcamentos(id, IdOrcOut) {
         $.each(Listobj, function (index, obj) {
 
             var local = window.location;
-            var page = window.location + '&IDorc=' + obj.orcamentoidv;
+            var page = window.location + '&IDorc=' + obj.Id;
             var query = window.location.href;
             var page = query.split('?')[0];
 
-            var orcamentoidv = obj.orcamentoidv;
+            var orcamentoidv = obj.Id;
             var projectoidv = obj.projectoidv;
-            var estadoidv = obj.estadoidv;
-            var tipoivaidv = obj.tipoivaidv;
-            var ivaidv = obj.ivaidv;
-            var cambioidv = obj.cambioidv;
+            var estadoidv = obj.estado.Id;
+            var tipoivaidv = obj.tipoivaidv.Id;
+            var ivaidv = obj.ivaidv.Id;
+            var cambioidv = obj.cambioidv.Id;
             var o_nome = obj.o_nome;
             var o_datacriacao = obj.o_datacriacao;
             var o_margemvenda = obj.o_margemvenda;
@@ -821,10 +839,10 @@ function LoadingOrcamentos(id, IdOrcOut) {
             var OrcamentoParrent = obj.parrentorcamentoidv;
 
 
-            var e_nome = obj.e_nome;
-            var ti_nome = obj.ti_nome;
-            var i_taxa = obj.i_taxa;
-            var c_nome = obj.c_nome;
+            var e_nome = obj.estado.Name;
+            var ti_nome = obj.tipoivaidv.name;
+            var i_taxa = obj.ivaidv.name;
+            var c_nome = obj.cambioidv.name;
             var c_valor = parseFloat(obj.c_valor);
 
 
@@ -2097,19 +2115,33 @@ function sendAlojamento(objectToSend, save) {
 
 
 function InsertProjectoInicial(objectToSend, orcamento) {
-    $.post('api/Postman/insertProjectoTT', objectToSend,
-        function (returnedData) {
+    if (objectToSend.projecto._id == "") {
+        $.post('api/Postman/insertProjectoTT', objectToSend,
+            function (returnedData) {
 
-            orcamento.projectoidv = returnedData;
-            projectID = returnedData;
-            InsertOrcamentoInicial(orcamento);
+                orcamento.projectoidv = returnedData;
+                projectID = returnedData;
+                InsertOrcamentoInicial(orcamento);
 
         }).fail(function () {
-            alert("Erro ao criar o projecto!");
+                alert("Erro ao criar o projecto!");
         });
+    }
+    else {
+        $.post('api/Postman/UpdateProjectoTT', objectToSend,
+            function (returnedData) {
+                
+                orcamento.projectoidv = objectToSend._id;
+                InsertOrcamentoInicial(orcamento);
+
+            }).fail(function () {
+                alert("Erro ao criar o projecto!");
+            });
+    }
 }
 
 function InsertOrcamentoInicial(objectToSend) {
+    
     $.post('api/Postman/insertOrcamento', objectToSend,
         function (returnedData) {
 
@@ -4436,7 +4468,7 @@ function ConvertDateForSetDias(date) {
             if (d.getDate() < 10)
                 var date = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + "0" + d.getDate() + " ";
             else
-                var date = d.getFullYear() + "-0" + (d.getMonth() + 1) + "-" + d.getDate() + " ";
+                var date = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate() + " ";
 
         }
 
@@ -4459,7 +4491,7 @@ function ConvertDateForSend(date) {
             if (d.getDate() < 10)
                 var date = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + "0" + d.getDate() + " ";
             else
-                var date = d.getFullYear() + "-0" + (d.getMonth() + 1) + "-" + d.getDate() + " ";
+                var date = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate() + " ";
 
         }
         var auxhoras;

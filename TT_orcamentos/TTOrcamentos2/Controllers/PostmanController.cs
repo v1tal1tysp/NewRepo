@@ -650,23 +650,13 @@ namespace TTOrcamentos2.Controllers
         {
             ProjectoTT newFornecedor = new ProjectoTT();
 
-            var t= prj.GetValue("ClienteID").ToString();
-            var estado = prj.GetValue("estado");
-
-
-
-            var projecto = prj.GetValue("projecto");
-
-
-            Estado estadop = estado.ToObject<Estado>();
-
             
-
+            var projecto = prj.GetValue("projecto");
             ProjectoTT Projecto = projecto.ToObject<ProjectoTT>();
 
 
             string id = string.Empty;
-            Projecto.estado = estadop;
+           
 
             if (ProjectoTT.Insert(Projecto, out id))
             {
@@ -676,13 +666,40 @@ namespace TTOrcamentos2.Controllers
                    
 
         }
+
+        [HttpPost]
+        [Route("api/Postman/UpdateProjectoTT")]
+        public bool UpdateProjecto(JObject prj)
+        {
+
+            var projectoid = prj.GetValue("id").ToString();
+            var projecto = prj.GetValue("projecto");
+            ProjectoTT Projecto = projecto.ToObject<ProjectoTT>();
+
+            if (ProjectoTT.Update(Projecto, projectoid))
+            {
+                return true;
+            }
+            return false;
+        }
+
+
+
         [HttpPost]
         [Route("api/Postman/insertOrcamento")]
         public string insertOrcamento(JObject orca)
         {
+            
+            // se tiver parrent é porque preciso actualizar o parrents active = false,
 
-            Orcamentos Orcamentos = orca.ToObject<Orcamentos>();
+            var Orcamento = orca.GetValue("Orcamento");
+            Orcamentos Orcamentos = Orcamento.ToObject<Orcamentos>();
 
+            if(Orcamentos.parrentorcamentoidv != "0")
+            {
+                Orcamentos.UpdateActivity(Orcamentos.parrentorcamentoidv);
+
+            }
             string id = string.Empty;
             if (Orcamentos.Insert(Orcamentos, out id))
             {

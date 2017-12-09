@@ -14,9 +14,9 @@ namespace TTOrcamentos2.Model {
         public ObjectId Id { get; set; }
         public string projectoidv { get; set; }
         public Estado estado { get; set; }
-        public string tipoivaidv { get; set; }
-        public string ivaidv { get; set; }
-        public string cambioidv { get; set; }
+        public Tipo_Iva tipoivaidv { get; set; }
+        public Ivas ivaidv { get; set; }
+        public Cambio cambioidv { get; set; }
         public double c_valor { get; set; }
         public string o_nome { get; set; }
         public DateTime o_datacriacao { get; set; }
@@ -33,7 +33,7 @@ namespace TTOrcamentos2.Model {
         public bool pe { get; set; }
         public DateTime DataUpdate { get; set; }
 
-        public Orcamentos(string projectoidv, Estado estadoidv, string tipoivaidv, string ivaidv, string cambioidv, double c_valor, string o_nome, DateTime o_datacriacao, DateTime o_datainicio, int o_numeropessoas, int o_numerodias, int o_numeronoites, double o_margemvenda, double o_markup, string o_descricao, string active, string parrentorcamentoidv, int Versao, bool pe, DateTime DataUpdate)
+        public Orcamentos(string projectoidv, Estado estadoidv, Tipo_Iva tipoivaidv, Ivas ivaidv, Cambio cambioidv, double c_valor, string o_nome, DateTime o_datacriacao, DateTime o_datainicio, int o_numeropessoas, int o_numerodias, int o_numeronoites, double o_margemvenda, double o_markup, string o_descricao, string active, string parrentorcamentoidv, int Versao, bool pe, DateTime DataUpdate)
         {
             this.projectoidv = projectoidv;
             this.estado = estadoidv;
@@ -58,7 +58,7 @@ namespace TTOrcamentos2.Model {
 
         }
 
-        public static bool Insert(string projectoidv, Estado estadoidv, string tipoivaidv, string ivaidv, string cambioidv, double c_valor, string o_nome, DateTime o_datacriacao, DateTime o_datainicio, int o_numeropessoas, int o_numerodias, int o_numeronoites, double o_margemvenda, double o_markup, string o_descricao, string active, string parrentorcamentoidv, int Versao, bool pe, DateTime DataUpdate)
+        public static bool Insert(string projectoidv, Estado estadoidv, Tipo_Iva tipoivaidv, Ivas ivaidv, Cambio cambioidv, double c_valor, string o_nome, DateTime o_datacriacao, DateTime o_datainicio, int o_numeropessoas, int o_numerodias, int o_numeronoites, double o_margemvenda, double o_markup, string o_descricao, string active, string parrentorcamentoidv, int Versao, bool pe, DateTime DataUpdate)
         {
             try
             {
@@ -81,8 +81,10 @@ namespace TTOrcamentos2.Model {
             try
             {
                 proj.Id = ObjectId.GenerateNewId();
-                id = proj.Id.ToString();
+                
                 DB.Orcamentos.InsertOne(proj);
+                id = proj.Id.ToString();
+
                 return true;
             }
             catch (Exception e)
@@ -104,6 +106,26 @@ namespace TTOrcamentos2.Model {
             }
         }
 
+        public static void UpdateActivity(string idorcamento)
+        {
+            try
+            {
+
+
+                ObjectId neid = new ObjectId(idorcamento);
+
+                var filter = Builders<Orcamentos>.Filter.Where(_ => _.Id == neid || _.parrentorcamentoidv == idorcamento);
+                var update = Builders<Orcamentos>.Update.Set(_ => _.active, false);
+  
+                DB.Orcamentos.UpdateMany(filter, update, null);
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Erro Update Projecto :" + e.ToString());
+            }
+        }
+
         public static bool Delete(Orcamentos Estado)
         {
             try
@@ -122,7 +144,7 @@ namespace TTOrcamentos2.Model {
             List<Orcamentos> lista = new List<Orcamentos>();
             try
             {
-                var filter = Builders<Orcamentos>.Filter.Empty;
+                var filter = Builders<Orcamentos>.Filter.Where(x => x.active == true && x.pe == false);
 
                 lista = DB.Orcamentos.Find(filter).ToList();
 

@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Services;
 using TTOrcamentos2.Model;
 
@@ -26,25 +28,18 @@ namespace TT_orcamentos
                     var jsonProjecto = JsonConvert.SerializeObject(projecto);
                     ProjectoHidden.Value = jsonProjecto;
 
-                    var orcamentosActivos = Api.getAllActiveOrcamentos(projectid);
+                    List<Orcamentos> orcamentosActivos = Api.getAllActiveOrcamentos(projectid);
                     var jsonOrcamentosActivos = JsonConvert.SerializeObject(orcamentosActivos);
                     OrcamentosActivosHidden.Value = jsonOrcamentosActivos;
 
-                    var orcamentoPai = Api.GetParrentOrcamento(orcamento);
-                    if(orcamentoPai == "")
-                    {
-                        //Orçamentos
-                        var orcamentos = Api.GetAllOrcamentos(projectid, orcamento);
-                        var jsonOrcamentos = JsonConvert.SerializeObject(orcamentos);
-                        OrcamentosHidden.Value = jsonOrcamentos;
-                    }
-                    else
-                    {
-                        //Orçamentos
-                        var orcamentos = Api.GetAllOrcamentos(projectid, orcamentoPai);
-                        var jsonOrcamentos = JsonConvert.SerializeObject(orcamentos);
-                        OrcamentosHidden.Value = jsonOrcamentos;
-                    }
+
+                    var orcamentoPai = orcamentosActivos.Where(x => x.parrentorcamentoidv == "0").FirstOrDefault();
+
+      
+                    var orcamentos = Api.GetOrcamentosContext( orcamento);
+                    var jsonOrcamentos = JsonConvert.SerializeObject(orcamentos);
+                    OrcamentosHidden.Value = jsonOrcamentos;
+
 
 
                     
@@ -79,6 +74,7 @@ namespace TT_orcamentos
             else
                 Response.Redirect("login.aspx", true);
         }
+
 
     }
 }

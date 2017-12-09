@@ -11,6 +11,7 @@ using TTOrcamentos2.Models.DbModels;
 using TTOrcamentos2.Models.SPs;
 using TTOrcamentos2.Model;
 using MongoDB.Driver;
+using MongoDB.Bson;
 
 namespace TT_orcamentos
 {
@@ -22,6 +23,7 @@ namespace TT_orcamentos
             var listprj = ProjectoTT.GetAll();
 
             var listorcamentos = Orcamentos.GetAll();
+
 
             List<dynamic> ObjList = new List<dynamic>();
 
@@ -61,13 +63,13 @@ namespace TT_orcamentos
 
 
 
-        public static List<dynamic> getAllActiveOrcamentos(string idProjecto)
+        public static List<Orcamentos> getAllActiveOrcamentos(string idProjecto)
         {
 
             var filter = Builders<Orcamentos>.Filter.Where(x => x.projectoidv == idProjecto);
 
             var lista = DB.Orcamentos.Find(filter).ToList();
-            List<dynamic> nlista = new List<dynamic>();
+            List<Orcamentos> nlista = new List<Orcamentos>();
             foreach (var item in lista)
             {
                 if (item.active)
@@ -79,81 +81,67 @@ namespace TT_orcamentos
             return nlista;
         }
 
-
-
-
-        public static List<dynamic> GetAllOrcamentos(string idProjecto, string orcamentoidv)
+        public static List<Orcamentos> GetAllOrcamentos(string idProjecto, string orcamentoidv)
         {
-            List<dynamic> ObjList = new List<dynamic>();
-            try
+
+            var filter = Builders<Orcamentos>.Filter.Where(x => x.projectoidv == idProjecto);
+
+            var lista = DB.Orcamentos.Find(filter).ToList();
+            List<Orcamentos> nlista = new List<Orcamentos>();
+            foreach (var item in lista)
             {
-                using (var conn = new SqlConnection(TTOrcamentos2.Properties.Settings.Default.ConnectionString))
-                using (var command = new SqlCommand("getAllOrcamentos", conn)
-                {
-                    CommandType = CommandType.StoredProcedure
-                })
-                {
-                    command.Parameters.Add("@projectoidv", SqlDbType.VarChar).Value = idProjecto;
-                    command.Parameters.Add("@orcamentoidv", SqlDbType.VarChar).Value = orcamentoidv;
-                    conn.Open();
-                    SqlDataReader reader = command.ExecuteReader();
 
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            dynamic obj = new ExpandoObject();
+                nlista.Add(item);
 
-                            obj.orcamentoidv = reader.GetString(0);
-                            obj.projectoidv = reader.GetString(1);
-                            obj.estadoidv = reader.GetString(2);
-                            obj.tipoivaidv = reader.GetString(3);
-                            obj.ivaidv = reader.GetString(4);
-                            obj.cambioidv = reader.GetString(5);
-                            obj.c_valor = reader.GetDouble(6);
-                            obj.o_nome = reader.GetString(7);
-                            obj.o_datacriacao = reader.GetDateTime(8);
-                            obj.o_datainicio = reader.GetDateTime(9);
-                            obj.o_numeropessoas = reader.GetInt32(10);
-                            obj.o_numerodias = reader.GetInt32(11);
-                            obj.o_numeronoites = reader.GetInt32(12);
-                            obj.o_margemvenda = reader.GetDouble(13);
-                            obj.o_markup = reader.GetDouble(14);
-                            obj.o_descricao = reader.GetString(15);
-                            obj.active = reader.GetBoolean(16);
-                            obj.parrentorcamentoidv = reader.GetString(17);
-                            obj.Versao = reader.GetInt32(18);
-                            obj.pe = reader.GetBoolean(19);
-                            obj.DataUpdate = reader.GetDateTime(20);
-                            obj.e_nome = reader.GetString(21);
-                            obj.ti_nome = reader.GetString(22);
-                            obj.i_taxa = reader.GetString(23);
-                            obj.c_nome = reader.GetString(24);
-
-
-                            ObjList.Add(obj);
-
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("No rows found.");
-                    }
-                    reader.Close();
-                    conn.Close();
-
-                }
-                return ObjList;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
             }
 
-            return ObjList;
+            return nlista;
+
         }
 
-   
+
+        public static List<Orcamentos> GetOrcamentosContext(string orcamentoidv)
+        {
+
+            ObjectId t = new ObjectId(orcamentoidv);
+
+            var filter = Builders<Orcamentos>.Filter.Where(x => x.Id ==  t);
+
+            var orcamento = DB.Orcamentos.Find(filter).FirstOrDefault();
+            List<Orcamentos> nlista = new List<Orcamentos>();
+            if (orcamento != null)
+            {
+
+                var parrent = orcamento.parrentorcamentoidv;
+
+                if(parrent == "0" || parrent == null)
+                {
+                    nlista.Add(orcamento);
+                    return nlista;
+                }
+                else
+                {
+                    ObjectId parrentObj = new ObjectId(parrent);
+
+                    var filter2 = Builders<Orcamentos>.Filter.Where(x => x.Id == parrentObj || x.parrentorcamentoidv == parrent);
+                    var orcamentoList = DB.Orcamentos.Find(filter2).ToList();
+
+                    foreach (var item in orcamentoList)
+                    {
+
+                        nlista.Add(item);
+
+                    }
+
+                }
+
+            }
+            return nlista;
+
+
+        }
+
+         
         
         public static List<alojamentoList> GetAlojamento(string orcamento)
         {
@@ -453,6 +441,8 @@ namespace TT_orcamentos
 
         public static string GetParrentOrcamento(string orcamento)
         {
+
+
 
             try
             {

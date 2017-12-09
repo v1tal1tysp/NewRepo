@@ -8,8 +8,6 @@ using System.Web;
 
 namespace TTOrcamentos2.Model {
 
-
-
     public class ProjectoTT {
         [BsonId]
         public ObjectId Id { get; set; }
@@ -72,12 +70,9 @@ namespace TTOrcamentos2.Model {
 
             try
             {
-                proj.Id = ObjectId.GenerateNewId();
-                id = proj.Id.ToString();
-
                 DB.ProjectoTT.InsertOne(proj);
 
-                var teste = proj.Id.ToString();
+                id = proj.Id.ToString();
                 return true;
             }
             catch (Exception e)
@@ -86,11 +81,13 @@ namespace TTOrcamentos2.Model {
             }
         }
 
-        public bool Update(ProjectoTT proj)
+        public  static bool Update(ProjectoTT proj , string projectoid)
         {
             try
             {
-                DB.ProjectoTT.ReplaceOne(c => c.Id == proj.Id, proj);
+                ObjectId neid = new ObjectId(projectoid);
+                proj.Id = neid;
+                DB.ProjectoTT.ReplaceOne(c => c.Id == neid, proj);
                 return true;
             }
             catch (Exception e)
