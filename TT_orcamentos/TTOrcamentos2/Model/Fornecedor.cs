@@ -1,4 +1,5 @@
 ﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Web;
 namespace TTOrcamentos2.Model {
     public class Fornecedor {
+        [BsonId]
         public ObjectId Id { get; set; }
         public string TipoFornecedor { get; set; }
         public string Country { get; set; }
@@ -47,7 +49,7 @@ namespace TTOrcamentos2.Model {
             
 
         }
-        public static bool Insert(Fornecedor Fornecedor)
+        public static string Insert(Fornecedor Fornecedor)
         {
             try
             {
@@ -55,7 +57,7 @@ namespace TTOrcamentos2.Model {
 
                 DB.Fornecedor.InsertOne(Fornecedor);
 
-                return true;
+                return Fornecedor.Id.ToString();
             }
             catch (Exception e)
             {

@@ -635,13 +635,12 @@ namespace TTOrcamentos2.Controllers
 
         [HttpPost]
         [Route("api/Postman/insertFornecedor")]
-        public Fornecedor insertFornecedor(JObject fornecedor)
+        public string insertFornecedor(JObject fornecedor)
         {
 
             Fornecedor album = fornecedor.ToObject<Fornecedor>();
             Fornecedor.Insert(album);
-            Fornecedor newFornecedor = Fornecedor.Get(album.nome);
-            return newFornecedor;
+            return album.Id.ToString();
 
         }
 
@@ -651,13 +650,13 @@ namespace TTOrcamentos2.Controllers
         {
             ProjectoTT newFornecedor = new ProjectoTT();
 
-            var t= prj.GetValue("ClienteID").ToString();
-
+            
             var projecto = prj.GetValue("projecto");
+            ProjectoTT Projecto = projecto.ToObject<ProjectoTT>();
 
 
             string id = string.Empty;
-            ProjectoTT Projecto = projecto.ToObject<ProjectoTT>();
+           
 
             if (ProjectoTT.Insert(Projecto, out id))
             {
@@ -667,13 +666,40 @@ namespace TTOrcamentos2.Controllers
                    
 
         }
+
+        [HttpPost]
+        [Route("api/Postman/UpdateProjectoTT")]
+        public bool UpdateProjecto(JObject prj)
+        {
+
+            var projectoid = prj.GetValue("id").ToString();
+            var projecto = prj.GetValue("projecto");
+            ProjectoTT Projecto = projecto.ToObject<ProjectoTT>();
+
+            if (ProjectoTT.Update(Projecto, projectoid))
+            {
+                return true;
+            }
+            return false;
+        }
+
+
+
         [HttpPost]
         [Route("api/Postman/insertOrcamento")]
         public string insertOrcamento(JObject orca)
         {
+            
+            // se tiver parrent é porque preciso actualizar o parrents active = false,
 
-            Orcamentos Orcamentos = orca.ToObject<Orcamentos>();
+            var Orcamento = orca.GetValue("Orcamento");
+            Orcamentos Orcamentos = Orcamento.ToObject<Orcamentos>();
 
+            if(Orcamentos.parrentorcamentoidv != "0")
+            {
+                Orcamentos.UpdateActivity(Orcamentos.parrentorcamentoidv);
+
+            }
             string id = string.Empty;
             if (Orcamentos.Insert(Orcamentos, out id))
             {
@@ -681,98 +707,7 @@ namespace TTOrcamentos2.Controllers
             }
 
             return id;
-            
-            /*
-            SqlConnection conn = new SqlConnection(TTOrcamentos2.Properties.Settings.Default.ConnectionString);
-            SqlCommand cmd = new SqlCommand("insertOrcamento", conn);
-            cmd.CommandType = CommandType.StoredProcedure;
-            if (prj.orcamentoidv == null)
-            {
-                prj.orcamentoidv = "";
-            }
-            if (prj.parrentorcamentoidv == null)
-            {
-                prj.parrentorcamentoidv = "";
-            }
-            if (prj.o_datacriacao == DateTime.MinValue)
-            {
-                prj.o_datacriacao = DateTime.Now;
-            }
-
-            prj.DataUpdate = DateTime.Now;
-
-
-            cmd.Parameters.AddWithValue("@orcamentoidv", SqlDbType.VarChar).Value = prj.orcamentoidv;
-            cmd.Parameters.AddWithValue("@projectoidv", SqlDbType.VarChar).Value = prj.projectoidv;
-            cmd.Parameters.AddWithValue("@estadoidv", SqlDbType.VarChar).Value = prj.estadoidv;
-            cmd.Parameters.AddWithValue("@tipoivaidv", SqlDbType.VarChar).Value = prj.tipoivaidv;
-            cmd.Parameters.AddWithValue("@ivaidv", SqlDbType.VarChar).Value = prj.ivaidv;
-            cmd.Parameters.AddWithValue("@cambioidv", SqlDbType.VarChar).Value = prj.cambioidv;
-            cmd.Parameters.AddWithValue("@c_valor", SqlDbType.Float).Value = prj.c_valor;
-            cmd.Parameters.AddWithValue("@o_nome", SqlDbType.VarChar).Value = prj.o_nome;
-            cmd.Parameters.AddWithValue("@o_datacriacao", SqlDbType.DateTime).Value = prj.o_datacriacao;
-            cmd.Parameters.AddWithValue("@o_datainicio", SqlDbType.DateTime).Value = prj.o_datainicio;
-            cmd.Parameters.AddWithValue("@o_numeropessoas", SqlDbType.Int).Value = prj.o_numeropessoas;
-            cmd.Parameters.AddWithValue("@o_numerodias", SqlDbType.Int).Value = prj.o_numerodias;
-            cmd.Parameters.AddWithValue("@o_numeronoites", SqlDbType.Int).Value = prj.o_numeronoites;
-            cmd.Parameters.AddWithValue("@o_margemvenda", SqlDbType.Float).Value = prj.o_margemvenda;
-            cmd.Parameters.AddWithValue("@o_markup", SqlDbType.Float).Value = prj.o_markup;
-            cmd.Parameters.AddWithValue("@o_descricao", SqlDbType.VarChar).Value = prj.o_descricao;
-            cmd.Parameters.AddWithValue("@active", SqlDbType.Bit).Value = prj.active;
-            cmd.Parameters.AddWithValue("@parrentorcamentoidv", SqlDbType.VarChar).Value = prj.parrentorcamentoidv;
-            cmd.Parameters.AddWithValue("@Versao", SqlDbType.Int).Value = prj.Versao;
-            cmd.Parameters.AddWithValue("@pe", SqlDbType.Bit).Value = prj.pe;
-            cmd.Parameters.AddWithValue("@DataUpdate", SqlDbType.DateTime).Value = prj.DataUpdate;
-
-            orcamentos newObject = new orcamentos();
-
-            try
-            {
-                conn.Open();
-
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-
-                        newObject.orcamentoidv = reader.GetString(0);
-                        newObject.projectoidv = reader.GetString(1);
-                        newObject.estadoidv = reader.GetString(2);
-                        newObject.tipoivaidv = reader.GetString(3);
-                        newObject.ivaidv = reader.GetString(4);
-                        newObject.cambioidv = reader.GetString(5);
-                        newObject.c_valor = reader.GetDouble(6);
-                        newObject.o_nome = reader.GetString(7);
-                        newObject.o_datacriacao = reader.GetDateTime(8);
-                        newObject.o_datainicio = reader.GetDateTime(9);
-                        newObject.o_numeropessoas = reader.GetInt32(10);
-                        newObject.o_numerodias = reader.GetInt32(11);
-                        newObject.o_numeronoites = reader.GetInt32(12);
-                        newObject.o_margemvenda = reader.GetDouble(13);
-                        newObject.o_markup = reader.GetDouble(14);
-                        newObject.o_descricao = reader.GetString(15);
-                        newObject.active = reader.GetBoolean(16);
-                        newObject.parrentorcamentoidv = reader.GetString(17);
-                        newObject.Versao = reader.GetInt32(18);
-                        newObject.pe = reader.GetBoolean(19);
-                        newObject.DataUpdate = reader.GetDateTime(20);
-
-                    }
-                    return newObject;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Execption adding account. " + ex.Message);
-            }
-            finally
-            {
-                conn.Close();
-            }
-            return newObject;
-            */
+         
         }
       
         [HttpPost]

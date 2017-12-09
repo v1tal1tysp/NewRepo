@@ -1,4 +1,5 @@
 ﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -6,9 +7,11 @@ using System.Linq;
 using System.Web;
 
 namespace TTOrcamentos2.Model {
+
     public class ProjectoTT {
+        [BsonId]
         public ObjectId Id { get; set; }
-        public string estado { get; set; }
+        public Estado estado { get; set; }
         public string sigav { get; set; }
         public string Nome { get; set; }
         public string descricao { get; set; }
@@ -21,14 +24,18 @@ namespace TTOrcamentos2.Model {
         public DateTime DataEntrada { get; set; }
         public string NomeContacto { get; set; }
 
+        
+
+
         public ProjectoTT()
         {
 
         }
 
 
-        public ProjectoTT(string estado, string sigav, string nome, string p_descricao, string ClienteId, string Cliente, string AccountManagerId, string AccountManager, string DesignerId, string Designer, DateTime dataentrada, string NomeContacto)
+        public ProjectoTT(Estado estado, string sigav, string nome, string p_descricao, string ClienteId, string Cliente, string AccountManagerId, string AccountManager, string DesignerId, string Designer, DateTime dataentrada, string NomeContacto)
         {
+            
             this.estado = estado;
             this.sigav = sigav;
             this.Nome = nome;
@@ -44,7 +51,7 @@ namespace TTOrcamentos2.Model {
 
         }
 
-        public bool Insert(string estado, string sigav, string nome, string p_descricao, string ClienteId, string Cliente, string AccountManagerId, string AccountManager, string DesignerId, string Designer, DateTime dataentrada, string NomeContacto)
+        public bool Insert(Estado estado, string sigav, string nome, string p_descricao, string ClienteId, string Cliente, string AccountManagerId, string AccountManager, string DesignerId, string Designer, DateTime dataentrada, string NomeContacto)
         {
             try
             {
@@ -63,10 +70,9 @@ namespace TTOrcamentos2.Model {
 
             try
             {
-                proj.Id = ObjectId.GenerateNewId();
-                id = proj.Id.ToString();
-
                 DB.ProjectoTT.InsertOne(proj);
+
+                id = proj.Id.ToString();
                 return true;
             }
             catch (Exception e)
@@ -75,11 +81,13 @@ namespace TTOrcamentos2.Model {
             }
         }
 
-        public bool Update(ProjectoTT proj)
+        public  static bool Update(ProjectoTT proj , string projectoid)
         {
             try
             {
-                DB.ProjectoTT.ReplaceOne(c => c.Id == proj.Id, proj);
+                ObjectId neid = new ObjectId(projectoid);
+                proj.Id = neid;
+                DB.ProjectoTT.ReplaceOne(c => c.Id == neid, proj);
                 return true;
             }
             catch (Exception e)
@@ -100,6 +108,24 @@ namespace TTOrcamentos2.Model {
                 throw new Exception("Erro delete Projecto :" + e.ToString());
             }
         }
+
+        public static ProjectoTT Get(string projid)
+        {
+            try
+            {
+                ObjectId nid = new ObjectId(projid);
+                var filter = Builders<ProjectoTT>.Filter.Where(x => x.Id == nid);
+
+                var lista = DB.ProjectoTT.Find(filter).FirstOrDefault();
+                
+                return lista;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Erro delete Projecto :" + e.ToString());
+            }
+        }
+
 
         public static List<ProjectoTT> GetAll()
         {

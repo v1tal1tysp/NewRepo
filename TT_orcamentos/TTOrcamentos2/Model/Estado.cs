@@ -1,4 +1,5 @@
 ﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Web;
 namespace TTOrcamentos2.Model {
     public class Estado {
 
+        [BsonId]
         public ObjectId Id { get; set; }
         public string Name { get; set; }
 

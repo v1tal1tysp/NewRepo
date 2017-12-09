@@ -185,7 +185,7 @@
                         <h3>Orçamento <label ID="VersaoID" class="LabelOrcamento"></label></h3>
                         <div class="panel-body">
                             <asp:HiddenField ID="OrcamentosHidden" runat="server" />
-                            <asp:HiddenField ID="VersaoActual" runat="server" Value="1" />
+                            <asp:HiddenField ID="VersaoActual" runat="server" Value="0" />
                             <!-- Estado & cambio & Tipo de IVA & IVA-->
                             <div class="row">
                                 <input type="hidden" id="orcamentoidv"/>
