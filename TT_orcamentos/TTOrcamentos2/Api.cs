@@ -193,8 +193,6 @@ namespace TT_orcamentos
                             obj.i_taxa = reader.GetString(26);
                             obj.tc_nome = reader.GetString(27);
 
-
-
                             ObjList.Add(obj);
 
                         }
@@ -217,225 +215,58 @@ namespace TT_orcamentos
             return ObjList;
         }
 
-        public static List<voosList> getVoos(string orcamento)
+        public static List<Voos> getVoos(string orcamento)
         {
-            List<voosList> ObjList = new List<voosList>();
+            List<Voos> Lista = new List<Voos>();
             try
             {
-                using (var conn = new SqlConnection(TTOrcamentos2.Properties.Settings.Default.ConnectionString))
-                using (var command = new SqlCommand("getAllVoos", conn)
-                {
-                    CommandType = CommandType.StoredProcedure
-                })
-                {
-                    command.Parameters.Add("@orcamentoidv", SqlDbType.VarChar).Value = orcamento;
-                    conn.Open();
-                    SqlDataReader reader = command.ExecuteReader();
+                Lista = Voos.GetAll(orcamento);
 
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            voosList obj = new voosList();
-                            
-                            obj.vooidv = reader.GetString(0);
-                            obj.orcamentoidv = reader.GetString(1);
-                            obj.fornecedoridv = reader.GetString(2);
-                            obj.cambioidv = reader.GetString(3);
-                            obj.ivaidv = reader.GetString(4);
-                            obj.tipocustoidv = reader.GetString(5);
-                            obj.v_partida = reader.GetString(6);
-                            obj.v_destino = reader.GetString(7);
-                            obj.v_nomevoo = reader.GetString(8);
-                            obj.v_preco = reader.GetDouble(9);
-                            obj.v_comissao = reader.GetDouble(10);
-                            obj.v_net = reader.GetDouble(11);
-                            obj.v_valorcambio = reader.GetDouble(12);
-                            obj.v_valoreuros = reader.GetDouble(13);
-                            obj.v_margemvenda = reader.GetDouble(14);
-                            obj.v_markup = reader.GetDouble(15);
-                            obj.v_taxaA = reader.GetDouble(16);
-                            obj.v_taxaB = reader.GetDouble(17);
-                            obj.v_numeropessoas = reader.GetInt32(18);
-                            obj.v_disponibilidade = reader.GetInt32(19);
-                            obj.v_valortotalpvp = reader.GetDouble(20);
-                            obj.v_valorporpessoapvp = reader.GetDouble(21);
-                            obj.v_pagamento = reader.GetString(22);
-                            obj.v_datapagamento = reader.GetDateTime(23);
-                            obj.f_nome = reader.GetString(24);
-                            obj.c_nome = reader.GetString(25);
-                            obj.i_taxa = reader.GetString(26);
-                            obj.tc_nome = reader.GetString(27);
-
-
-
-                            ObjList.Add(obj);
-
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("No rows found.");
-                    }
-                    reader.Close();
-                    conn.Close();
-
-                }
-                return ObjList;
+                return Lista;
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-            }
 
-            return ObjList;
+                Console.WriteLine(ex.Message);
+                return Lista;
+            }
+        }
+
+        public static List<Diarias> getAllDiarias(string orcamento)
+        {
+            List<Diarias> Lista = new List<Diarias>();
+            try
+            {
+                Lista = Diarias.GetAll(orcamento);
+
+                return Lista;
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex.Message);
+                return Lista;
+            }
         }
 
 
-        public static List<diariasList> getAllDiarias(string orcamento)
+        public static List<ServicoTT> getAllServicos(string orcamento)
         {
-            List<diariasList> ObjList = new List<diariasList>();
+            List<ServicoTT> Lista = new List<ServicoTT>();
             try
             {
-                using (var conn = new SqlConnection(TTOrcamentos2.Properties.Settings.Default.ConnectionString))
-                using (var command = new SqlCommand("getAllDiarias", conn)
-                {
-                    CommandType = CommandType.StoredProcedure
-                })
-                {
-                    command.Parameters.Add("@orcamentoidv", SqlDbType.VarChar).Value = orcamento;
-                    conn.Open();
-                    SqlDataReader reader = command.ExecuteReader();
 
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            diariasList obj = new diariasList();
+                Lista = ServicoTT.GetAll(orcamento);
 
-                            obj.diariaidv = reader.GetString(0);
-                            obj.orcamentoidv = reader.GetString(1);
-                            obj.fornecedoridv = reader.GetString(2);
-                            obj.ivaidv = reader.GetString(3);
-                            obj.tipocustoidv = reader.GetString(4);
-                            obj.cambioidv = reader.GetString(5);
-                            obj.d_nomeservico = reader.GetString(6);
-                            obj.d_data = reader.GetDateTime(7);
-                            obj.d_preco = reader.GetDouble(8);
-                            obj.d_comissao = reader.GetDouble(9);
-                            obj.d_net = reader.GetDouble(10);
-                            obj.d_valorcambio = reader.GetDouble(11);
-                            obj.d_valoreuros = reader.GetDouble(12);
-                            obj.d_quantidade = reader.GetInt32(13);
-                            obj.d_unidades = reader.GetInt32(14);
-                            obj.d_margemvenda = reader.GetDouble(15);
-                            obj.d_markup = reader.GetDouble(16);
-                            obj.d_pagamento = reader.GetString(17);
-                            obj.d_datapagamento = reader.GetDateTime(18);
-                            obj.d_numeropessoas = reader.GetInt32(19);
-                            obj.d_valortotalpvp = reader.GetDouble(20);
-                            obj.d_valorporpessoapvp = reader.GetDouble(21);
-                            obj.d_observacoes = reader.GetString(22);
-                            obj.f_nome = reader.GetString(23);
-                            obj.c_nome = reader.GetString(24);
-                            obj.i_taxa = reader.GetString(25);
-                            obj.tc_nome = reader.GetString(26);
-
-
-
-                            ObjList.Add(obj);
-
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("No rows found.");
-                    }
-                    reader.Close();
-                    conn.Close();
-
-                }
-                return ObjList;
+                return Lista;
             }
             catch (Exception ex)
             {
+
                 Console.WriteLine(ex.Message);
+                return Lista;
             }
 
-            return ObjList;
-        }
-
-
-        public static List<servicosList> getAllServicos(string orcamento)
-        {
-            List<servicosList> ObjList = new List<servicosList>();
-            try
-            {
-                using (var conn = new SqlConnection(TTOrcamentos2.Properties.Settings.Default.ConnectionString))
-                using (var command = new SqlCommand("getAllServicos", conn)
-                {
-                    CommandType = CommandType.StoredProcedure
-                })
-                {
-                    command.Parameters.Add("@orcamentoidv", SqlDbType.VarChar).Value = orcamento;
-                    conn.Open();
-                    SqlDataReader reader = command.ExecuteReader();
-
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            servicosList obj = new servicosList();
-
-                            obj.servicoidv = reader.GetString(0);
-                            obj.orcamentoidv = reader.GetString(1);
-                            obj.fornecedoridv = reader.GetString(2);
-                            obj.ivaidv = reader.GetString(3);
-                            obj.tipocustoidv = reader.GetString(4);
-                            obj.cambioidv = reader.GetString(5);
-                            obj.servicottidv = reader.GetString(6);
-                            obj.s_nomeservico = reader.GetString(7);
-                            obj.s_preco = reader.GetDouble(8);
-                            obj.s_comissao = reader.GetDouble(9);
-                            obj.s_net = reader.GetDouble(10);
-                            obj.s_valorcambio = reader.GetDouble(11);
-                            obj.s_valoreuros = reader.GetDouble(12);
-                            obj.s_quantidade = reader.GetInt32(13);
-                            obj.s_unidades = reader.GetInt32(14);
-                            obj.s_margemvenda = reader.GetDouble(15);
-                            obj.s_markup = reader.GetDouble(16);
-                            obj.s_pagamento = reader.GetString(17);
-                            obj.s_datapagamento = reader.GetDateTime(18);
-                            obj.s_numeropessoas = reader.GetInt32(19);
-                            obj.s_valortotalpvp = reader.GetDouble(20);
-                            obj.s_valorporpessoapvp = reader.GetDouble(21);
-                            obj.s_observacoes = reader.GetString(22);
-                            obj.f_nome = reader.GetString(23);
-                            obj.c_nome = reader.GetString(24);
-                            obj.i_taxa = reader.GetString(25);
-                            obj.tc_nome = reader.GetString(26);
-                            obj.stt_nome = reader.GetString(27);
-
-                            ObjList.Add(obj);
-
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("No rows found.");
-                    }
-                    reader.Close();
-                    conn.Close();
-
-                }
-                return ObjList;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-
-            return ObjList;
         }
 
 

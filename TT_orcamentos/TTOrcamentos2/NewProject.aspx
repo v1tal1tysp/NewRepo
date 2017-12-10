@@ -588,7 +588,7 @@
                                     </div>
                                     </br>
                                     <label for="example-datetime-local-input" class="col-lg-2 col-form-label">Data</label>
-                                    <div class="col-lg-2">
+                                    <div class="col-lg-3">
                                         <input class="form-control" type="date" value="2011-08-19" id="DiariaData"/>
                                     </div>
                                 </div>
@@ -599,7 +599,7 @@
                                         <input class="form-control" type="text" value="Advance 50%" id="DiariaPagamento"/>
                                     </div>
                                     <label for="example-number-input" class="col-lg-2 col-form-label">Data de pagamento</label>
-                                    <div class="col-lg-2">
+                                    <div class="col-lg-3">
                                         <input class="form-control" type="date" value="" id="DiariaDataPagamento"/>
                                     </div>
                                 </div>

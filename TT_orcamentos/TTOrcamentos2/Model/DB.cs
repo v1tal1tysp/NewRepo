@@ -28,9 +28,11 @@ namespace TTOrcamentos2.Model {
         static public IMongoCollection<Quartos> Quartos { get; set; } = Database.GetCollection<Quartos>("Quartos");
 
         static public IMongoCollection<Orcamentos> Orcamentos { get; set; } = Database.GetCollection<Orcamentos>("Orcamentos");
+        static public IMongoCollection<Ficheiros> Ficheiros { get; set; } = Database.GetCollection<Ficheiros>("Ficheiros");
+        static public IMongoCollection<Voos> Voos { get; set; } = Database.GetCollection<Voos>("Voos");
+        static public IMongoCollection<Diarias> Diarias { get; set; } = Database.GetCollection<Diarias>("Diarias");
+        static public IMongoCollection<ServicoTT> ServicoTT { get; set; } = Database.GetCollection<ServicoTT>("ServicoTT");
+
         
-
-
-
     }
 }

@@ -265,19 +265,23 @@
     <Compile Include="Model\City.cs" />
     <Compile Include="Model\Country.cs" />
     <Compile Include="Model\DB.cs" />
+    <Compile Include="Model\Diarias.cs" />
     <Compile Include="Model\Estado.cs" />
+    <Compile Include="Model\Ficheiros.cs" />
     <Compile Include="Model\Fornecedor.cs" />
     <Compile Include="Model\Ivas.cs" />
     <Compile Include="Model\Orcamentos.cs" />
     <Compile Include="Model\ProjectoTT.cs" />
     <Compile Include="Model\Quartos.cs" />
     <Compile Include="Model\ServicosTT_Tipos.cs" />
+    <Compile Include="Model\ServicoTT.cs" />
     <Compile Include="Model\stringUtil.cs" />
     <Compile Include="Model\TipoFornecedor.cs" />
     <Compile Include="Model\Tipo_Iva.cs" />
     <Compile Include="Model\TypeOfCost.cs" />
     <Compile Include="Model\Users.cs" />
     <Compile Include="Model\Usertype.cs" />
+    <Compile Include="Model\Voos.cs" />
     <Compile Include="NewProject.aspx.cs">
       <DependentUpon>NewProject.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

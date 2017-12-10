@@ -51,16 +51,19 @@ namespace TT_orcamentos
                     /*    var alojamento = Api.GetAlojamento(orcamento);
                         var jsonAlojamento = JsonConvert.SerializeObject(alojamento);
                         HiddenAlojamento.Value = jsonAlojamento;
-
+                        */
                         //Voos
                         var voos = Api.getVoos(orcamento);
                         var jsonVoos = JsonConvert.SerializeObject(voos);
                         HiddenVoos.Value = jsonVoos;
+
+                        
+
                         //diarias
                         var diarias = Api.getAllDiarias(orcamento);
                         var jsondiarias = JsonConvert.SerializeObject(diarias);
                         HiddenDiarias.Value = jsondiarias;
-                        */
+                        
 
                         //Servicos
                         var servicos = Api.getAllServicos(orcamento);

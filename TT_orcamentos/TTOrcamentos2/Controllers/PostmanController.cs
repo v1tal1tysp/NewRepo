@@ -101,227 +101,67 @@ namespace TTOrcamentos2.Controllers
 
         [HttpPost]
         [Route("api/Postman/getVoos")]
-        public List<voosList> getVoos([FromBody]voos orcamento)
+        public List<Voos> getVoos(JObject idorca)
         {
-            List<voosList> ObjList = new List<voosList>();
+            List<Voos> Lista = new List<Voos>();
             try
             {
-                using (var conn = new SqlConnection(TTOrcamentos2.Properties.Settings.Default.ConnectionString))
-                using (var command = new SqlCommand("getAllVoos", conn)
-                {
-                    CommandType = CommandType.StoredProcedure
-                })
-                {
-                    command.Parameters.Add("@orcamentoidv", SqlDbType.VarChar).Value = orcamento.orcamentoidv;
-                    conn.Open();
-                    SqlDataReader reader = command.ExecuteReader();
+                var t = idorca.GetValue("orcamentoidv").ToString();
+                Lista = Voos.GetAll(t);
 
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            voosList obj = new voosList();
-
-                            obj.vooidv = reader.GetString(0);
-                            obj.orcamentoidv = reader.GetString(1);
-                            obj.fornecedoridv = reader.GetString(2);
-                            obj.cambioidv = reader.GetString(3);
-                            obj.ivaidv = reader.GetString(4);
-                            obj.tipocustoidv = reader.GetString(5);
-                            obj.v_partida = reader.GetString(6);
-                            obj.v_destino = reader.GetString(7);
-                            obj.v_nomevoo = reader.GetString(8);
-                            obj.v_preco = reader.GetDouble(9);
-                            obj.v_comissao = reader.GetDouble(10);
-                            obj.v_net = reader.GetDouble(11);
-                            obj.v_valorcambio = reader.GetDouble(12);
-                            obj.v_valoreuros = reader.GetDouble(13);
-                            obj.v_margemvenda = reader.GetDouble(14);
-                            obj.v_markup = reader.GetDouble(15);
-                            obj.v_taxaA = reader.GetDouble(16);
-                            obj.v_taxaB = reader.GetDouble(17);
-                            obj.v_numeropessoas = reader.GetInt32(18);
-                            obj.v_disponibilidade = reader.GetInt32(19);
-                            obj.v_valortotalpvp = reader.GetDouble(20);
-                            obj.v_valorporpessoapvp = reader.GetDouble(21);
-                            obj.v_pagamento = reader.GetString(22);
-                            obj.v_datapagamento = reader.GetDateTime(23);
-                            obj.f_nome = reader.GetString(24);
-                            obj.c_nome = reader.GetString(25);
-                            obj.i_taxa = reader.GetString(26);
-                            obj.tc_nome = reader.GetString(27);
-
-
-
-                            ObjList.Add(obj);
-
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("No rows found.");
-                    }
-                    reader.Close();
-                    conn.Close();
-
-                }
-                return ObjList;
+                return Lista;
             }
             catch (Exception ex)
             {
+                
                 Console.WriteLine(ex.Message);
+                return Lista;
             }
 
-            return ObjList;
         }
 
         [HttpPost]
         [Route("api/Postman/getAllDiarias")]
-        public List<diariasList> getAllDiarias([FromBody]diarias orcamento)
+        public List<Diarias> getAllDiarias(JObject diaria)
         {
-            List<diariasList> ObjList = new List<diariasList>();
+
+            List<Diarias> Lista = new List<Diarias>();
             try
             {
-                using (var conn = new SqlConnection(TTOrcamentos2.Properties.Settings.Default.ConnectionString))
-                using (var command = new SqlCommand("getAllDiarias", conn)
-                {
-                    CommandType = CommandType.StoredProcedure
-                })
-                {
-                    command.Parameters.Add("@orcamentoidv", SqlDbType.VarChar).Value = orcamento.orcamentoidv;
-                    conn.Open();
-                    SqlDataReader reader = command.ExecuteReader();
+                var t = diaria.GetValue("orcamentoidv").ToString();
+                Lista = Diarias.GetAll(t);
 
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            diariasList obj = new diariasList();
-
-                            obj.diariaidv = reader.GetString(0);
-                            obj.orcamentoidv = reader.GetString(1);
-                            obj.fornecedoridv = reader.GetString(2);
-                            obj.ivaidv = reader.GetString(3);
-                            obj.tipocustoidv = reader.GetString(4);
-                            obj.cambioidv = reader.GetString(5);
-                            obj.d_nomeservico = reader.GetString(6);
-                            obj.d_data = reader.GetDateTime(7);
-                            obj.d_preco = reader.GetDouble(8);
-                            obj.d_comissao = reader.GetDouble(9);
-                            obj.d_net = reader.GetDouble(10);
-                            obj.d_valorcambio = reader.GetDouble(11);
-                            obj.d_valoreuros = reader.GetDouble(12);
-                            obj.d_quantidade = reader.GetInt32(13);
-                            obj.d_unidades = reader.GetInt32(14);
-                            obj.d_margemvenda = reader.GetDouble(15);
-                            obj.d_markup = reader.GetDouble(16);
-                            obj.d_pagamento = reader.GetString(17);
-                            obj.d_datapagamento = reader.GetDateTime(18);
-                            obj.d_numeropessoas = reader.GetInt32(19);
-                            obj.d_valortotalpvp = reader.GetDouble(20);
-                            obj.d_valorporpessoapvp = reader.GetDouble(21);
-                            obj.d_observacoes = reader.GetString(22);
-                            obj.f_nome = reader.GetString(23);
-                            obj.c_nome = reader.GetString(24);
-                            obj.i_taxa = reader.GetString(25);
-                            obj.tc_nome = reader.GetString(26);
-
-
-
-                            ObjList.Add(obj);
-
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("No rows found.");
-                    }
-                    reader.Close();
-                    conn.Close();
-
-                }
-                return ObjList;
+                return Lista;
             }
             catch (Exception ex)
             {
+
                 Console.WriteLine(ex.Message);
+                return Lista;
             }
 
-            return ObjList;
         }
 
         [HttpPost]
         [Route("api/Postman/getAllServicos")]
-        public List<servicosList> getAllServicos([FromBody]servicos orcamento)
+        public List<ServicoTT> getAllServicos(JObject orcamento)
         {
-            List<servicosList> ObjList = new List<servicosList>();
+
+            List<ServicoTT> Lista = new List<ServicoTT>();
             try
             {
-                using (var conn = new SqlConnection(TTOrcamentos2.Properties.Settings.Default.ConnectionString))
-                using (var command = new SqlCommand("getAllServicos", conn)
-                {
-                    CommandType = CommandType.StoredProcedure
-                })
-                {
-                    command.Parameters.Add("@orcamentoidv", SqlDbType.VarChar).Value = orcamento.orcamentoidv;
-                    conn.Open();
-                    SqlDataReader reader = command.ExecuteReader();
+                var t = orcamento.GetValue("orcamentoidv").ToString();
+                Lista = ServicoTT.GetAll(t);
 
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            servicosList obj = new servicosList();
-
-                            obj.servicoidv = reader.GetString(0);
-                            obj.orcamentoidv = reader.GetString(1);
-                            obj.fornecedoridv = reader.GetString(2);
-                            obj.ivaidv = reader.GetString(3);
-                            obj.tipocustoidv = reader.GetString(4);
-                            obj.cambioidv = reader.GetString(5);
-                            obj.servicottidv = reader.GetString(6);
-                            obj.s_nomeservico = reader.GetString(7);
-                            obj.s_preco = reader.GetDouble(8);
-                            obj.s_comissao = reader.GetDouble(9);
-                            obj.s_net = reader.GetDouble(10);
-                            obj.s_valorcambio = reader.GetDouble(11);
-                            obj.s_valoreuros = reader.GetDouble(12);
-                            obj.s_quantidade = reader.GetInt32(13);
-                            obj.s_unidades = reader.GetInt32(14);
-                            obj.s_margemvenda = reader.GetDouble(15);
-                            obj.s_markup = reader.GetDouble(16);
-                            obj.s_pagamento = reader.GetString(17);
-                            obj.s_datapagamento = reader.GetDateTime(18);
-                            obj.s_numeropessoas = reader.GetInt32(19);
-                            obj.s_valortotalpvp = reader.GetDouble(20);
-                            obj.s_valorporpessoapvp = reader.GetDouble(21);
-                            obj.s_observacoes = reader.GetString(22);
-                            obj.f_nome = reader.GetString(23);
-                            obj.c_nome = reader.GetString(24);
-                            obj.i_taxa = reader.GetString(25);
-                            obj.tc_nome = reader.GetString(26);
-                            obj.stt_nome = reader.GetString(27);
-
-                            ObjList.Add(obj);
-
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("No rows found.");
-                    }
-                    reader.Close();
-                    conn.Close();
-
-                }
-                return ObjList;
+                return Lista;
             }
             catch (Exception ex)
             {
+
                 Console.WriteLine(ex.Message);
+                return Lista;
             }
 
-            return ObjList;
         }
 
         [HttpPost]
@@ -684,7 +524,6 @@ namespace TTOrcamentos2.Controllers
         }
 
 
-
         [HttpPost]
         [Route("api/Postman/insertOrcamento")]
         public string insertOrcamento(JObject orca)
@@ -712,85 +551,46 @@ namespace TTOrcamentos2.Controllers
       
         [HttpPost]
         [Route("api/Postman/insertFicheiro")]
-        public List<dynamic> insertFicheiro(string id, string orcamentoid ,int tipo)
+        public List<Ficheiros> insertFicheiro(string id, string orcamentoid ,int tipo)
         {
-
-
-            List<dynamic> Lista = new List<dynamic>(); 
-
+            List<Ficheiros> Lista = new List<Ficheiros>();
             try
             {
 
                 if (HttpContext.Current.Request.Files.AllKeys.Any())
                 {
-                    // Get the uploaded image from the Files collection
                     var httpPostedFile = HttpContext.Current.Request.Files["UploadedImage"];
-
                     if (httpPostedFile != null)
                     {
-
-                        Directory.CreateDirectory(Properties.Settings.Default.PastaDocumentos + id);
-                        var fileSavePath = Properties.Settings.Default.PastaDocumentos + id + "\\"+ httpPostedFile.FileName;
-                        httpPostedFile.SaveAs(fileSavePath);
-
-
-                        SqlConnection conn = new SqlConnection(TTOrcamentos2.Properties.Settings.Default.ConnectionString);
-                        SqlCommand cmd = new SqlCommand("insertFicheiro", conn);
-                        cmd.CommandType = CommandType.StoredProcedure;
-
-
-                        if (id == null)
-                            id = "";
-
-                        if (orcamentoid == null)
-                            orcamentoid = "";
-
-                        cmd.Parameters.AddWithValue("@Namefile", SqlDbType.VarChar).Value = httpPostedFile.FileName;
-                        cmd.Parameters.AddWithValue("@Filepath", SqlDbType.VarChar).Value = fileSavePath;
-                        cmd.Parameters.AddWithValue("@DataCriacao", SqlDbType.DateTime).Value = DateTime.Now;
-                        cmd.Parameters.AddWithValue("@projectoID", SqlDbType.VarChar).Value = id;
-                        cmd.Parameters.AddWithValue("@orcamentoID", SqlDbType.VarChar).Value = orcamentoid;
-                        cmd.Parameters.AddWithValue("@TipoFicheiro", SqlDbType.VarChar).Value = tipo;
-
-
-                        conn.Open();
-
-                        SqlDataReader reader = cmd.ExecuteReader();
-
-                        if (reader.HasRows)
+                        if(!Directory.Exists(Properties.Settings.Default.PastaDocumentos + id))
                         {
-
-                            while (reader.Read())
-                            {
-
-                                dynamic obj = new ExpandoObject();
-
-                                obj.ID = reader.GetInt32(0);
-                                obj.Namefile = reader.GetString(1);
-                                obj.Filepath = reader.GetString(2);
-                                obj.DataCriacao = reader.GetDateTime(3);
-                                obj.projectoID = reader.GetString(4);
-                                obj.orcamentoID = reader.GetString(5);
-                                obj.TipoFicheiro = reader.GetInt32(6);
-
-                                Lista.Add(obj);
-                            }
-
+                            Directory.CreateDirectory(Properties.Settings.Default.PastaDocumentos + id);
                         }
 
+                        var fileSavePath = Properties.Settings.Default.PastaDocumentos + id + "\\" + httpPostedFile.FileName;
+                        httpPostedFile.SaveAs(fileSavePath);
+
+                        /*Insert na db*/
+
+
+                        Ficheiros.Insert(httpPostedFile.FileName, fileSavePath, DateTime.Now, id, orcamentoid, tipo);
+
+
+                        Lista = Ficheiros.GetAll(id);
+
                         return Lista;
-
                     }
-                    return Lista;
-
                 }
-                return Lista;
+
             }
             catch (Exception e)
             {
+
                 return Lista;
             }
+            return Lista;
 
+            
         }
 
 
@@ -890,300 +690,54 @@ namespace TTOrcamentos2.Controllers
 
         [HttpPost]
         [Route("api/Postman/InsertVoos")]
-        public voos InsertVoos([FromBody]voos Obj)
+        public Voos InsertVoos(JObject voo)
         {
+            
+            var projecto = voo.GetValue("_id");
+            Voos Projecto = voo.ToObject<Voos>();
 
-            SqlConnection conn = new SqlConnection(TTOrcamentos2.Properties.Settings.Default.ConnectionString);
-            SqlCommand cmd = new SqlCommand("insertVoo", conn);
-            cmd.CommandType = CommandType.StoredProcedure;
-
-            Obj.vooidv = "";
-
-
-            cmd.Parameters.AddWithValue("@vooidv", SqlDbType.VarChar).Value = Obj.vooidv;
-	        cmd.Parameters.AddWithValue("@orcamentoidv", SqlDbType.VarChar).Value = Obj.orcamentoidv;
-            cmd.Parameters.AddWithValue("@fornecedoridv", SqlDbType.VarChar).Value = Obj.fornecedoridv;
-            cmd.Parameters.AddWithValue("@cambioidv", SqlDbType.VarChar).Value = Obj.cambioidv;
-            cmd.Parameters.AddWithValue("@ivaidv", SqlDbType.VarChar).Value = Obj.ivaidv;
-            cmd.Parameters.AddWithValue("@tipocustoidv", SqlDbType.VarChar).Value = Obj.tipocustoidv;
-            cmd.Parameters.AddWithValue("@v_partida", SqlDbType.VarChar).Value = Obj.v_partida;
-            cmd.Parameters.AddWithValue("@v_destino", SqlDbType.VarChar).Value = Obj.v_destino;
-            cmd.Parameters.AddWithValue("@v_nomevoo", SqlDbType.VarChar).Value = Obj.v_nomevoo;
-            cmd.Parameters.AddWithValue("@v_preco", SqlDbType.Float).Value = Obj.v_preco;
-            cmd.Parameters.AddWithValue("@v_comissao", SqlDbType.Float).Value = Obj.v_comissao;
-            cmd.Parameters.AddWithValue("@v_net", SqlDbType.Float).Value = Obj.v_net;
-            cmd.Parameters.AddWithValue("@v_valorcambio", SqlDbType.Float).Value = Obj.v_valorcambio;
-            cmd.Parameters.AddWithValue("@v_valoreuros", SqlDbType.Float).Value = Obj.v_valoreuros;
-            cmd.Parameters.AddWithValue("@v_margemvenda", SqlDbType.Float).Value = Obj.v_margemvenda;
-            cmd.Parameters.AddWithValue("@v_markup", SqlDbType.Float).Value = Obj.v_markup;
-            cmd.Parameters.AddWithValue("@v_taxaA", SqlDbType.Float).Value = Obj.v_taxaA;
-            cmd.Parameters.AddWithValue("@v_taxaB", SqlDbType.Float).Value = Obj.v_taxaB;
-            cmd.Parameters.AddWithValue("@v_numeropessoas", SqlDbType.TinyInt).Value = Obj.v_numeropessoas;
-            cmd.Parameters.AddWithValue("@v_disponibilidade", SqlDbType.TinyInt).Value = Obj.v_disponibilidade;
-            cmd.Parameters.AddWithValue("@v_valortotalpvp", SqlDbType.Float).Value = Obj.v_valortotalpvp;
-            cmd.Parameters.AddWithValue("@v_valorporpessoapvp", SqlDbType.Float).Value = Obj.v_valorporpessoapvp;
-            cmd.Parameters.AddWithValue("@v_pagamento", SqlDbType.VarChar).Value = Obj.v_pagamento;
-            cmd.Parameters.AddWithValue("@v_datapagamento", SqlDbType.DateTime).Value = Obj.v_datapagamento;
-
-
-
-            voos newObject = new voos();
-
-
-            try
+            if (Voos.Insert(Projecto))
             {
-                conn.Open();
-
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                if (reader.HasRows)
-                {
-
-                    while (reader.Read())
-                    {
-
-                        newObject.vooidv = reader.GetString(0);
-                        newObject.orcamentoidv = reader.GetString(1);
-                        newObject.fornecedoridv = reader.GetString(2);
-                        newObject.cambioidv = reader.GetString(3);
-                        newObject.ivaidv = reader.GetString(4);
-                        newObject.tipocustoidv = reader.GetString(5);
-                        newObject.v_partida = reader.GetString(6);
-                        newObject.v_destino = reader.GetString(7);
-                        newObject.v_nomevoo = reader.GetString(8);
-                        newObject.v_preco = reader.GetDouble(9);
-                        newObject.v_comissao = reader.GetDouble(10);
-                        newObject.v_net = reader.GetDouble(11);
-                        newObject.v_valorcambio = reader.GetDouble(12);
-                        newObject.v_valoreuros = reader.GetDouble(13);
-                        newObject.v_margemvenda = reader.GetDouble(14);
-                        newObject.v_markup = reader.GetDouble(15);
-                        newObject.v_taxaA = reader.GetDouble(16);
-                        newObject.v_taxaB = reader.GetDouble(17);
-                        newObject.v_numeropessoas = reader.GetInt32(18);
-                        newObject.v_disponibilidade = reader.GetInt32(19);
-                        newObject.v_valortotalpvp = reader.GetDouble(20);
-                        newObject.v_valorporpessoapvp = reader.GetDouble(21);
-                        newObject.v_pagamento = reader.GetString(22);
-                        newObject.v_datapagamento = reader.GetDateTime(23);
-
-
-
-                        return newObject;
-
-                    }
-
-                }
+                return Projecto;
             }
-            catch (Exception ex)
-            {
-                throw new Exception("Execption adding account. " + ex.Message);
-            }
-            finally
-            {
-                conn.Close();
-            }
-            return newObject;
+
+            return Projecto;
+
+
         }
 
         [HttpPost]
         [Route("api/Postman/InsertDiaria")]
-        public diarias InsertDiaria([FromBody]diarias Obj)
+        public Diarias InsertDiaria(JObject Obj)
         {
+            var projecto = Obj.GetValue("_id");
+            Diarias diaria = Obj.ToObject<Diarias>();
 
-            SqlConnection conn = new SqlConnection(TTOrcamentos2.Properties.Settings.Default.ConnectionString);
-            SqlCommand cmd = new SqlCommand("InsertDiaria", conn);
-            cmd.CommandType = CommandType.StoredProcedure;
-
-            Obj.diariaidv = "";
-
-
-    
-
-            cmd.Parameters.AddWithValue("@diariaidv", SqlDbType.VarChar).Value = Obj.diariaidv;
-            cmd.Parameters.AddWithValue("@orcamentoidv", SqlDbType.VarChar).Value = Obj.orcamentoidv;
-            cmd.Parameters.AddWithValue("@fornecedoridv", SqlDbType.VarChar).Value = Obj.fornecedoridv;
-            cmd.Parameters.AddWithValue("@ivaidv", SqlDbType.VarChar).Value = Obj.ivaidv;
-	        cmd.Parameters.AddWithValue("@tipocustoidv", SqlDbType.VarChar).Value = Obj.tipocustoidv;
-            cmd.Parameters.AddWithValue("@cambioidv", SqlDbType.VarChar).Value = Obj.cambioidv;
-            cmd.Parameters.AddWithValue("@d_nomeservico", SqlDbType.VarChar).Value = Obj.d_nomeservico;
-            cmd.Parameters.AddWithValue("@d_data", SqlDbType.DateTime).Value = Obj.d_data;
-            cmd.Parameters.AddWithValue("@d_preco", SqlDbType.Float).Value = Obj.d_preco;
-            cmd.Parameters.AddWithValue("@d_comissao", SqlDbType.Float).Value = Obj.d_comissao;
-            cmd.Parameters.AddWithValue("@d_net", SqlDbType.Float).Value = Obj.d_net;
-            cmd.Parameters.AddWithValue("@d_valorcambio", SqlDbType.Float).Value = Obj.d_valorcambio;
-            cmd.Parameters.AddWithValue("@d_valoreuros", SqlDbType.Float).Value = Obj.d_valoreuros;
-            cmd.Parameters.AddWithValue("@d_quantidade", SqlDbType.TinyInt).Value = Obj.d_quantidade;
-            cmd.Parameters.AddWithValue("@d_unidades", SqlDbType.TinyInt).Value = Obj.d_unidades;
-            cmd.Parameters.AddWithValue("@d_margemvenda", SqlDbType.Float).Value = Obj.d_margemvenda;
-            cmd.Parameters.AddWithValue("@d_markup", SqlDbType.Float).Value = Obj.d_markup;
-            cmd.Parameters.AddWithValue("@d_pagamento", SqlDbType.VarChar).Value = Obj.d_pagamento;
-            cmd.Parameters.AddWithValue("@d_datapagamento", SqlDbType.DateTime).Value = Obj.d_datapagamento;
-            cmd.Parameters.AddWithValue("@d_numeropessoas", SqlDbType.TinyInt).Value = Obj.d_numeropessoas;
-            cmd.Parameters.AddWithValue("@d_valortotalpvp ", SqlDbType.Float).Value = Obj.d_valortotalpvp;
-            cmd.Parameters.AddWithValue("@d_valorporpessoapvp", SqlDbType.Float).Value = Obj.d_valorporpessoapvp;
-            cmd.Parameters.AddWithValue("@d_observacoes", SqlDbType.VarChar).Value = Obj.d_observacoes;
-
-
-
-            diarias newObject = new diarias();
-
-
-            try
+            if (Diarias.Insert(diaria))
             {
-                conn.Open();
-
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                if (reader.HasRows)
-                {
-
-                    while (reader.Read())
-                    {
-
-                        newObject.diariaidv = reader.GetString(0);
-                        newObject.orcamentoidv = reader.GetString(1);
-                        newObject.fornecedoridv = reader.GetString(2);
-                        newObject.ivaidv = reader.GetString(3);
-                        newObject.tipocustoidv = reader.GetString(4);
-                        newObject.cambioidv = reader.GetString(5);
-                        newObject.d_nomeservico = reader.GetString(6);
-                        newObject.d_data = reader.GetDateTime(7);
-                        newObject.d_preco = reader.GetDouble(8);
-                        newObject.d_comissao = reader.GetDouble(9);
-                        newObject.d_net = reader.GetDouble(10);
-                        newObject.d_valorcambio = reader.GetDouble(11);
-                        newObject.d_valoreuros = reader.GetDouble(12);
-                        newObject.d_quantidade = reader.GetInt32(13);
-                        newObject.d_unidades = reader.GetInt32(14);
-                        newObject.d_margemvenda = reader.GetDouble(15);
-                        newObject.d_markup = reader.GetDouble(16);
-                        newObject.d_pagamento = reader.GetString(17);
-                        newObject.d_datapagamento = reader.GetDateTime(18);
-                        newObject.d_numeropessoas = reader.GetInt32(19);
-                        newObject.d_valortotalpvp = reader.GetDouble(20);
-                        newObject.d_valorporpessoapvp = reader.GetDouble(21);
-                        newObject.d_observacoes = reader.GetString(22);
-
-
-
-
-                        return newObject;
-
-                    }
-
-                }
+                return diaria;
             }
-            catch (Exception ex)
-            {
-                throw new Exception("Execption adding account. " + ex.Message);
-            }
-            finally
-            {
-                conn.Close();
-            }
-            return newObject;
+
+            return diaria;
+
         }
 
         [HttpPost]
         [Route("api/Postman/InsertServico")]
-        public servicos InsertServico([FromBody]servicos Obj)
+        public ServicoTT InsertServico(JObject Obj)
         {
 
-            SqlConnection conn = new SqlConnection(TTOrcamentos2.Properties.Settings.Default.ConnectionString);
-            SqlCommand cmd = new SqlCommand("insertServico", conn);
-            cmd.CommandType = CommandType.StoredProcedure;
+            
+            ServicoTT Serv = Obj.ToObject<ServicoTT>();
 
-            Obj.servicoidv = "";
-
-
-
-            cmd.Parameters.AddWithValue("@servicoidv", SqlDbType.VarChar).Value = Obj.servicoidv;
-            cmd.Parameters.AddWithValue("@orcamentoidv", SqlDbType.VarChar).Value = Obj.orcamentoidv;
-            cmd.Parameters.AddWithValue("@fornecedoridv", SqlDbType.VarChar).Value = Obj.fornecedoridv;
-            cmd.Parameters.AddWithValue("@ivaidv", SqlDbType.VarChar).Value = Obj.ivaidv;
-            cmd.Parameters.AddWithValue("@tipocustoidv ", SqlDbType.VarChar).Value = Obj.tipocustoidv;
-            cmd.Parameters.AddWithValue("@cambioidv", SqlDbType.VarChar).Value = Obj.cambioidv;
-            cmd.Parameters.AddWithValue("@servicottidv", SqlDbType.VarChar).Value = Obj.servicottidv;
-            cmd.Parameters.AddWithValue("@s_nomeservico", SqlDbType.VarChar).Value = Obj.s_nomeservico;
-            cmd.Parameters.AddWithValue("@s_preco", SqlDbType.Float).Value = Obj.s_preco;
-            cmd.Parameters.AddWithValue("@s_comissao", SqlDbType.Float).Value = Obj.s_comissao;
-            cmd.Parameters.AddWithValue("@s_net", SqlDbType.Float).Value = Obj.s_net;
-            cmd.Parameters.AddWithValue("@s_valorcambio", SqlDbType.Float).Value = Obj.s_valorcambio;
-            cmd.Parameters.AddWithValue("@s_valoreuros", SqlDbType.Float).Value = Obj.s_valoreuros;
-            cmd.Parameters.AddWithValue("@s_quantidade", SqlDbType.TinyInt).Value = Obj.s_quantidade;
-            cmd.Parameters.AddWithValue("@s_unidades", SqlDbType.TinyInt).Value = Obj.s_unidades;
-            cmd.Parameters.AddWithValue("@s_margemvenda", SqlDbType.Float).Value = Obj.s_margemvenda;
-            cmd.Parameters.AddWithValue("@s_markup", SqlDbType.Float).Value = Obj.s_markup;
-            cmd.Parameters.AddWithValue("@s_pagamento", SqlDbType.VarChar).Value = Obj.s_pagamento;
-            cmd.Parameters.AddWithValue("@s_datapagamento", SqlDbType.DateTime).Value = Obj.s_datapagamento;
-            cmd.Parameters.AddWithValue("@s_numeropessoas", SqlDbType.TinyInt).Value = Obj.s_numeropessoas;
-            cmd.Parameters.AddWithValue("@s_valortotalpvp", SqlDbType.Float).Value = Obj.s_valortotalpvp;
-            cmd.Parameters.AddWithValue("@s_valorporpessoapvp", SqlDbType.Float).Value = Obj.s_valorporpessoapvp;
-            cmd.Parameters.AddWithValue("@s_observacoes", SqlDbType.VarChar).Value = Obj.s_observacoes;
-
-
-
-
-
-            servicos newObject = new servicos();
-
-
-            try
+            if (ServicoTT.Insert(Serv))
             {
-                conn.Open();
-
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                if (reader.HasRows)
-                {
-
-                    while (reader.Read())
-                    {
-
-                        newObject.servicoidv = reader.GetString(0);
-                        newObject.orcamentoidv = reader.GetString(1);
-                        newObject.fornecedoridv = reader.GetString(2);
-                        newObject.ivaidv = reader.GetString(3);
-                        newObject.tipocustoidv = reader.GetString(4);
-                        newObject.cambioidv = reader.GetString(5);
-                        newObject.servicottidv = reader.GetString(6);
-                        newObject.s_nomeservico = reader.GetString(7);
-                        newObject.s_preco = reader.GetDouble(8);
-                        newObject.s_comissao = reader.GetDouble(9);
-                        newObject.s_net = reader.GetDouble(10);
-                        newObject.s_valorcambio = reader.GetDouble(11);
-                        newObject.s_valoreuros = reader.GetDouble(12);
-                        newObject.s_quantidade = reader.GetInt32(13);
-                        newObject.s_unidades = reader.GetInt32(14);
-                        newObject.s_margemvenda = reader.GetDouble(15);
-                        newObject.s_markup = reader.GetDouble(16);
-                        newObject.s_pagamento = reader.GetString(17);
-                        newObject.s_datapagamento = reader.GetDateTime(18);
-                        newObject.s_numeropessoas = reader.GetInt32(19);
-                        newObject.s_valortotalpvp = reader.GetDouble(20);
-                        newObject.s_valorporpessoapvp = reader.GetDouble(21);
-                        newObject.@s_observacoes = reader.GetString(22);
-
-
-
-
-
-                        return newObject;
-
-                    }
-
-                }
+                return Serv;
             }
-            catch (Exception ex)
-            {
-                throw new Exception("Execption adding account. " + ex.Message);
-            }
-            finally
-            {
-                conn.Close();
-            }
-            return newObject;
+
+            return Serv;
+
+
         }
 
         //DELETES
