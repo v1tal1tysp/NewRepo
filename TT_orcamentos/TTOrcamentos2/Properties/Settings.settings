@@ -10,7 +10,7 @@
       <Value Profile="(Default)">Data Source=DESKTOP-JESP6Q0\SQLEXPRESS;Initial Catalog=tgprbd;Integrated Security=True;</Value>
     </Setting>
     <Setting Name="PastaDocumentos" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">F:\data\</Value>
+      <Value Profile="(Default)">C:\Users\slavi.popov\backup\</Value>
     </Setting>
   </Settings>
 </SettingsFile>
