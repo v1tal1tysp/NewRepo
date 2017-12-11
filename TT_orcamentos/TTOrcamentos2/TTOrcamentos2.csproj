@@ -261,6 +261,7 @@
     <Compile Include="Models\SPs\GetProjecto.cs" />
     <Compile Include="Models\User\User.cs" />
     <Compile Include="Models\voosList.cs" />
+    <Compile Include="Model\Alojamento.cs" />
     <Compile Include="Model\Cambio.cs" />
     <Compile Include="Model\City.cs" />
     <Compile Include="Model\Country.cs" />
