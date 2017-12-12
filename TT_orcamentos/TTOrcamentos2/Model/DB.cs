@@ -33,6 +33,6 @@ namespace TTOrcamentos2.Model {
         static public IMongoCollection<Diarias> Diarias { get; set; } = Database.GetCollection<Diarias>("Diarias");
         static public IMongoCollection<ServicoTT> ServicoTT { get; set; } = Database.GetCollection<ServicoTT>("ServicoTT");
         static public IMongoCollection<Alojamento> Alojamento { get; set; } = Database.GetCollection<Alojamento>("Alojamento");
-        Alojamento
+        
     }
 }
