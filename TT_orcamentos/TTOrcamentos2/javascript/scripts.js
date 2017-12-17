@@ -1695,7 +1695,7 @@ function InsertTableAlojamentoHotel(hotelname, valueID) {
     $.each(quartosArr, function (index, obj) {
         if (obj.predefenido == true) {
 
-            table += "<td><img class='rmvAlojType " + (index + 1) + "' src='img/remove.png' alt='remover'><input type='text' value='" + obj.q_nome + "' class='form-control AlojTableType'><input type='hidden' value='" + obj.capacidade + "' class='form-control AlojNPax  " + obj.quartoidv + "'></td>";
+            table += "<td><img class='rmvAlojType " + (index + 1) + "' src='img/remove.png' alt='remover'><input type='text' value='" + obj.name + "' class='form-control AlojTableType'><input type='hidden' value='" + obj.capacidade + "' class='form-control AlojNPax  " + obj.Id + "'></td>";
         }
     });
     table += "<td><img class='AddIcon AlojamentoTipos " + cnt + "' src='" + res5 + "' alt='Guardar'></td></tr>";
