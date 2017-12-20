@@ -8,12 +8,17 @@ using System.Linq;
 namespace TTOrcamentos2.Model {
     public class Ivas {
         [BsonId]
+
         public ObjectId Id { get; set; }
         public string name { get; set; }
+        public int inId { get; set; }
 
-        public Ivas(string name)
+
+
+        public Ivas(string name, int InIdt)
         {
             this.name = name;
+            this.inId = InIdt + 1;
         }
 
 
@@ -39,7 +44,10 @@ namespace TTOrcamentos2.Model {
         {
             try
             {
-                Ivas cntr = new Ivas(name);
+
+                var t = GetAll();
+                int val = t.Count();
+                Ivas cntr = new Ivas(name, val);
                 DB.Ivas.InsertOne(cntr);
 
                 return true;

@@ -57,7 +57,11 @@
         <asp:HiddenField ID="HiddenTiposIva" runat="server" />
         <asp:HiddenField ID="HiddenTipoCustos" runat="server" />
         <asp:HiddenField ID="HiddenPaises" runat="server" />
-       
+        <asp:HiddenField ID="HiddenServicosTTTipos" runat="server" />
+        <asp:HiddenField ID="BundleConfigs" runat="server" />
+         <asp:HiddenField ID="HiddenTipoFornecedor" runat="server" />
+
+        
 
         <div class="ProjectForm">
 <!-- Menu.-->

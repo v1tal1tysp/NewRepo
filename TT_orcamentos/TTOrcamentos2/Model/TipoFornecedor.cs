@@ -1,4 +1,5 @@
 ﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -7,12 +8,15 @@ using System.Web;
 
 namespace TTOrcamentos2.Model {
     public class TipoFornecedor {
+        [BsonId]
         public ObjectId id { get; set; }
+        public int inId { get; set; }
         public string name { get; set; }
 
-        public TipoFornecedor(string name)
+        public TipoFornecedor(string name,int InIdt)
         {
             this.name = name;
+            this.inId = InIdt + 1;
         }
 
 
@@ -21,7 +25,10 @@ namespace TTOrcamentos2.Model {
         {
             try
             {
-                TipoFornecedor cntr = new TipoFornecedor(name);
+                var t = GetAll();
+                int val = t.Count();
+
+                TipoFornecedor cntr = new TipoFornecedor(name, val);
                 DB.TipoFornecedor.InsertOne(cntr);
 
                 return true;

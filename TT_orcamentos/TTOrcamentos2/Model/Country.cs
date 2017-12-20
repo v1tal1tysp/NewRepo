@@ -7,12 +7,14 @@ using System.Web;
 namespace TTOrcamentos2.Model {
     public class Country {
         public ObjectId id { get; set; }
+        public int inId { get; set; }
         public string name { get; set; }
 
 
-        public Country(string name)
+        public Country(string name, int InIdt)
         {
             this.name = name;
+            this.inId = InIdt + 1;
         }
 
 
@@ -38,7 +40,11 @@ namespace TTOrcamentos2.Model {
         {
             try
             {
-                Country cntr = new Country(name);
+                var t = GetAll();
+                int val = t.Count();
+
+
+                Country cntr = new Country(name, val);
                 DB.Country.InsertOne(cntr);
 
                 return true;

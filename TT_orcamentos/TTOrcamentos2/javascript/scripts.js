@@ -757,7 +757,15 @@ function LoadingProjecto(id, IdOrc) {
     projectID = id;
 
     GetProjectoFiles(projectID);
-    $("#ProjectEstado").val(obj.estadoidv);
+
+    var tteste = obj.estado.Name;
+
+    var inId = obj.estado.inId;
+    $("#ProjectEstado option:selected").val(inId);
+    $("#ProjectEstado option:selected").text(tteste);
+    var combo = $("#ProjectEstado")
+
+
     $("#ProjectoSigav").val(obj.sigav);
     $("#ProjectName").val(obj.Nome);
     $("#ProjectoFornecedor").val(obj.Cliente);
@@ -829,7 +837,7 @@ function LoadingOrcamentos(id, IdOrcOut) {
 
             var orcamentoidv = obj.Id;
             var projectoidv = obj.projectoidv;
-            var estadoidv = obj.estado.Id;
+            var estadoidv = obj.estado.inId;
             var tipoivaidv = obj.tipoivaidv.Id;
             var ivaidv = obj.ivaidv.Id;
             var cambioidv = obj.cambioidv.Id;
@@ -4171,130 +4179,84 @@ $(document).ready(function () {
 
 function loadPageAuxTables() {
 
-    $.get('api/Postman/getAllServicosTT_Tipos',
-    function (returnedData) {
-        var items = JSON.parse(returnedData);
-
-        $.each(items, function (idx, el) {
-            var id = el.Id;
-            var nome = el.name;
-            $("#ServicosTipoServico").append($("<option />").val(id).text(nome));
-        });
 
 
-        returnedData = null;
-    }).fail(function () {
-        console.log("Erro ao fazer ao carregar os getAllEstados!");
+    var items = JSON.parse($("#HiddenServicosTTTipos").val());
+    
+    $.each(items, function (idx, el) {
+        var id = el.inId;
+        var nome = el.name;
+        $("#ServicosTipoServico").append($("<option />").val(id).text(nome));
     });
 
 
-    $.get('api/Postman/getAllEstados',
-        function (returnedData) {
-            var items = JSON.parse(returnedData);
 
-            $.each(items, function (idx, el) {
-                var id = el.inId;
-                var nome = el.Name;
-                $(".EstadosSelect").append($("<option />").val(id).text(nome));
-            });
-
-
-            returnedData = null;
-        }).fail(function () {
-            console.log("Erro ao fazer ao carregar os getAllEstados!");
-        });
-
-
-    $.get('api/Postman/getAllQuartos',
-            function (returnedData) {
-                $("#quartos").val(returnedData);
-                returnedData = null;
-            }).fail(function () {
-                console.log("Erro ao fazer ao carregar os getAllQuartos!");
-            });
-
-
-    $.get('api/Postman/getAllCambios',
-        function (returnedData) {
-            var items = JSON.parse(returnedData);
-            $.each(items, function (idx, el) {
-                var id = el.Id;
-                var nome = el.name
-                var valor = el.value;
-                $(".moneyCtrl").append($("<option />").val(id + "-" + valor).text(nome));
-            });
-            returnedData = null;
-        }).fail(function () {
-            console.log("Erro ao fazer ao carregar os getAllCambios!");
-        });
-
-    $.get('api/Postman/getAllIvas',
-        function (returnedData) {
-            var items = JSON.parse(returnedData);
-            $.each(items, function (idx, el) {
-                var id = el.Id;
-                var nome = el.name;
-                $(".IVA").append($("<option />").val(id).text(nome));
-            });
-            returnedData = null;
-        }).fail(function () {
-            console.log("Erro ao fazer ao carregar os getAllIvas!");
-        });
-
-    $.get('api/Postman/getAllTiposIva',
-        function (returnedData) {
-            var items = JSON.parse(returnedData);
-            $.each(items, function (idx, el) {
-                var id = el.Id;
-                var nome = el.name;
-                $(".TipoIVA").append($("<option />").val(id).text(nome));
-            });
-            returnedData = null;
-        }).fail(function () {
-            console.log("Erro ao fazer ao carregar os getAllTiposIva!");
-        });
-
-    $.get('api/Postman/getAllTipoCustos',
-        function (returnedData) {
-            resp = JSON.parse(returnedData);
-
-            $.each(resp, function (idx, el) {
-                var id = el.id;
-                var nome = el.name;
-                $(".TipoServico").append($("<option />").val(id).text(nome));
-            });
-            returnedData = null;
-        }).fail(function () {
-            console.log("Erro ao fazer ao carregar os getAllTipoCustos!");
-        });
-    $.get('api/Postman/getAllPaises',
-        function (returnedData) {
-            resp = JSON.parse(returnedData);
-            $.each(resp, function (idx, el) {
-                var id = el.id;
-                var nome = el.name;
-                $(".Pais").append($("<option />").val(id).text(nome));
-            });
-
-            returnedData = null;
-        }).fail(function () {
-            console.log("Erro ao fazer ao carregar os getAllPaises!");
-        });
-
-
-    $.get('api/Postman/getAllTipoFornecedores',
-    function (returnedData) {
-        resp = JSON.parse(returnedData);
-        $.each(resp, function (idx, el) {
-            var id = el.id;
-            var nome = el.name;
-            $(".FornecedorTipoTerceiro").append($("<option />").val(id).text(nome));
-        });
-
-        returnedData = null;
-    }).fail(function () {
-        console.log("Erro ao fazer ao carregar os getAllPaises!");
+    var jsonEstados = JSON.parse($("#BundleConfigs").val());
+    
+    $.each(jsonEstados, function (idx, el) {
+        var id = el.inId;
+        var nome = el.Name;
+        $(".EstadosSelect").append($("<option />").val(id).text(nome));
     });
+
+    
+
+    var jsonTiposIvas = JSON.parse($("#HiddenTiposIva").val());
+
+    $.each(jsonTiposIvas, function (idx, el) {
+        var id = el.inId;
+        var nome = el.name;
+        $(".TipoIVA").append($("<option />").val(id).text(nome));
+    });
+
+    
+
+    var jsonIvas = JSON.parse($("#HiddenIvas").val());
+    $.each(jsonIvas, function (idx, el) {
+        var id = el.inId;
+        var nome = el.name;
+        $(".IVA").append($("<option />").val(id).text(nome));
+    });
+
+
+    
+    var Jsoncambios = JSON.parse($("#HiddenCambios").val());
+
+    $.each(Jsoncambios, function (idx, el) {
+        var id = el.inId;
+        var nome = el.name
+        var valor = el.value;
+        $(".moneyCtrl").append($("<option />").val(id + "-" + valor).text(nome));
+    });
+
+
+
+    resp = JSON.parse($("#HiddenTipoCustos").val());
+
+    $.each(resp, function (idx, el) {
+        var id = el.inId;
+        var nome = el.name;
+        $(".TipoServico").append($("<option />").val(id).text(nome));
+    });
+
+
+    
+    resp = JSON.parse($("#HiddenPaises").val());
+    $.each(resp, function (idx, el) {
+        var id = el.inId;
+        var nome = el.name;
+        $(".Pais").append($("<option />").val(id).text(nome));
+    });
+
+
+    
+    resp = JSON.parse($("#HiddenTipoFornecedor").val());
+    $.each(resp, function (idx, el) {
+        var id = el.inId;
+        var nome = el.name;
+        $(".FornecedorTipoTerceiro").append($("<option />").val(id).text(nome));
+    });
+
 
 
 

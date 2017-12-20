@@ -17,6 +17,8 @@ namespace TT_orcamentos
             if (t != null && t.Username != "")
             {
 
+                loadPageAux();
+
                 string projectid = Request.QueryString["ID"];
                 string orcamento = Request.QueryString["IDorc"];
 
@@ -42,9 +44,10 @@ namespace TT_orcamentos
 
 
 
-                    
+                   
 
-                    
+
+
                     if (orcamento != null)
                     {
                         //Alojamento
@@ -78,6 +81,46 @@ namespace TT_orcamentos
                 Response.Redirect("login.aspx", true);
         }
 
+        private void loadPageAux()
+        {
 
+            var estados = Estado.GetAll();
+            BundleConfigs.Value = JsonConvert.SerializeObject(estados);
+
+
+            var tipoivas = Tipo_Iva.GetAll();
+            HiddenTiposIva.Value = JsonConvert.SerializeObject(tipoivas);
+
+
+
+            var tipoServicosTT_Tipos = ServicosTT_Tipos.GetAll();
+            HiddenServicosTTTipos.Value = JsonConvert.SerializeObject(tipoServicosTT_Tipos);
+
+
+            var quartost = Quartos.GetAll();
+            quartos.Value  =  JsonConvert.SerializeObject(quartost);
+
+
+            var tdivas = Ivas.GetAll();
+            HiddenIvas.Value = JsonConvert.SerializeObject(tdivas);
+
+
+            var tdCambios = Cambio.GetAll();
+            HiddenCambios.Value = JsonConvert.SerializeObject(tdCambios);
+
+
+            var tdTypeOfCost = TypeOfCost.GetAll();
+            HiddenTipoCustos.Value = JsonConvert.SerializeObject(tdTypeOfCost);
+
+            var tdCountry = Country.GetAll();
+            HiddenPaises.Value = JsonConvert.SerializeObject(tdCountry);
+
+
+            var tdTiposForne = TipoFornecedor.GetAll();
+            HiddenTipoFornecedor.Value = JsonConvert.SerializeObject(tdTiposForne);
+            
+
+
+        }
     }
 }

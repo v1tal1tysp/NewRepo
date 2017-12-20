@@ -14,10 +14,10 @@ namespace TTOrcamentos2.Model {
         public int inId { get; set; }
         public string Name { get; set; }
 
-        public Estado(string name, int InId)
+        public Estado(string name, int InIdt)
         {
             this.Name = name;
-            this.inId = inId + 1;
+            this.inId = InIdt + 1;
         }
 
         public static bool Insert(string name)
@@ -28,8 +28,15 @@ namespace TTOrcamentos2.Model {
 
             try
             {
+
+
                 Estado cntr = new Estado(name,val);
+
+                var test = cntr;
                 DB.Estado.InsertOne(cntr);
+
+                
+
 
                 return true;
             }
@@ -78,7 +85,7 @@ namespace TTOrcamentos2.Model {
             }
             catch (Exception e)
             {
-                throw new Exception("Erro Inserir Estado" + e.ToString());
+                throw new Exception("Erro Getall Estado" + e.ToString());
             }
         }
 

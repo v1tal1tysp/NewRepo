@@ -356,7 +356,7 @@ namespace TTOrcamentos2.Controllers
             {
                 ObjList = Ivas.GetAll();
 
-                return JsonConvert.SerializeObject(ObjList); ;
+                return JsonConvert.SerializeObject(ObjList); 
             }
             catch (Exception ex)
             {

@@ -1,4 +1,5 @@
 ﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -6,13 +7,16 @@ using System.Linq;
 using System.Web;
 namespace TTOrcamentos2.Model {
     public class TypeOfCost {
+        [BsonId]
         public ObjectId id { get; set; }
+        public int inId { get; set; }
         public string name { get; set; }
 
 
-        public TypeOfCost(string name)
+        public TypeOfCost(string name,int InIdt)
         {
             this.name = name;
+            this.inId = InIdt + 1;
         }
 
         public static TypeOfCost Get(string name)
@@ -36,7 +40,9 @@ namespace TTOrcamentos2.Model {
         {
             try
             {
-                TypeOfCost newuser = new TypeOfCost(name);
+                var t = GetAll();
+                int val = t.Count();
+                TypeOfCost newuser = new TypeOfCost(name, val);
                 DB.TypeOfCost.InsertOne(newuser);
 
                 return true;
@@ -87,7 +93,7 @@ namespace TTOrcamentos2.Model {
             catch (Exception e)
             {
 
-                throw new Exception("Erro Inserir Utilizador" + e.ToString());
+                throw new Exception("Erro Inserir TypeOfCost" + e.ToString());
             }
         }
     }

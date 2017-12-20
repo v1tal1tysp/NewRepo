@@ -76,6 +76,33 @@ namespace TT_orcamentos {
         protected global::System.Web.UI.WebControls.HiddenField HiddenPaises;
         
         /// <summary>
+        /// HiddenServicosTTTipos control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField HiddenServicosTTTipos;
+        
+        /// <summary>
+        /// BundleConfigs control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField BundleConfigs;
+        
+        /// <summary>
+        /// HiddenTipoFornecedor control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField HiddenTipoFornecedor;
+        
+        /// <summary>
         /// ProjectoHidden control.
         /// </summary>
         /// <remarks>

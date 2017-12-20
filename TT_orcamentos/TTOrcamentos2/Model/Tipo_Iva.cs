@@ -9,11 +9,13 @@ namespace TTOrcamentos2.Model {
     public class Tipo_Iva {
         [BsonId]
         public ObjectId Id { get; set; }
+        public int inId { get; set; }
         public string name { get; set; }
 
-        public Tipo_Iva(string name)
+        public Tipo_Iva(string name, int InIdt)
         {
             this.name = name;
+            this.inId = InIdt + 1;
         }
 
 
@@ -39,7 +41,11 @@ namespace TTOrcamentos2.Model {
         {
             try
             {
-                Tipo_Iva cntr = new Tipo_Iva(name);
+                var t = GetAll();
+                int val = t.Count();
+
+
+                Tipo_Iva cntr = new Tipo_Iva(name, val);
                 DB.Tipo_Iva.InsertOne(cntr);
 
                 return true;

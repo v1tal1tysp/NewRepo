@@ -10,13 +10,15 @@ namespace TTOrcamentos2.Model {
     public class Cambio {
         [BsonId]
         public ObjectId Id { get; set; }
+        public int inId { get; set; }
         public string name { get; set; }
         public double value { get; set; }
 
-        public Cambio(string name, double value)
+        public Cambio(string name, double value, int InIdt)
         {
             this.name = name;
             this.value = value;
+            this.inId = InIdt + 1;
         }
 
 
@@ -42,7 +44,9 @@ namespace TTOrcamentos2.Model {
         {
             try
             {
-                Cambio cntr = new Cambio(name, value);
+                var t = GetAll();
+                int val = t.Count();
+                Cambio cntr = new Cambio(name, value, val);
                 DB.Cambio.InsertOne(cntr);
 
                 return true;

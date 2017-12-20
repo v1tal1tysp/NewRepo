@@ -8,12 +8,14 @@ using System.Web;
 namespace TTOrcamentos2.Model {
     public class ServicosTT_Tipos {
         public ObjectId Id { get; set; }
+        public int inId { get; set; }
         public string name { get; set; }
 
 
-        public ServicosTT_Tipos(string name)
+        public ServicosTT_Tipos(string name, int InIdt)
         {
             this.name = name;
+            this.inId = InIdt + 1;
         }
 
 
@@ -39,7 +41,13 @@ namespace TTOrcamentos2.Model {
         {
             try
             {
-                ServicosTT_Tipos cntr = new ServicosTT_Tipos(name);
+
+                var t = GetAll();
+                int val = t.Count();
+
+
+
+                ServicosTT_Tipos cntr = new ServicosTT_Tipos(name, val);
                 DB.ServicosTT_Tipos.InsertOne(cntr);
 
                 return true;
