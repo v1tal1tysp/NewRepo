@@ -17,10 +17,10 @@ namespace TTOrcamentos2
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            //loadFunc();
+            
             if (IsPostBack)
             {
-                
+                loadFunc();
                 if (Usename.Value != "" && Password.Value != "")
                 {
                     Users T = Api.Login(Usename.Value, Password.Value);
@@ -39,7 +39,15 @@ namespace TTOrcamentos2
         public void loadFunc()
         {
 
+            Estado.Insert("Criado");
+            Estado.Insert("Em desenvolvimento");
+            Estado.Insert("Em analise");
+            Estado.Insert("Em reformulação");
+            Estado.Insert("Ganho");
+            Estado.Insert("Perdido");
 
+
+            /*
 
             var t = "{\"_id\":ObjectId(\"5a2fc92b565c8cbca8863954\"),\"Hotelname\":\"teste\",\"OrcamentoId\":\"5a2c406c565c8c2438ca6721\",\"quartosId\":[1,2,3],\"acordo\":{\"cambio\":{\"_id\":ObjectId(\"000000000000000000000000\"),\"name\":\"EUR\",\"value\":1.0},\"AlmocoIncluido\":false,\"Iva\":{\"_id\":ObjectId(\"000000000000000000000000\"),\"name\":\"teste\"},\"markup\":5.1,\"net\":4.1,\"margem\":2.1,\"Comissao\":4.6,\"TipoIva\":{\"_id\":ObjectId(\"000000000000000000000000\"),\"name\":\"TipoIva\"},\"Observaçoes\":\"Observaçoes\"},\"Dias\":[{\"Data\":ISODate(\"2017-12-13T12:18:43.157Z\"),\"definicao\":{\"nome\":\"1\",\"numero\":1}},{\"Data\":ISODate(\"2017-12-14T12:18:43.157Z\"),\"definicao\":{\"nome\":\"2\",\"numero\":2}}]}";
 
@@ -48,7 +56,7 @@ namespace TTOrcamentos2
 
             JObject json = JObject.Parse(str);
 
-            // var result = JsonConvert.DeserializeObject<Alojamento>(json);
+             var result = JsonConvert.DeserializeObject<Alojamento>(json);
             Alojamento f = json.ToObject<Alojamento>();
 
             var test = "";

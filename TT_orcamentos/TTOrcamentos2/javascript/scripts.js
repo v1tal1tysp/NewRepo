@@ -4193,7 +4193,7 @@ function loadPageAuxTables() {
             var items = JSON.parse(returnedData);
 
             $.each(items, function (idx, el) {
-                var id = el.Id;
+                var id = el.inId;
                 var nome = el.Name;
                 $(".EstadosSelect").append($("<option />").val(id).text(nome));
             });

@@ -11,18 +11,24 @@ namespace TTOrcamentos2.Model {
 
         [BsonId]
         public ObjectId Id { get; set; }
+        public int inId { get; set; }
         public string Name { get; set; }
 
-        public Estado(string name)
+        public Estado(string name, int InId)
         {
             this.Name = name;
+            this.inId = inId + 1;
         }
 
         public static bool Insert(string name)
         {
+
+            var t = GetAll();
+            int val = t.Count();
+
             try
             {
-                Estado cntr = new Estado(name);
+                Estado cntr = new Estado(name,val);
                 DB.Estado.InsertOne(cntr);
 
                 return true;
