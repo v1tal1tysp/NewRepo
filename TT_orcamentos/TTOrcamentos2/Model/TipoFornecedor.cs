@@ -25,6 +25,7 @@ namespace TTOrcamentos2.Model {
         {
             try
             {
+
                 var t = GetAll();
                 int val = t.Count();
 

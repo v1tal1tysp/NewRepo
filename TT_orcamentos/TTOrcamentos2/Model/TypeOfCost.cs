@@ -11,7 +11,7 @@ namespace TTOrcamentos2.Model {
         public ObjectId id { get; set; }
         public int inId { get; set; }
         public string name { get; set; }
-
+         
 
         public TypeOfCost(string name,int InIdt)
         {

@@ -17,7 +17,7 @@ namespace TTOrcamentos2.Model {
             this.name = name;
             this.inId = InIdt + 1;
         }
-
+         
 
         public static ServicosTT_Tipos Get(string name)
         {

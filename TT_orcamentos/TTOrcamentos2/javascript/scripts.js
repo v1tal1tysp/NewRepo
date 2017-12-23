@@ -105,10 +105,10 @@ $(".AddOrcamentoPe").click(function () {
         "Orcamento": {
             "_id": orcamentoidv,
             "projectoidv": projectoidv,
-            "estado": { "_id": estadoidv, "Name": estadonome },
-            "tipoivaidv": { "_id": tipoivaidv, "name": tipoivanome },
-            "ivaidv": { "_id": ivaidv, "name": ivaidvnome },
-            "cambioidv": { "_id": cambioidv, "name": OrcamentoCambioTXTNome, "value": c_valor },
+            "estado": { "inId": estadoidv, "Name": estadonome },
+            "tipoivaidv": { "inId": tipoivaidv, "name": tipoivanome },
+            "ivaidv": { "inId": ivaidv, "name": ivaidvnome },
+            "cambioidv": { "inId": cambioidv, "name": OrcamentoCambioTXTNome, "value": c_valor },
             "c_valor": c_valor,
             "o_nome": o_nome,
             "o_datacriacao": o_datacriacao,
@@ -247,10 +247,10 @@ function savecurrentProject() {
         "Orcamento": {
             "_id": orcamentoidv,
             "projectoidv": projectoidv,
-            "estado": { "_id": estadoidv, "Name": estadonome },
-            "tipoivaidv": { "_id": tipoivaidv, "name": tipoivanome },
-            "ivaidv": { "_id": ivaidv, "name": ivaidvnome },
-            "cambioidv": { "_id": cambioidv, "name": OrcamentoCambioTXTNome, "value": c_valor },
+            "estado": { "inId": estadoidv, "Name": estadonome },
+            "tipoivaidv": { "inId": tipoivaidv, "name": tipoivanome },
+            "ivaidv": { "inId": ivaidv, "name": ivaidvnome },
+            "cambioidv": { "inId": cambioidv, "name": OrcamentoCambioTXTNome, "value": c_valor },
             "c_valor": c_valor,
             "o_nome": o_nome,
             "o_datacriacao": o_datacriacao,
@@ -272,10 +272,10 @@ function savecurrentProject() {
     var projecto = {
         "ClienteID": ProjectoFornecedorid,
         "id": projectoidv,
-        "estado" : {"_id": Projetoestadoidv, "Name": ProjetoestadoName},
+        "estado": { "inId": Projetoestadoidv, "Name": ProjetoestadoName },
         "projecto": {
             "_id": projectoidv,
-            "estado": { "_id": Projetoestadoidv, "Name": ProjetoestadoName },
+            "estado": { "inId": Projetoestadoidv, "Name": ProjetoestadoName },
             "sigav": Projetosigavidv,
             "Nome": Projetop_nome,
             "descricao": Projetop_descricao,
@@ -761,9 +761,8 @@ function LoadingProjecto(id, IdOrc) {
     var tteste = obj.estado.Name;
 
     var inId = obj.estado.inId;
-    $("#ProjectEstado option:selected").val(inId);
-    $("#ProjectEstado option:selected").text(tteste);
-    var combo = $("#ProjectEstado")
+    $("#ProjectEstado option:contains(" + tteste + ")").attr('selected', 'selected')
+
 
 
     $("#ProjectoSigav").val(obj.sigav);
@@ -838,9 +837,9 @@ function LoadingOrcamentos(id, IdOrcOut) {
             var orcamentoidv = obj.Id;
             var projectoidv = obj.projectoidv;
             var estadoidv = obj.estado.inId;
-            var tipoivaidv = obj.tipoivaidv.Id;
-            var ivaidv = obj.ivaidv.Id;
-            var cambioidv = obj.cambioidv.Id;
+            var tipoivaidv = obj.tipoivaidv.inId;
+            var ivaidv = obj.ivaidv.inId;
+            var cambioidv = obj.cambioidv.inId;
             var o_nome = obj.o_nome;
             var o_datacriacao = obj.o_datacriacao;
             var o_margemvenda = obj.o_margemvenda;
@@ -876,6 +875,11 @@ function LoadingOrcamentos(id, IdOrcOut) {
                 $("#OrcamentoMarkup").val(o_markup);
                 $("#OrcamentoDescricao").val(o_descricao);
                 $("#VersaoActual").val(VersaoActual);
+
+                
+                $("#OrcamentoMoedaCompra option:contains(" + obj.cambioidv.name + ")").attr('selected', 'selected')
+                
+
 
                 $("#VersaoID").text(o_nome);
                 var DataInicioInput = ConvertDateForInput(obj.o_datainicio);

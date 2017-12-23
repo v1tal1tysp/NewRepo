@@ -13,7 +13,7 @@ namespace TTOrcamentos2.Model {
         public int inId { get; set; }
         public string name { get; set; }
         public double value { get; set; }
-
+         
         public Cambio(string name, double value, int InIdt)
         {
             this.name = name;

@@ -19,7 +19,7 @@ namespace TTOrcamentos2.Model {
             this.Name = name;
             this.inId = InIdt + 1;
         }
-
+         
         public static bool Insert(string name)
         {
 
