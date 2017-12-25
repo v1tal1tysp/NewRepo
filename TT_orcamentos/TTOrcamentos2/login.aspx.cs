@@ -20,7 +20,7 @@ namespace TTOrcamentos2
             
             if (IsPostBack)
             {
-                //loadFunc();
+                loadFunc();
                 if (Usename.Value != "" && Password.Value != "")
                 {
                     Users T = Api.Login(Usename.Value, Password.Value);
@@ -38,6 +38,10 @@ namespace TTOrcamentos2
 
         public void loadFunc()
         {
+
+
+
+            /*
             var test = DB.Estado.Indexes;
 
 
@@ -128,7 +132,7 @@ namespace TTOrcamentos2
             Country.Insert("Rússia");
 
 
-
+            */
 
             /*
 
