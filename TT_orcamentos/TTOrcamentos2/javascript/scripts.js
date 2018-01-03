@@ -1661,45 +1661,34 @@ function preencherTabelaAlojamentoLoading(data) {
 }
 
 
+function ReadAlojamento() {
+    //Lista tabelas
+    var tabelas = $(".AlojamentoOverview");
 
+    $.each(tabelas, function (index, tabela) {
+        var hotelname = $(tabela).find(".alojName").innerHTML();
+        var orcaid = OrcamentoID;
+        var quartos = 
+    });
+
+}
 
 
 
 function InsertTableAlojamentoHotel(hotelname, valueID) {
-
     var num_tabs = $("#tabs#tabs ul li").length + 1;
-
-
     /*ICONS*/
-
-
-
     $("#tabs#tabs ul").append(
         "<li><a href='#tab" + num_tabs + "'>" + hotelname + "</a></li>"
     );
-
-
     var days = parseInt($("#OrcamentoNoites").val());
-
     var btnBill = "<button class='GetBill' type='button' style='padding: 0px'><img class='GetIcon 5' src='" + res7 + "' alt='Guardar'></button>";
-
-
     var btn = "<button class='GetBtnFornecedor' type='button' style='padding: 0px'><img class='GetIcon 5' src='" + res6 + "' alt='Guardar'></button>";
-
-
-
     var btnRemove = "<button class='RemoveBtnFornecedor' type='button' style='padding: 0px'><img class='removeFornecedor' src='img/remove.png' alt='remover'></button>";
-
-
     var hidden = "<input type='hidden' class='AlojamentoFornecedorID' value='" + valueID + "' >";
     var cnt = $(".AlojamentoHoteis").children().length + 1;
-
     var data = ConvertDateForInput($("#OrcamentoDataInicio").val());
-
-
     var quartosArr = JSON.parse($("#quartos").val());
-
-
     /*TABLE - FIRST ROW*/
     var table = "<table class='AlojamentoOverview " + cnt + "'><tr><td class='alojName'>" + hotelname + "</td>";
 
