@@ -1668,7 +1668,13 @@ function ReadAlojamento() {
     $.each(tabelas, function (index, tabela) {
         var hotelname = $(tabela).find(".alojName").innerHTML();
         var orcaid = OrcamentoID;
-        var quartos = 
+        //var quartos = 
+
+        var quartos = $(tabela).find(".AlojTableType").val();
+        var quartosValor = $(tabela).find(".AlojNPax").val();
+        var quartosIds = $(tabela).find(".AlojNPax").attr('class').split(' ')[2];
+
+
     });
 
 }
