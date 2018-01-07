@@ -94,6 +94,11 @@ background-color: #e7e7e7;
 
 }
 
+.addSaveBtn{
+        width: 100px;
+    height: 20px;
+}
+
 		ul.ui-tabs-nav{
 			margin: 0px;
 			padding: 0px;

@@ -8,17 +8,19 @@ using System.Web;
 namespace TTOrcamentos2.Model {
     public class Quartos {
         public ObjectId Id { get; set; }
+        public int inId { get; set; }
         public string name { get; set; }
         public int capacidade { get; set; }
         public bool predefenido { get; set; }
 
 
 
-        public Quartos(string name, int capacidade, bool predefenido)
+        public Quartos(string name, int capacidade, bool predefenido, int InIdt)
         {
             this.name = name;
             this.capacidade = capacidade;
             this.predefenido = predefenido;
+            this.inId = InIdt + 1;
         }
 
 
@@ -44,7 +46,9 @@ namespace TTOrcamentos2.Model {
         {
             try
             {
-                Quartos cntr = new Quartos(name, capacidade, predefenido);
+                var t = GetAll();
+                int val = t.Count();
+                Quartos cntr = new Quartos(name, capacidade, predefenido, val);
                 DB.Quartos.InsertOne(cntr);
 
                 return true;

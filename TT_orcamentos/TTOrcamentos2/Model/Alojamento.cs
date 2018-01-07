@@ -105,7 +105,7 @@ namespace TTOrcamentos2.Model {
 
     public class Dias {
         public DateTime Data { get; set; }
-        public def definicao { get; set; }
+        public List<def> definicao { get; set; }
     }
     public class def {
 

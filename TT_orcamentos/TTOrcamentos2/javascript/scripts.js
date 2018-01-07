@@ -1661,18 +1661,59 @@ function preencherTabelaAlojamentoLoading(data) {
 }
 
 
+$('body').on('click', '.addSaveBtn', function () {
+    ReadAlojamento();
+});
+
 function ReadAlojamento() {
     //Lista tabelas
     var tabelas = $(".AlojamentoOverview");
 
-    $.each(tabelas, function (index, tabela) {
-        var hotelname = $(tabela).find(".alojName").innerHTML();
-        var orcaid = OrcamentoID;
-        //var quartos = 
 
-        var quartos = $(tabela).find(".AlojTableType").val();
-        var quartosValor = $(tabela).find(".AlojNPax").val();
-        var quartosIds = $(tabela).find(".AlojNPax").attr('class').split(' ')[2];
+    //TABELAS
+    $.each(tabelas, function (index, tabela) {
+        var hotelname = $(tabela).find(".alojName").html();
+        var orcaid = OrcamentoID;
+
+        var quartosDef = $(tabela).find(".QuartoDev");
+        var arrQuartosID = [];
+
+        //QUARTOS
+        $.each(quartosDef, function (index, qu) {
+           /* var quartoNome = $(qu).find(".AlojTableType").val();
+            var quartosValor = $(qu).find(".AlojNPax").val();*/
+            var quartosIds = $(tabela).find(".AlojNPax").attr('class').split(' ')[2];
+
+            arrQuartosID.push(quartosIds)
+
+
+        });
+
+
+        var Diasrow = $(tabela).find(".AlojDiasTable");
+        //DIAS
+
+        $.each(Diasrow, function (index, d) {
+            var dia = $(d).find(".AlojamentoDateAddVar").val();
+
+            var numbersArr = $(d).find(".AlojTableNumberIn");
+            //ARRAY de NUMEROS INPUTS
+            var arrDias = []
+
+            $.each(numbersArr, function (index, number) {
+                var values = $(number).val();
+
+                var IdQuarto = $(number).attr('class').split(' ')[1];
+
+                var obj = new Object();
+
+                obj.nome = IdQuarto;
+                obj.numero = values;
+                arrDias.push(obj);
+            });
+
+
+        });
 
 
     });
@@ -1702,7 +1743,7 @@ function InsertTableAlojamentoHotel(hotelname, valueID) {
     $.each(quartosArr, function (index, obj) {
         if (obj.predefenido == true) {
 
-            table += "<td><img class='rmvAlojType " + (index + 1) + "' src='img/remove.png' alt='remover'><input type='text' value='" + obj.name + "' class='form-control AlojTableType'><input type='hidden' value='" + obj.capacidade + "' class='form-control AlojNPax  " + obj.Id + "'></td>";
+            table += "<td class='QuartoDev'><img class='rmvAlojType " + (index + 1) + "' src='img/remove.png' alt='remover'><input type='text' value='" + obj.name + "' class='form-control AlojTableType'><input type='hidden' value='" + obj.capacidade + "' class='form-control AlojNPax " + obj.inId + "'></td>";
         }
     });
     table += "<td><img class='AddIcon AlojamentoTipos " + cnt + "' src='" + res5 + "' alt='Guardar'></td></tr>";
@@ -1715,12 +1756,12 @@ function InsertTableAlojamentoHotel(hotelname, valueID) {
         var tomorrow = new Date(data)
         tomorrow.setDate(tomorrow.getDate() + day);
         /*ROW HEAD*/
-        var tr = "<tr class='AlojDiasTable'><td> <input type='date' value='" + ConvertDateForInput(tomorrow) + "' class='form-control' class='AlojamentoDateAddVar'></td>";
+        var tr = "<tr class='AlojDiasTable'><td> <input type='date' value='" + ConvertDateForInput(tomorrow) + "' class='form-control AlojamentoDateAddVar'></td>";
 
         /*ROW Numbers*/
         $.each(quartosArr, function (index, obj) {
             if (obj.predefenido == true) {
-                tr += "<td> <input type='number'  min-value='0' value='0'  class='AlojTableNumberIn " + obj.quartoidv + "' ></td>";
+                tr += "<td> <input type='number'  min-value='0' value='0'  class='AlojTableNumberIn " + obj.inId + "' ></td>";
             }
         });
 
@@ -1956,7 +1997,6 @@ $('#tabs').on('change', '.AlojTableNumberIn', function () {
 
     RefreshAlojTableDias();
 });
-
 
 
 
