@@ -1669,6 +1669,7 @@ function ReadAlojamento() {
     //Lista tabelas
     var tabelas = $(".AlojamentoOverview");
 
+    var result = [];
 
     //TABELAS
     $.each(tabelas, function (index, tabela) {
@@ -1680,22 +1681,20 @@ function ReadAlojamento() {
 
         //QUARTOS
         $.each(quartosDef, function (index, qu) {
-           /* var quartoNome = $(qu).find(".AlojTableType").val();
-            var quartosValor = $(qu).find(".AlojNPax").val();*/
             var quartosIds = $(tabela).find(".AlojNPax").attr('class').split(' ')[2];
-
             arrQuartosID.push(quartosIds)
-
-
         });
 
 
         var Diasrow = $(tabela).find(".AlojDiasTable");
         //DIAS
 
+        var Dias = [];
         $.each(Diasrow, function (index, d) {
             var dia = $(d).find(".AlojamentoDateAddVar").val();
-
+            var obj = new Object();
+            obj.Data = dia;
+            obj.definicao = arrDias;
             var numbersArr = $(d).find(".AlojTableNumberIn");
             //ARRAY de NUMEROS INPUTS
             var arrDias = []
@@ -1711,12 +1710,64 @@ function ReadAlojamento() {
                 obj.numero = values;
                 arrDias.push(obj);
             });
+            obj.Data = dia;
+            obj.definicao = arrDias;
 
-
+            Dias.push(obj);
         });
 
 
+        var VoosCambioName = $("#VoosMoedaCompra option:selected").text();
+        var VoosCambioArr = $("#VoosMoedaCompra option:selected").val();
+        var cambioarray = VoosCambioArr.split('-');
+        var VoosCambioidv = cambioarray[0];
+        var VoosMoedaValor = parseFloat(cambioarray[1]);
+        var VoosIvaName = parseInt($("#VoosIva option:selected").text());
+        var VoosIva = parseInt($("#VoosIva option:selected").val());
+        var VoosTipoIvaName = $("#VoosTipoIva option:selected").text();
+        var VoosTipoIva = $("#VoosTipoIva option:selected").val();
+        var VoosPartida = $("#VoosPartida").val();
+        var VoosDestino = $("#VoosDestino").val();
+        var VoosNomeVoo = $("#VoosNomeVoo").val();
+        var VoosValor = parseFloat($("#VoosValor").val());
+        var VoosCommisao = parseFloat($("#VoosCommisao").val());
+        var VoosNet = parseFloat($("#VoosNet").val());
+        var VoosMargemVenda = parseFloat($("#VoosMargemVenda").val());
+        var VoosTaxaA = parseFloat($("#VoosTaxaA").val());
+        var VoosTaxaB = parseFloat($("#VoosTaxaB").val());
+        var VoosFormaPagemento = $("#VoosFormaPagemento").val();
+        var VoosDataPagamento = ConvertDateForSend($("#VoosDataPagamento").val());
+        var VoosMarkup = parseFloat($("#VoosMarkup").val());
+
+
+
+
+
+
+            var hotel = {
+                "_id" : "",
+                "Hotelname": hotelname,
+                "OrcamentoId": orcaid,
+                "quartosId": arrQuartosID,
+                "acordo" : {
+                    "cambio" : { "_id": VoosCambioidv, "name": VoosCambioName, "value": VoosMoedaValor },
+                    "AlmocoIncluido" : false,
+                    "Iva" : { "_id": VoosIva, "name": VoosCambioName },
+                    "markup" : 5.1,
+                    "net" : 4.1,
+                    "margem" : 2.1,
+                    "Comissao" : 4.6,
+                    "TipoIva" : { "_id": VoosTipoIva, "name": VoosTipoIvaName },
+                    "Observaçoes" : "Observaçoes"
+                },
+                "Dias": Dias
+            }
+
+
+            result.push(hotel);
     });
+
+//    send hotel
 
 }
 
