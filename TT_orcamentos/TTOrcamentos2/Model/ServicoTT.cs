@@ -26,8 +26,6 @@ namespace TTOrcamentos2.Model {
         public int s_unidades { get; set; }
         public double s_margemvenda { get; set; }
         public double s_markup { get; set; }
-        public string s_pagamento { get; set; }
-        public DateTime s_datapagamento { get; set; }
         public int s_numeropessoas { get; set; }
         public double s_valortotalpvp { get; set; }
         public double s_valorporpessoapvp { get; set; }
@@ -36,7 +34,7 @@ namespace TTOrcamentos2.Model {
 
 
 
-        public ServicoTT(string orcamentoidv, string fornecedoridv, string fornecedornome, Ivas ivaidv, TypeOfCost tipocustoidv, Cambio cambioidv, string servicottidv, string s_nomeservico, double s_preco, double s_comissao, double s_net, double s_valorcambio, double s_valoreuros, int s_quantidade, int s_unidades, double s_margemvenda, double s_markup, string s_pagamento, DateTime s_datapagamento, int s_numeropessoas, double s_valortotalpvp, double s_valorporpessoapvp, string s_observacoes)
+        public ServicoTT(string orcamentoidv, string fornecedoridv, string fornecedornome, Ivas ivaidv, TypeOfCost tipocustoidv, Cambio cambioidv, string servicottidv, string s_nomeservico, double s_preco, double s_comissao, double s_net, double s_valorcambio, double s_valoreuros, int s_quantidade, int s_unidades, double s_margemvenda, double s_markup, int s_numeropessoas, double s_valortotalpvp, double s_valorporpessoapvp, string s_observacoes)
         {
             this.orcamentoidv = orcamentoidv;
             this.fornecedoridv = fornecedoridv;
@@ -55,8 +53,6 @@ namespace TTOrcamentos2.Model {
             this.s_unidades = s_unidades;
             this.s_margemvenda = s_margemvenda;
             this.s_markup = s_markup;
-            this.s_pagamento = s_pagamento;
-            this.s_datapagamento = s_datapagamento;
             this.s_numeropessoas = s_numeropessoas;
             this.s_valortotalpvp = s_valortotalpvp;
             this.s_valorporpessoapvp = s_valorporpessoapvp;
@@ -83,11 +79,11 @@ namespace TTOrcamentos2.Model {
             }
         }
 
-        public static bool Insert(string orcamentoidv, string fornecedoridv, string fornecedornome, Ivas ivaidv, TypeOfCost tipocustoidv, Cambio cambioidv, string servicottidv, string s_nomeservico, double s_preco, double s_comissao, double s_net, double s_valorcambio, double s_valoreuros, int s_quantidade, int s_unidades, double s_margemvenda, double s_markup, string s_pagamento, DateTime s_datapagamento, int s_numeropessoas, double s_valortotalpvp, double s_valorporpessoapvp, string s_observacoes)
+        public static bool Insert(string orcamentoidv, string fornecedoridv, string fornecedornome, Ivas ivaidv, TypeOfCost tipocustoidv, Cambio cambioidv, string servicottidv, string s_nomeservico, double s_preco, double s_comissao, double s_net, double s_valorcambio, double s_valoreuros, int s_quantidade, int s_unidades, double s_margemvenda, double s_markup, int s_numeropessoas, double s_valortotalpvp, double s_valorporpessoapvp, string s_observacoes)
         {
             try
             {
-                ServicoTT cntr = new ServicoTT(orcamentoidv, fornecedoridv, fornecedornome, ivaidv, tipocustoidv, cambioidv, servicottidv, s_nomeservico, s_preco, s_comissao, s_net, s_valorcambio, s_valoreuros, s_quantidade, s_unidades, s_margemvenda, s_markup, s_pagamento, s_datapagamento, s_numeropessoas, s_valortotalpvp, s_valorporpessoapvp, s_observacoes);
+                ServicoTT cntr = new ServicoTT(orcamentoidv, fornecedoridv, fornecedornome, ivaidv, tipocustoidv, cambioidv, servicottidv, s_nomeservico, s_preco, s_comissao, s_net, s_valorcambio, s_valoreuros, s_quantidade, s_unidades, s_margemvenda, s_markup, s_numeropessoas, s_valortotalpvp, s_valorporpessoapvp, s_observacoes);
                 DB.ServicoTT.InsertOne(cntr);
 
                 return true;

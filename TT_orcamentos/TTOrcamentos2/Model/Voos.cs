@@ -32,11 +32,9 @@ namespace TTOrcamentos2.Model {
         public int v_disponibilidade { get; set; }
         public double v_valortotalpvp { get; set; }
         public double v_valorporpessoapvp { get; set; }
-        public string v_pagamento { get; set; }
-        public DateTime v_datapagamento { get; set; }
 
 
-        public Voos(string orcamentoidv, string fornecedoridv, string VoosFornecedor, Cambio cambioidv, Ivas ivaidv, TypeOfCost tipocustoidv, string v_partida, string v_destino, string v_nomevoo, double v_preco, double v_comissao, double v_net, double v_valorcambio, double v_valoreuros, double v_margemvenda, double v_markup, double v_taxaA, double v_taxaB, int v_numeropessoas, int v_disponibilidade, double v_valortotalpvp, double v_valorporpessoapvp, string v_pagamento, DateTime v_datapagamento)
+        public Voos(string orcamentoidv, string fornecedoridv, string VoosFornecedor, Cambio cambioidv, Ivas ivaidv, TypeOfCost tipocustoidv, string v_partida, string v_destino, string v_nomevoo, double v_preco, double v_comissao, double v_net, double v_valorcambio, double v_valoreuros, double v_margemvenda, double v_markup, double v_taxaA, double v_taxaB, int v_numeropessoas, int v_disponibilidade, double v_valortotalpvp, double v_valorporpessoapvp)
         {
             this.orcamentoidv = orcamentoidv;
             this.fornecedoridv = fornecedoridv;
@@ -60,8 +58,6 @@ namespace TTOrcamentos2.Model {
             this.v_disponibilidade = v_disponibilidade;
             this.v_valortotalpvp = v_valortotalpvp;
             this.v_valorporpessoapvp = v_valorporpessoapvp;
-            this.v_pagamento = v_pagamento;
-            this.v_datapagamento = v_datapagamento;
         }
 
 
@@ -84,11 +80,11 @@ namespace TTOrcamentos2.Model {
             }
         }
 
-        public static bool Insert(string orcamentoidv, string fornecedoridv, string VoosFornecedor, Cambio cambioidv, Ivas ivaidv, TypeOfCost tipocustoidv, string v_partida, string v_destino, string v_nomevoo, double v_preco, double v_comissao, double v_net, double v_valorcambio, double v_valoreuros, double v_margemvenda, double v_markup, double v_taxaA, double v_taxaB, int v_numeropessoas, int v_disponibilidade, double v_valortotalpvp, double v_valorporpessoapvp, string v_pagamento, DateTime v_datapagamento)
+        public static bool Insert(string orcamentoidv, string fornecedoridv, string VoosFornecedor, Cambio cambioidv, Ivas ivaidv, TypeOfCost tipocustoidv, string v_partida, string v_destino, string v_nomevoo, double v_preco, double v_comissao, double v_net, double v_valorcambio, double v_valoreuros, double v_margemvenda, double v_markup, double v_taxaA, double v_taxaB, int v_numeropessoas, int v_disponibilidade, double v_valortotalpvp, double v_valorporpessoapvp)
         {
             try
             {
-                Voos cntr = new Voos(orcamentoidv, fornecedoridv, VoosFornecedor, cambioidv, ivaidv, tipocustoidv, v_partida, v_destino, v_nomevoo, v_preco, v_comissao, v_net,  v_valorcambio,  v_valoreuros,  v_margemvenda, v_markup,  v_taxaA,  v_taxaB,  v_numeropessoas,  v_disponibilidade, v_valortotalpvp, v_valorporpessoapvp, v_pagamento, v_datapagamento);
+                Voos cntr = new Voos(orcamentoidv, fornecedoridv, VoosFornecedor, cambioidv, ivaidv, tipocustoidv, v_partida, v_destino, v_nomevoo, v_preco, v_comissao, v_net,  v_valorcambio,  v_valoreuros,  v_margemvenda, v_markup,  v_taxaA,  v_taxaB,  v_numeropessoas,  v_disponibilidade, v_valortotalpvp, v_valorporpessoapvp);
                 DB.Voos.InsertOne(cntr);
 
                 return true;

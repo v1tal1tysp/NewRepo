@@ -25,25 +25,6 @@ var InputId;
 
 var form_modified = false;
 
-$(document).on('change', 'select', function () {
-    var name = this.name;
-    form_modified = true;
-});
-
-$(document).on('change keypress', 'input', function () {
-    var name = this.name;
-    var val = this.value;
-    form_modified = true;
-
-});
-
-$(document).on('input', function () {
-    var name = this.name;
-    var val = this.value;
-    form_modified = true;
-
-});
-
 var ListafornecedoresGBL = [];
 
 
@@ -167,8 +148,6 @@ $("#SaveNewOrcamento").click(function () {
 
 });
 
-
-
 function savecurrentProject() {
 
     /*PROJETO*/
@@ -289,460 +268,10 @@ function savecurrentProject() {
             "NomeContacto": ProjectoNomeContacto
         }
     };
-
-
     InsertProjectoInicial(projecto, orcamento);
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function savecurrentProjectOLD() {
-
-    /*
-    Alojamento
-        orcamento
-        data
-        fornecedor
-    
-    
-    
-     */
-
-
-    if (CompleteSave === true) {
-
-        var listAlojamento = $("#AlojamentoRecords tr");
-        var alojamentoss = [];
-
-
-        for (var x = 1; x < listAlojamento.length ; x++) {
-
-            var rec = $(listAlojamento[x]).children();
-            var len = $(rec).length;
-
-            if (len === 14) {
-                var idv = $(rec[1]).find(".HiddenRecordId").val();
-                var fornecedoridv = $(rec[1]).find(".HiddenRecordIdFornecedor").val();
-                var quartoIdv = $(rec[1]).find(".HiddenRecordQuartoIdv").val();
-                var cambioidv = $(rec[1]).find(".HiddenRecordCambioIdv").val();
-                var Ivaidv = $(rec[1]).find(".HiddenRecordIvaIdv").val();
-                var tipocustoidv = $(rec[1]).find(".HiddenRecordTipocustoidv").val();
-                var net = $(rec[1]).find(".HiddenRecordNet").val();
-                var Markup = $(rec[1]).find(".HiddenRecordMarkup").val();
-                var APagameto = $(rec[1]).find(".HiddenRecordAPagamento").val();
-                var ADataPagameto = $(rec[1]).find(".HiddenRecordADATAPagamento").val();
-                var valorCambio = $(rec[1]).find(".HiddenRecordValorCambio").val();
-                var Nnoites = parseInt($(rec[3]).text());
-                var Unidades = $(rec[4]).find(".smNumInput").val();
-                var tipologia = parseInt($(rec[2]).text());
-                var margem = parseFloat($(rec[5]).find(".smNumInput").val());
-                var commisao = parseFloat($(rec[6]).find(".smNumInput").val());
-                var totalCusto = parseFloat($(rec[7]).text().replace(',', ''));
-                var totalCustoPax = parseFloat($(rec[8]).text().replace(',', ''));
-                var TotalVenda = parseFloat($(rec[9]).text().replace(',', ''));
-                var TotalPax = parseFloat($(rec[10]).text().replace(',', ''));
-                var Observacoes = $(rec[11]).text();
-
-
-                var ht = $(rec[2]).html();
-                var valorEur;
-                var valorExterno;
-                if (ht.indexOf("</br>") < 0) {
-                    valorEur = parseFloat($(rec[2]).text().replace(',', ''));
-                    valorExterno = valorEur;
-                }
-                else {
-                    var strs = ht.split("</br>");
-
-                    valorEur = parseFloat($(strs[1]).text().replace(',', ''));
-                    valorExterno = parseFloat($(strs[0]).text().replace(',', ''));
-
-                }
-            }
-            else {
-
-
-                var idv = $(rec[0]).find(".HiddenRecordId").val();
-                var fornecedoridv = $(rec[0]).find(".HiddenRecordIdFornecedor").val();
-                var quartoIdv = $(rec[0]).find(".HiddenRecordQuartoIdv").val();
-                var cambioidv = $(rec[0]).find(".HiddenRecordCambioIdv").val();
-                var Ivaidv = $(rec[0]).find(".HiddenRecordIvaIdv").val();
-                var tipocustoidv = $(rec[0]).find(".HiddenRecordTipocustoidv").val();
-                var net = $(rec[0]).find(".HiddenRecordNet").val();
-                var Markup = $(rec[0]).find(".HiddenRecordMarkup").val();
-                var APagameto = $(rec[0]).find(".HiddenRecordAPagamento").val();
-                var ADataPagameto = $(rec[0]).find(".HiddenRecordADATAPagamento").val();
-                var valorCambio = $(rec[0]).find(".HiddenRecordValorCambio").val();
-
-
-                var Nnoites = parseInt($(rec[2]).text());
-                var Unidades = $(rec[3]).find(".smNumInput").val();
-                var tipologia = parseInt($(rec[0]).text());
-                var margem = parseFloat($(rec[4]).find(".smNumInput").val());
-                var commisao = parseFloat($(rec[5]).find(".smNumInput").val());
-                var totalCusto = parseFloat($(rec[6]).text().replace(',', ''));
-                var totalCustoPax = parseFloat($(rec[7]).text().replace(',', ''));
-                var TotalVenda = parseFloat($(rec[8]).text().replace(',', ''));
-                var TotalPax = parseFloat($(rec[9]).text().replace(',', ''));
-                var Observacoes = parseFloat($(rec[10]).text().replace(',', ''));
-
-
-                var ht = $(rec[1]).html();
-                var valorEur;
-                var valorExterno;
-                if (ht.indexOf("</br>") < 0) {
-                    valorEur = parseFloat($(rec[1]).text().replace(',', ''));
-                    valorExterno = valorEur;
-                }
-                else {
-                    var strs = ht.split("</br>");
-
-                    valorEur = parseFloat($(strs[1]).text().replace(',', ''));
-                    valorExterno = parseFloat($(strs[0]).text().replace(',', ''));
-
-                }
-
-            }
-
-
-
-
-
-            var alojamento = {
-                "orcamentoidv": OrcamentoID,
-                "alojamentoidv": idv,
-                "fornecedoridv": fornecedoridv,
-                "quartoidv": quartoIdv,
-                "cambioidv": cambioidv,
-                "ivaidv": Ivaidv,
-                "tipocustoidv": tipocustoidv,
-                "a_preco": valorExterno,
-                "a_comissao": commisao,
-                "a_net": net,
-                "a_valorcambio": valorCambio,
-                "a_valoreuros": valorEur,
-                "a_numeronoites": Nnoites,
-                "a_margemvenda": margem,
-                "a_markup": Markup,
-                "a_pagamento": APagameto,
-                "a_datapagamento": ADataPagameto,
-                "a_numeroquartos": Unidades,
-                "a_numeropessoas": Unidades * quartoIdv,
-                "a_valortotalpvp": totalCusto,
-                "a_valorporpessoapvp": totalCustoPax,
-                "a_observacoes": Observacoes,
-                "a_opcao": 1
-            };
-
-
-            alojamentoss.push(alojamento);
-        }
-
-        var JsonAlojamentos = JSON.stringify(alojamentoss);
-
-        $.post('http://www.touchgroup.com/sgtt/cfc/main.cfc?method=insertAlojamentoVarios', { ALOJAMENTOS: JsonAlojamentos },
-            function (returnedData) {
-                var sended = alojamentoss;
-                var obj = returnedData;
-                obj = null;
-            }).fail(function (e) {
-                console.log("error");
-            });
-
-
-
-
-        /*VOOS */
-        var listaVoos = $("#VoosRecords tr");
-        var myarrVooRecs = [];
-
-        for (var i = 1; i < listaVoos.length; i++) {
-
-            var rec = $(listaVoos[i]).children();
-
-            var idv = $(rec[0]).find(".HiddenRecordId").val();
-            var fornecedoridv = $(rec[0]).find(".HiddenRecordIdFornecedor").val();
-            var cambioidv = $(rec[0]).find(".HiddenRecordCambioIdv").val();
-            var Ivaidv = $(rec[0]).find(".HiddenRecordIvaIdv").val();
-            var tipocustoidv = $(rec[0]).find(".HiddenRecordTipocustoidv").val();
-            var net = parseFloat($(rec[0]).find(".HiddenRecordNet").val());
-            var Markup = parseFloat($(rec[0]).find(".HiddenRecordMarkup").val());
-            var APagameto = $(rec[0]).find(".HiddenRecordAPagamento").val();
-            var ADataPagameto = ConvertDateForSend($(rec[0]).find(".HiddenRecordADATAPagamento").val());
-            var valorCambio = parseFloat($(rec[0]).find(".HiddenRecordValorCambio").val());
-            var TAXAA = parseFloat($(rec[0]).find(".HiddenRecordTAXAA").val());
-            var TAXAB = parseFloat($(rec[0]).find(".HiddenRecordTAXAB").val());
-            var DISPONIBILIDADE = parseInt($(rec[0]).find(".HiddenRecordDISPONIBILIDADE").val());
-            var NomeVoo = $(rec[0]).find(".HiddenRecordNomeVoo").val();
-            var nomevooarr = NomeVoo.split("<br>");
-            var Nnoites = parseInt($(rec[3]).text());
-            var Unidades = parseInt($(rec[4]).find(".smNumInput").val());
-            var NomeDirecao = $(rec[1]).text();
-            var nomeArr = NomeDirecao.split("-");
-            var partida = nomeArr[0];
-            var destino = nomeArr[1];
-            var margem = parseFloat($(rec[5]).find(".smNumInput").val());
-            var commisao = parseFloat($(rec[0]).find(".HiddenRecordCOMISSAO").val());
-            var totalCusto = parseFloat($(rec[6]).text().replace(',', ''));
-            var totalCustoPax = parseFloat($(rec[7]).text().replace(',', ''));
-            var TotalVenda = parseFloat($(rec[8]).text().replace(',', ''));
-            var TotalPax = parseFloat($(rec[9]).text().replace(',', ''));
-            var Lucro = parseFloat($(rec[10]).text().replace(',', ''));
-            var ht = $(rec[2]).html();
-            var valorEur;
-            var valorExterno;
-            if (ht.indexOf("</br>") < 0) {
-                valorEur = parseFloat($(rec[2]).text().replace(',', ''));
-                valorExterno = valorEur;
-            }
-            else {
-                var strs = ht.split("</br>");
-                valorEur = parseFloat($(strs[1]).text().replace(',', ''));
-                valorExterno = parseFloat($(strs[0]).text().replace(',', ''));
-            }
-
-
-
-            var vooRec = {
-                "vooidv": idv,
-                "orcamentoidv": OrcamentoID,
-                "fornecedoridv": fornecedoridv,
-                "cambioidv": cambioidv,
-                "ivaidv": Ivaidv,
-                "tipocustoidv": tipocustoidv,
-                "v_partida": partida,
-                "v_destino": destino,
-                "v_nomevoo": NomeVoo,
-                "v_preco": valorExterno,
-                "v_comissao": commisao,
-                "v_net": net,
-                "v_valorcambio": valorCambio,
-                "v_valoreuros": TotalVenda,
-                "v_margemvenda": margem,
-                "v_markup": Markup,
-                "v_taxaA": TAXAA,
-                "v_taxaB": TAXAB,
-                "v_numeropessoas": Unidades,
-                "v_disponibilidade": DISPONIBILIDADE,
-                "v_valortotalpvp": totalCusto,
-                "v_valorporpessoapvp": totalCustoPax,
-                "v_pagamento": APagameto,
-                "v_datapagamento": ADataPagameto
-            }
-
-            $.post('http://www.touchgroup.com/sgtt/cfc/main.cfc?method=insertVoo', vooRec,
-                function (returnedData) {
-                    var obj = JSON.parse(returnedData);
-
-                    obj = null;
-                }).fail(function () {
-                    console.log("error");
-                });
-
-
-
-
-        }
-
-
-
-        /*DIARIAS */
-
-        var dataDiariaArr = [];
-
-        var listaDiarias = $("#DiariaVerRecords tr");
-        for (var i = 1; i < listaDiarias.length; i++) {
-
-            var rec = $(listaDiarias[i]).children();
-
-            var DiariaIdv = $(rec[0]).find(".HiddenRecordId").val();
-            var DiariaCambioidv = $(rec[0]).find(".HiddenRecordCambioIdv").val();
-            var DiariaFornecedorID = $(rec[0]).find(".HiddenRecordIdFornecedor").val();
-            var ServicosTipoServicoID = $(rec[0]).find(".HiddenRecordtipoServicoIdv").val();
-            var DiariaComisao = parseFloat($(rec[0]).find(".HiddenRecordDiariaComisao").val());
-            var DiariaCambioValor = parseFloat($(rec[0]).find(".HiddenRecordCambioValor").val());
-            var DiariaMarkup = parseFloat($(rec[0]).find(".HiddenRecordMarkup").val());
-
-            var ht = $(rec[2]).html();
-            var valorEur;
-            var valorExterno;
-            if (ht.indexOf("</br>") < 0) {
-                valorEur = parseFloat($(rec[2]).text().replace(',', ''));
-                valorExterno = valorEur;
-            }
-            else {
-                var strs = ht.split("</br>");
-                valorEur = parseFloat($(strs[1]).text().replace(',', ''));
-                valorExterno = parseFloat($(strs[0]).text().replace(',', ''));
-            }
-
-
-            var DiariaNet = $(rec[0]).find(".HiddenRecordNet").val();
-            var DiariaMargem = parseFloat($(rec[5]).find(".smNumInput").val());
-            var DiariaIva = parseFloat($(rec[0]).find(".HiddenRecordIvaIdv").val());
-            var DiariaObservaçoes = $(rec[11]).text();
-            var DiariaNomeServico = $(rec[1]).text();
-            var DiariaQuantidade = parseInt($(rec[3]).text());
-            var DiariaPagamento = $(rec[0]).find(".HiddenRecordAPagamento").val();
-            var DiariaPagamentoData = ConvertDateForSend($(rec[0]).find(".HiddenRecordADATAPagamento").val());
-
-            var Str = $(rec[0]).text();
-            var strarr = Str.split("-");
-            var StrDt = strarr[1];
-            var DiariaData = ConvertDateForSend(new Date.parse(StrDt));
-
-
-            var TotalVendaPax = parseFloat($(rec[9]).text().replace(',', ''));
-            var totalCusto = parseFloat($(rec[6]).text().replace(',', ''));
-            var totalCustoPax = parseFloat($(rec[7]).text().replace(',', ''));
-            var TotalVenda = parseFloat($(rec[8]).text().replace(',', ''));
-
-
-            var Unidades = parseInt($(rec[4]).find(".smNumInput").val());
-
-
-
-            dataDiaria = {
-                "diariaidv": DiariaIdv,
-                "orcamentoidv": OrcamentoID,
-                "fornecedoridv": DiariaFornecedorID,
-                "ivaidv": DiariaIva,
-                "tipocustoidv": "4",
-                "cambioidv": DiariaCambioidv,
-                "d_nomeservico": DiariaNomeServico,
-                "d_data": DiariaData,
-                "d_preco": valorExterno,
-                "d_comissao": DiariaComisao,
-                "d_net": DiariaNet,
-                "d_valorcambio": DiariaCambioValor,
-                "d_valoreuros": valorEur,
-                "d_quantidade": DiariaQuantidade,
-                "d_unidades": Unidades,
-                "d_margemvenda": DiariaMargem,
-                "d_markup": DiariaMarkup,
-                "d_pagamento": DiariaPagamento,
-                "d_datapagamento": DiariaPagamentoData,
-                "d_numeropessoas": Unidades,
-                "d_valortotalpvp": totalCusto,
-                "d_valorporpessoapvp": totalCustoPax,
-                "d_observacoes": DiariaObservaçoes,
-            }
-
-
-            $.post('http://www.touchgroup.com/sgtt/cfc/main.cfc?method=insertDiaria', dataDiaria,
-                function (returnedData) {
-                    var obj = returnedData;
-                    obj = null;
-                }).fail(function () {
-                    console.log("error");
-                });
-        }
-
-
-
-
-
-        /*SERVICOS */
-        var listServicos = $("#ServicosRecords tr");
-        var listEnvioServicos = [];
-        for (var x = 1; x < listServicos.length ; x++) {
-
-            var rec = $(listServicos[x]).children();
-
-            var ServicosCambioidv = $(rec[0]).find(".HiddenRecordCambioIdv").val();
-            var ServicosIdv = $(rec[0]).find(".HiddenRecordId").val();
-            var ServicosFornecedorID = $(rec[0]).find(".HiddenRecordIdFornecedor").val();
-            var ServicosTipoServicoID = $(rec[0]).find(".HiddenRecordtipoServicoIdv").val();
-            var ServicosComisao = parseFloat($(rec[0]).find(".HiddenRecordServicosComisao").val());
-            var CambioValor = parseFloat($(rec[0]).find(".HiddenRecordCambioValor").val());
-            var ServicosMarkup = parseFloat($(rec[0]).find(".HiddenRecordMarkup").val());
-
-            var ht = $(rec[2]).html();
-            var valorEur;
-            var valorExterno;
-            if (ht.indexOf("</br>") < 0) {
-                valorEur = parseFloat($(rec[2]).text().replace(',', ''));
-                valorExterno = valorEur;
-            }
-            else {
-                var strs = ht.split("</br>");
-                valorEur = parseFloat($(strs[1]).text().replace(',', ''));
-                valorExterno = parseFloat($(strs[0]).text().replace(',', ''));
-            }
-
-
-            var ServicosNet = $(rec[0]).find(".HiddenRecordNet").val();
-            var ServicosMargem = parseFloat($(rec[5]).find(".smNumInput").val());
-            var ServicosIva = parseFloat($(rec[0]).find(".HiddenRecordIvaIdv").val());
-            var ServicosObservacoes = $(rec[11]).text();
-            var ServicosTipoServico = $(rec[1]).text();
-            var ServicosQuantidade = parseInt($(rec[3]).text());
-            var ServicoPagamento = $(rec[0]).find(".HiddenRecordAPagamento").val();
-            var ServicosData = ConvertDateForSend($(rec[0]).find(".HiddenRecordADATAPagamento").val());
-            var TotalVendaPax = parseFloat($(rec[9]).text().replace(',', ''));
-            var totalCusto = parseFloat($(rec[6]).text().replace(',', ''));
-            var totalCustoPax = parseFloat($(rec[7]).text().replace(',', ''));
-            var TotalVenda = parseFloat($(rec[8]).text().replace(',', ''));
-
-
-            var Unidades = $(rec[4]).find(".smNumInput").val();
-
-
-
-            dataServicos = {
-                "servicoidv": ServicosIdv,
-                "orcamentoidv": OrcamentoID,
-                "fornecedoridv": ServicosFornecedorID,
-                "ivaidv": ServicosIva,
-                "tipocustoidv": "6",
-                "cambioidv": ServicosCambioidv,
-                "servicottidv": ServicosTipoServicoID,
-                "s_nomeservico": ServicosTipoServico,
-                "s_preco": valorExterno,
-                "s_comissao": ServicosComisao,
-                "s_net": ServicosNet,
-                "s_valorcambio": CambioValor,
-                "s_valoreuros": valorEur,
-                "s_quantidade": ServicosQuantidade,
-                "s_unidades": Unidades,
-                "s_margemvenda": ServicosMargem,
-                "s_markup": ServicosMarkup,
-                "s_pagamento": ServicoPagamento,
-                "s_datapagamento": ServicosData,
-                "s_numeropessoas": Unidades,
-                "s_valortotalpvp": totalCusto,
-                "s_valorporpessoapvp": totalCustoPax,
-                "s_observacoes": ServicosObservacoes
-            }
-
-
-            $.post('http://www.touchgroup.com/sgtt/cfc/main.cfc?method=insertServico', dataServicos,
-                function (returnedData) {
-                    var obj = returnedData;
-                    obj = null;
-                }).fail(function () {
-                    console.log("error");
-                });
-
-        }
-
-    }
-
-}
-
 
 
 function LoadingProjecto(id, IdOrc) {
@@ -894,7 +423,7 @@ function LoadingOrcamentos(id, IdOrcOut) {
 
                 peBOOL = pe;
                 LoadRecords(OrcamentoID);
-                UpdateTabelaResume();
+                
                 $(".AddOrcamentoBtn").css("display", "block");
 
             }
@@ -920,12 +449,6 @@ function LoadingOrcamentos(id, IdOrcOut) {
     }
 
 }
-
-
-
-
-
-
 
 
 function LoadRecords(idOrca) {
@@ -1073,8 +596,7 @@ function preencherTabelaServicosLoading(data) {
         var ServicosQuantidade = parseInt(el.s_quantidade);
         var ServicosUnidades = parseInt(el.s_unidades);
         var ValorTotal = el.s_valoreuros;
-        /*var ServicoPagamento = $("#ServicoPagamento").val();
-        var ServicosData = ConvertDateForSend($("#ServicosData").val());*/
+   
 
         var str = "";
 
@@ -1416,286 +938,117 @@ function preencherTabelaVoosLoading(data) {
 
 }
 function preencherTabelaAlojamentoLoading(data) {
-
+    var btnBill = "<button class='GetBill' type='button' style='padding: 0px'><img class='GetIcon 5' src='" + res7 + "' alt='Guardar'></button>";
+    var btn = "<button class='GetBtnFornecedor' type='button' style='padding: 0px'><img class='GetIcon 5' src='" + res6 + "' alt='Guardar'></button>";
+    var btnRemove = "<button class='RemoveBtnFornecedor' type='button' style='padding: 0px'><img class='removeFornecedor' src='img/remove.png' alt='remover'></button>";
+        $("#tabs").tabs();
+    
     var uniqueNames = [];
     var ListaJson = [];
-    $.each(data, function (i, el) {
-        if ($.inArray(el.fornecedoridv, uniqueNames) === -1) {
-            ListaJson.push({ "Hotel": el.fornecedoridv, "alojamentos": [] })
-            uniqueNames.push(el.fornecedoridv);
-        }
-    });
+   
 
+    $.each(data, function (i, Tabela) {
+        var num_tabs = $("#tabs#tabs ul li").length + 1;
+        $("#tabs#tabs ul").append("<li><a href='#tab" + num_tabs + "'>" + Tabela.Hotelname + "</a></li>");
+        var hiddenIDInterno = "<input type='hidden' class='AlojamentoID' value='" + Tabela.Id + "' >";
+        var hidden = "<input type='hidden' class='AlojamentoFornecedorID' value='" + Tabela.Fornecedor + "' >";
+        var jsonAcordo = JSON.stringify(Tabela.acordo);
+        var hiddenAcordo = "<input type='hidden' class='hiddenAlojamentoAcordo' value='" + jsonAcordo + "' >";
+        
+        /*TABLE - FIRST ROW*/
+        var table = "<table class='AlojamentoOverview " + i + "'><tr><td class='alojName'>" + Tabela.Hotelname + "</td>";
+        /*<TD>  QUARTOS*/
+        $.each(Tabela.quartos, function (index, obj) {
+            table += "<td class='QuartoDev'><img class='rmvAlojType " + (index + 1) + "' src='img/remove.png' alt='remover'><input type='text' value='" + obj.nome + "' class='form-control AlojTableType'><input type='hidden' value='" + obj.capacidade + "' class='form-control AlojNPax'></td>";    
+        });
+        /*<TD>  AddIcon*/
+        table += "<td><img class='AddIcon AlojamentoTipos " + i + "' src='" + res5 + "' alt='Guardar'></td></tr>";
 
+        /*TABLE - Day Rows*/
+        $.each(Tabela.Dias, function (index, obj) {
+            /*ROW HEAD*/
+            var tr = "<tr class='AlojDiasTable'><td> <input type='date' value='" + ConvertDateForInput(obj.Data) + "' class='form-control AlojamentoDateAddVar'></td>";
 
-    $.each(data, function (index, el) {
-        for (var x = 0 ; x < uniqueNames.length; x++) {
-            var fornecedorunico = uniqueNames[x];
-            var fornecedoraloj = el.fornecedoridv;
-            if (fornecedorunico === fornecedoraloj) {
-                var alojson = {
-                    "alojamentoidv": el.alojamentoidv
-                    , "f_nome": el.f_nome
-                    , "fornecedoridv": el.fornecedoridv
-                    , "quartoidv": el.quartoidv
-                    , "cambioidv": el.cambioidv
-                    , "a_valoreuros": el.a_valoreuros
-                    , "a_numeronoites": el.a_numeronoites
-                    , "a_margemvenda": el.a_margemvenda
-                    , "a_numeroquartos": el.a_numeroquartos
-                    , "a_valortotalpvp": el.a_valortotalpvp
-                    , "a_valorporpessoapvp": el.a_valorporpessoapvp
-                    , "q_nome": el.q_nome
-                    , "c_nome": el.c_nome
-                    , "a_preco": el.a_preco
-                    , "a_observacoes": el.a_observacoes
-                    , "a_valorcambio": el.a_valorcambio
-                    , "a_comissao": el.a_comissao
-                    , "i_taxa": el.i_taxa
-                    , "a_numeropessoas": el.a_numeropessoas
-                    , "ivaidv": el.ivaidv
-                    , "tipocustoidv": el.tipocustoidv
-                    , "a_net": el.a_net
-                    , "a_markup": el.a_markup
-                    , "a_pagamento": el.a_pagamento
-                    , "a_datapagamento": el.a_datapagamento
-                }
+            /*ROW Numbers*/
+            $.each(obj.definicao, function (index, def) {
+                tr += "<td> <input type='number'  min-value='0' value='" + def.numero + "'  class='AlojTableNumberIn " + def.nome + "' ></td>";
+            });
 
-                ListaJson[x]["alojamentos"].push(alojson);
-            }
-        }
-    });
-
-
-    $.each(ListaJson, function (index) {
-
-        $.each(ListaJson[index]["alojamentos"], function (index2) {
-
-
-            var alojamentoidv = ListaJson[index]["alojamentos"][index2]["alojamentoidv"];
-            var f_nome = ListaJson[index]["alojamentos"][index2]["f_nome"];
-            var fornecedoridv = ListaJson[index]["alojamentos"][index2]["fornecedoridv"];
-            var quartoidv = ListaJson[index]["alojamentos"][index2]["quartoidv"];
-            var cambioidv = ListaJson[index]["alojamentos"][index2]["cambioidv"];
-            var a_valoreuros = ListaJson[index]["alojamentos"][index2]["a_valoreuros"];
-            var a_numeronoites = ListaJson[index]["alojamentos"][index2]["a_numeronoites"];
-            var a_margemvenda = ListaJson[index]["alojamentos"][index2]["a_margemvenda"];
-            var a_numeroquartos = ListaJson[index]["alojamentos"][index2]["a_numeroquartos"];
-            var a_valortotalpvp = ListaJson[index]["alojamentos"][index2]["a_valortotalpvp"];
-            var a_valorporpessoapvp = ListaJson[index]["alojamentos"][index2]["a_valorporpessoapvp"];
-            var q_nome = ListaJson[index]["alojamentos"][index2]["q_nome"];
-            var c_nome = ListaJson[index]["alojamentos"][index2]["c_nome"];
-
-            var a_preco = ListaJson[index]["alojamentos"][index2]["a_preco"];
-            var a_observacoes = ListaJson[index]["alojamentos"][index2]["a_observacoes"];
-            var a_valorcambio = ListaJson[index]["alojamentos"][index2]["a_valorcambio"];
-            var a_comissao = ListaJson[index]["alojamentos"][index2]["a_comissao"];
-            var i_taxa = ListaJson[index]["alojamentos"][index2]["i_taxa"];
-            var a_numeropessoas = ListaJson[index]["alojamentos"][index2]["a_numeropessoas"];
-            var ivaidv = ListaJson[index]["alojamentos"][index2]["ivaidv"];
-            var tipocustoidv = ListaJson[index]["alojamentos"][index2]["tipocustoidv"];
-            var a_net = ListaJson[index]["alojamentos"][index2]["a_net"];
-
-            var a_markup = ListaJson[index]["alojamentos"][index2]["a_markup"];
-            var a_pagamento = ListaJson[index]["alojamentos"][index2]["a_pagamento"];
-            var a_datapagamento = ListaJson[index]["alojamentos"][index2]["a_datapagamento"];
-
-            var str = "";
-
-            if (c_nome === "EUR") {
-                str = a_preco + '/' + c_nome;
-            }
-            else {
-                str = a_preco + '/' + c_nome + '</br>' + (a_preco / a_valorcambio).formatMoney(2, '.', ',') + '/' + 'EUR';
-            }
-
-            var len = ListaJson[index]["alojamentos"].length;
-
-            insertTabelaFornecedores(fornecedoridv, f_nome, a_pagamento, a_datapagamento, a_valortotalpvp);
-
-            if (index2 === 0) {
-
-                $('#AlojamentoRecords tr:last').after('<tr>' +
-                    '<td rowspan="' + len + '">' + f_nome + '</td>' +
-                    '<td><input type="hidden" class="HiddenRecordId" value="' + alojamentoidv + '">' +
-                     '<input type="hidden" class="HiddenRecordIdFornecedor" value="' + fornecedoridv + '">' +
-                     '<input type="hidden" class="HiddenRecordQuartoIdv" value="' + quartoidv + '">' +
-                     '<input type="hidden" class="HiddenRecordCambioIdv" value="' + cambioidv + '">' +
-                     '<input type="hidden" class="HiddenRecordIvaIdv" value="' + ivaidv + '">' +
-                     '<input type="hidden" class="HiddenRecordTipocustoidv" value="' + tipocustoidv + '">' +
-                     '<input type="hidden" class="HiddenRecordNet" value="' + a_net + '">' +
-                     '<input type="hidden" class="HiddenRecordObs" value="' + a_observacoes + '">' +
-                     '<input type="hidden" class="HiddenRecordMarkup" value="' + a_markup + '">' +
-                     '<input type="hidden" class="HiddenRecordAPagamento" value="' + a_pagamento + '">' +
-                     '<input type="hidden" class="HiddenRecordADATAPagamento" value="' + a_datapagamento + '">' +
-                     '<input type="hidden" class="HiddenRecordValorCambio" value="' + a_valorcambio + '">' + '</br>' + q_nome + '</td>' +
-                    '<td>' + str + '</td>' +
-                    '<td>' + a_numeronoites + '</td>' +
-                    '<td><input type="number" class="smNumInput" value="' + parseInt(a_numeroquartos) + '"></td>' +
-                    '<td><input type="number"  class="smNumInput" min="0" step=0.01 value="' + parseFloat(a_margemvenda) + '">%</td>' +
-                    '<td><input type="number" class="smNumInput" value="' + parseFloat(a_comissao) + '"></td>' +
-                    '<td>' + parseFloat(a_valortotalpvp) + '</td>' +
-                    '<td>' + parseFloat(a_valorporpessoapvp) + '</td>' +
-                    '<td>' + parseFloat(a_valoreuros) + '</td>' +
-                    '<td>' + 0 + '</td>' +
-                    '<td>' + 0 + '</td>' +
-                    '<td>' + '<img class="InfoObs" src="' + res4 + '" alt="Guardar">' +
-                    '</td>' +
-                    '<td class="OpIcons">' +
-                    '<img class=" " src="' + res + '" alt="saved">' +
-                    '<img class="SaveRecAloj" src="' + res2 + '" alt="Guardar">' +
-                    '<img class="rmvRecord" src="' + res3 + '" alt="remover">' +
-                    '</td>' +
-                    '</tr>');
-
-                $('#AlojamentoVerRecords tr:last').after('<tr>' +
-                    '<td rowspan="' + len + '">' + f_nome + '</td>' +
-                    '<td><input type="hidden" class="HiddenRecordId" value="' + alojamentoidv + '">' +
-                     '<input type="hidden" class="HiddenRecordIdFornecedor" value="' + fornecedoridv + '">' +
-                     '<input type="hidden" class="HiddenRecordQuartoIdv" value="' + quartoidv + '">' +
-                     '<input type="hidden" class="HiddenRecordCambioIdv" value="' + cambioidv + '">' +
-                     '<input type="hidden" class="HiddenRecordIvaIdv" value="' + ivaidv + '">' +
-                     '<input type="hidden" class="HiddenRecordTipocustoidv" value="' + tipocustoidv + '">' +
-                     '<input type="hidden" class="HiddenRecordNet" value="' + a_net + '">' +
-                     '<input type="hidden" class="HiddenRecordObs" value="' + a_observacoes + '">' +
-                     '<input type="hidden" class="HiddenRecordMarkup" value="' + a_markup + '">' +
-                     '<input type="hidden" class="HiddenRecordAPagamento" value="' + a_pagamento + '">' +
-                     '<input type="hidden" class="HiddenRecordADATAPagamento" value="' + a_datapagamento + '">' +
-                     '<input type="hidden" class="HiddenRecordValorCambio" value="' + a_valorcambio + '">' + '</br>' + q_nome + '</td>' +
-                    '<td>' + str + '</td>' +
-                    '<td>' + a_numeronoites + '</td>' +
-                    '<td><input type="number" class="smNumInput" value="' + parseInt(a_numeroquartos) + '"></td>' +
-                    '<td><input type="number"  class="smNumInput" min="0" step=0.01 value="' + parseFloat(a_margemvenda) + '">%</td>' +
-                    '<td><input type="number" class="smNumInput" value="' + parseFloat(a_comissao) + '"></td>' +
-                    '<td>' + parseFloat(a_valortotalpvp) + '</td>' +
-                    '<td>' + parseFloat(a_valorporpessoapvp) + '</td>' +
-                    '<td>' + parseFloat(a_valoreuros) + '</td>' +
-                    '<td>' + 0 + '</td>' +
-                    '<td>' + 0 + '</td>' +
-                    '<td>' + '<img class="InfoObs" src="' + res4 + '" alt="Guardar">' +
-                    '</td>' +
-                    '<td class="OpIcons">' +
-                    '<img class=" " src="' + res + '" alt="saved">' +
-                    '<img class="SaveRecAloj" src="' + res2 + '" alt="Guardar">' +
-                    '<img class="rmvRecord" src="' + res3 + '" alt="remover">' +
-                    '</td>' +
-                    '</tr>');
-            }
-            else {
-                $('#AlojamentoRecords tr:last').after('<tr>' +
-                    '<td><input type="hidden" class="HiddenRecordId" value="' + alojamentoidv + '">' +
-                     '<input type="hidden" class="HiddenRecordIdFornecedor" value="' + fornecedoridv + '">' +
-                     '<input type="hidden" class="HiddenRecordQuartoIdv" value="' + quartoidv + '">' +
-                     '<input type="hidden" class="HiddenRecordCambioIdv" value="' + cambioidv + '">' +
-                     '<input type="hidden" class="HiddenRecordIvaIdv" value="' + ivaidv + '">' +
-                     '<input type="hidden" class="HiddenRecordTipocustoidv" value="' + tipocustoidv + '">' +
-                     '<input type="hidden" class="HiddenRecordNet" value="' + a_net + '">' +
-                     '<input type="hidden" class="HiddenRecordObs" value="' + a_observacoes + '">' +
-                     '<input type="hidden" class="HiddenRecordMarkup" value="' + a_markup + '">' +
-                     '<input type="hidden" class="HiddenRecordAPagamento" value="' + a_pagamento + '">' +
-                     '<input type="hidden" class="HiddenRecordADATAPagamento" value="' + a_datapagamento + '">' +
-                     '<input type="hidden" class="HiddenRecordValorCambio" value="' + a_valorcambio + '">' + '</br>' + q_nome + '</td>' +
-                    '<td>' + str + '</td>' +
-                    '<td>' + a_numeronoites + '</td>' +
-                    '<td><input type="number" class="smNumInput" value="' + parseInt(a_numeroquartos) + '"></td>' +
-                    '<td><input type="number"  class="smNumInput" min="0" step=0.01 value="' + parseFloat(a_margemvenda) + '">%</td>' +
-                    '<td><input type="number" class="smNumInput" value="' + parseFloat(a_comissao) + '"></td>' +
-                    '<td>' + parseFloat(a_valortotalpvp) + '</td>' +
-                    '<td>' + parseFloat(a_valorporpessoapvp) + '</td>' +
-                    '<td>' + parseFloat(a_valoreuros) + '</td>' +
-                    '<td>' + 0 + '</td>' +
-                    '<td>' + 0 + '</td>' +
-                    '<td>' + '<img class="InfoObs" src="' + res4 + '" alt="Guardar">' +
-                    '</td>' +
-                    '<td class="OpIcons">' +
-                    '<img class=" " src="' + res + '" alt="saved">' +
-                    '<img class="SaveRecAloj" src="' + res2 + '" alt="Guardar">' +
-                    '<img class="rmvRecord" src="' + res3 + '" alt="remover">' +
-                    '</td>' +
-                    '</tr>');
-
-
-
-
-                $('#AlojamentoVerRecords tr:last').after('<tr>' +
-                    '<td><input type="hidden" class="HiddenRecordId" value="' + alojamentoidv + '">' +
-                     '<input type="hidden" class="HiddenRecordIdFornecedor" value="' + fornecedoridv + '">' +
-                     '<input type="hidden" class="HiddenRecordQuartoIdv" value="' + quartoidv + '">' +
-                     '<input type="hidden" class="HiddenRecordCambioIdv" value="' + cambioidv + '">' +
-                     '<input type="hidden" class="HiddenRecordIvaIdv" value="' + ivaidv + '">' +
-                     '<input type="hidden" class="HiddenRecordTipocustoidv" value="' + tipocustoidv + '">' +
-                     '<input type="hidden" class="HiddenRecordNet" value="' + a_net + '">' +
-                     '<input type="hidden" class="HiddenRecordObs" value="' + a_observacoes + '">' +
-                     '<input type="hidden" class="HiddenRecordMarkup" value="' + a_markup + '">' +
-                     '<input type="hidden" class="HiddenRecordAPagamento" value="' + a_pagamento + '">' +
-                     '<input type="hidden" class="HiddenRecordADATAPagamento" value="' + a_datapagamento + '">' +
-                     '<input type="hidden" class="HiddenRecordValorCambio" value="' + a_valorcambio + '">' + '</br>' + q_nome + '</td>' +
-                    '<td>' + str + '</td>' +
-                    '<td>' + a_numeronoites + '</td>' +
-                    '<td><input type="number" class="smNumInput" value="' + parseInt(a_numeroquartos) + '"></td>' +
-                    '<td><input type="number"  class="smNumInput" min="0" step=0.01 value="' + parseFloat(a_margemvenda) + '">%</td>' +
-                    '<td><input type="number" class="smNumInput" value="' + parseFloat(a_comissao) + '"></td>' +
-                    '<td>' + parseFloat(a_valortotalpvp) + '</td>' +
-                    '<td>' + parseFloat(a_valorporpessoapvp) + '</td>' +
-                    '<td>' + parseFloat(a_valoreuros) + '</td>' +
-                    '<td>' + 0 + '</td>' +
-                    '<td>' + 0 + '</td>' +
-                    '<td>' + '<img class="InfoObs" src="' + res4 + '" alt="Guardar">' +
-                    '</td>' +
-                    '<td class="OpIcons">' +
-                    '<img class=" " src="' + res + '" alt="saved">' +
-                    '<img class="SaveRecAloj" src="' + res2 + '" alt="Guardar">' +
-                    '<img class="rmvRecord" src="' + res3 + '" alt="remover">' +
-                    '</td>' +
-                    '</tr>');
-            }
-
-
+            /*ROW END*/
+            tr += "<td><span class='AlojTotaisPax " + 0 + "'>0</span>% / <span class='AlojTotaisPaxN " + 0 + "'>0</span>pax</td></tr>";
+            table += tr;
         });
 
+        /*TABLE - Last ROW*/
+        var lastTr = "<tr><td><img class='AddIcon AlojamentoDias' src='" + res5 + "' alt='Guardar'></td>";
+        /*TABLE SOMATORIOS*/
+        $.each(Tabela.quartos, function (index, obj) {
+            lastTr += "<td><span class='AlojTotais " + obj.capacidade + "'>0</span></td>";
 
+        });
+        lastTr += "</tr></table>";
+        table += lastTr;
+
+
+        $("#tabs#tabs").append("<div id='tab" + num_tabs + "'>" + btnBill + hidden + hiddenAcordo + hiddenIDInterno + btn + btnRemove + table + "</div>");
+        $("#AlojamentoResume").css("display", "block");
+
+       
     });
-    updateValues($("#AlojamentoRecords"));
-    updateValues($("#AlojamentoVerRecords"));
 
+
+    //RefreshAlojTableDias();
+    RefreshAlojamento();
+    $("#tabs#tabs").tabs("refresh");
 }
 
 
 $('body').on('click', '.addSaveBtn', function () {
     ReadAlojamento();
 });
-
 function ReadAlojamento() {
     //Lista tabelas
+    
     var tabelas = $(".AlojamentoOverview");
+    var acrdos = $(".hiddenAlojamentoAcordo");
 
+    var result = [];
 
     //TABELAS
     $.each(tabelas, function (index, tabela) {
+   
+        var jsonacordo = $(tabela).parent().find(".hiddenAlojamentoAcordo").val();
+        var fornecedorId = $(tabela).parent().find(".AlojamentoFornecedorID").val();
+        var acordo = JSON.parse(jsonacordo);
+
         var hotelname = $(tabela).find(".alojName").html();
         var orcaid = OrcamentoID;
-
+        
         var quartosDef = $(tabela).find(".QuartoDev");
+
+        
         var arrQuartosID = [];
 
         //QUARTOS
         $.each(quartosDef, function (index, qu) {
-           /* var quartoNome = $(qu).find(".AlojTableType").val();
-            var quartosValor = $(qu).find(".AlojNPax").val();*/
-            var quartosIds = $(tabela).find(".AlojNPax").attr('class').split(' ')[2];
+           // var quartosIds = $(qu).find(".AlojNPax").attr('class').split(' ')[1];
+            var obj = new Object();
+            obj.nome = $(qu).find(".AlojTableType").val();
+            obj.capacidade = $(qu).find(".AlojNPax").val();
 
-            arrQuartosID.push(quartosIds)
-
-
+            arrQuartosID.push(obj)
         });
 
 
         var Diasrow = $(tabela).find(".AlojDiasTable");
         //DIAS
 
+        var Dias = [];
         $.each(Diasrow, function (index, d) {
             var dia = $(d).find(".AlojamentoDateAddVar").val();
-
+            var obj = new Object();
+            obj.Data = dia;
+            obj.definicao = arrDias;
             var numbersArr = $(d).find(".AlojTableNumberIn");
             //ARRAY de NUMEROS INPUTS
             var arrDias = []
@@ -1711,31 +1064,80 @@ function ReadAlojamento() {
                 obj.numero = values;
                 arrDias.push(obj);
             });
+            obj.Data = dia;
+            obj.definicao = arrDias;
 
-
+            Dias.push(obj);
         });
 
 
+        var AlojCambioName = $("#AlojamentoMoedaCompra option:selected").text();
+        var AlojCambioArr = $("#AlojamentoMoedaCompra option:selected").val();
+        var cambioarray = AlojCambioArr.split('-');
+        var AlojCambioidv = cambioarray[0];
+        var AlojMoedaValor = parseFloat(cambioarray[1]);
+
+        var Almoco = $("#AlmocoChk").val();
+        var AlojamentoObservacoes = $("#AlojamentoObservacoes").val();
+
+        var AlojIvaName = $("#IvaAloj option:selected").text();
+        var AlojIva = $("#IvaAloj option:selected").val();
+        var AlojTipoIvaName = $("#AlojamentoTipoIva option:selected").text();
+        var AlojTipoIva = $("#AlojamentoTipoIva option:selected").val();
+ 
+        var MarkupAloj = parseFloat($("#MarkupAloj").val());
+        var AlojomanentoNet = parseFloat($("#AlojomanentoNet").val());
+        var MargemAloj = parseFloat($("#MargemAloj").val());
+        var ALojamentoComisao = parseFloat($("#ALojamentoComisao").val());
+
+        var hotel = {
+            "_id" : "",
+            "Hotelname": hotelname,
+            "OrcamentoId": orcaid,
+            "Fornecedor": fornecedorId,
+            "quartos": arrQuartosID,
+            "acordo": acordo,
+            "Dias": Dias
+        }
+
+
+        result.push(hotel);
     });
+
+
+    var d = [];
+    $.each(result, function (index, item) {
+        var objeto = {
+            "hotel": "",
+            "Objeto": item
+        }
+        sendAlojamento(objeto, true)
+    });
+
+
+//    send hotel
 
 }
 
-
-
 function InsertTableAlojamentoHotel(hotelname, valueID) {
     var num_tabs = $("#tabs#tabs ul li").length + 1;
+
     /*ICONS*/
-    $("#tabs#tabs ul").append(
-        "<li><a href='#tab" + num_tabs + "'>" + hotelname + "</a></li>"
-    );
+    $("#tabs#tabs ul").append("<li><a href='#tab" + num_tabs + "'>" + hotelname + "</a></li>");
+
+
+
     var days = parseInt($("#OrcamentoNoites").val());
     var btnBill = "<button class='GetBill' type='button' style='padding: 0px'><img class='GetIcon 5' src='" + res7 + "' alt='Guardar'></button>";
     var btn = "<button class='GetBtnFornecedor' type='button' style='padding: 0px'><img class='GetIcon 5' src='" + res6 + "' alt='Guardar'></button>";
     var btnRemove = "<button class='RemoveBtnFornecedor' type='button' style='padding: 0px'><img class='removeFornecedor' src='img/remove.png' alt='remover'></button>";
     var hidden = "<input type='hidden' class='AlojamentoFornecedorID' value='" + valueID + "' >";
+    var hiddenAcordo = "<input type='hidden' class='hiddenAlojamentoAcordo' >";
     var cnt = $(".AlojamentoHoteis").children().length + 1;
     var data = ConvertDateForInput($("#OrcamentoDataInicio").val());
     var quartosArr = JSON.parse($("#quartos").val());
+
+
     /*TABLE - FIRST ROW*/
     var table = "<table class='AlojamentoOverview " + cnt + "'><tr><td class='alojName'>" + hotelname + "</td>";
 
@@ -1770,30 +1172,19 @@ function InsertTableAlojamentoHotel(hotelname, valueID) {
         table += tr;
     }
 
-
-
     /*TABLE - Last ROW*/
     var lastTr = "<tr><td><img class='AddIcon AlojamentoDias' src='" + res5 + "' alt='Guardar'></td>";
 
     $.each(quartosArr, function (index, obj) {
         if (obj.predefenido == true) {
-            lastTr += "<td><span class='AlojTotais " + obj.quartoidv + "'>0</span></td>";
+            lastTr += "<td><span class='AlojTotais " + obj.capacidade + "'>0</span></td>";
         }
     });
-
 
     lastTr += "</tr></table>";
     table += lastTr;
 
-    //$(".AlojamentoHoteis").append(table);
-    $("#tabs#tabs").append(
-            "<div id='tab" + num_tabs + "'>" + btnBill + hidden + btn + btnRemove + table + "</div>"
-        );
-
-
-    // var index = $('#tabs ul').index($('#tabId'));
-    // $('#tabs ul').tabs('select', index);
-
+    $("#tabs#tabs").append("<div id='tab" + num_tabs + "'>" + btnBill + hidden + hiddenAcordo + btn + btnRemove + table + "</div>");
 
     $("#tabs#tabs").tabs("refresh");
     RefreshAlojTableDias();
@@ -1805,14 +1196,17 @@ function RefreshTabelaresume() {
     var tabelas = $(".AlojamentoOverview");
     var cntTotal = 0;
     var miarr = new Array;
+
+    var allrows = $(".AlojDiasTable");
+
+
     $(tabelas).each(function (i, tb) {
-
-        var dias = $(tb).find(".AlojDiasTable");
-
-        $(dias).each(function (i, dia) {
+        var rows = $(tb).find(".AlojDiasTable");
+        $(rows).each(function (i, row) {
 
 
-            var paxCnt = $(dia).find(".AlojTotaisPaxN").html();
+            var paxCnt = $(row).find(".AlojTotaisPaxN").html();
+
             var myObject = new Object();
             myObject.index = i + 1;
             myObject.cnt = parseInt(paxCnt);
@@ -1846,7 +1240,7 @@ function RefreshTabelaresume() {
         $("#AlojamentoResumetable tr:last").after("<tr>" +
         '<td>' + d.index + ' </td>' +
         '<td>' + d.cnt + '</td>' +
-        '<td>' + result + '</td>' +
+        '<td>' + result.toFixed(2) + '</td>' +
         '</tr>');
     })
 
@@ -1855,28 +1249,55 @@ function RefreshTabelaresume() {
 }
 
 
-function UpdateTabelaResume() {
+function RefreshAlojamento()
+{
+    var tabelas = $(".AlojamentoOverview");
+    var capacidadeTotalPax = parseInt($("#OrcamentoNumeroDePessoas").val());
 
-    var days = parseInt($("#OrcamentoNoites").val());
-    var data = ConvertDateForInput($("#OrcamentoDataInicio").val());
+    $(tabelas).each(function (i, table) {
+        /*QUARTOS NOITES*/
+        var spns = $(table).find(".AlojTotais");
+        $(spns).each(function (i, spn) {
+            var cap = spn.className.split(" ")[1];
+            var arrInputs = $(table).find(".AlojTableNumberIn." + cap);
+            var total = 0;
+            $(arrInputs).each(function (i, input) {
+                var valor = parseInt($(input).val());
+                total += valor;
+                
+            });
+            $(spn).html(total.toString());
+        });
 
 
+        /*CALCULO % / PAX*/
+        var linhas = $(table).find(".AlojDiasTable");
+        var AlojNPax = $(table).find(".AlojNPax");
+        $(linhas).each(function (index, obj) {
+            var Percentagem = $(obj).find(".AlojTotaisPax");
+            var AlojTotaisPaxN = $(obj).find(".AlojTotaisPaxN");
+            var nquartos = $(obj).find(".AlojTableNumberIn");
+            var somapax = 0;
+            $(nquartos).each(function (i, o) {
 
-    for (var day = 1; day <= days; day++) {
-        /*ROW HEAD*/
-        $("#AlojamentoResumetable tr:last").after("<tr>" +
-            '<td>' + day + ' </td>' +
-            '<td>' + 0 + '</td>' +
-            '<td>' + 0 + '</td>' +
-            '</tr>');
-    }
+                var capac = parseInt(o.className.split(" ")[1]);
+                var inputnumero = parseInt(o.value);
+                somapax += inputnumero * capac;
+            });
+
+            var result = parseFloat((somapax * 100) / capacidadeTotalPax);
+            $(AlojTotaisPaxN).html(somapax.toString());
+            $(Percentagem).html(result.toFixed(2).toString());
+        })
+
+    });
+
+
+    RefreshTabelaresume();
+
+    RefreshAlojTableDias();
+    
 }
-
-
-
-
-
-
 function RefreshAlojTableDias() {
     //AlojamentoRecords
     $("#AlojamentoRecords").find("tr:gt(0)").remove();
@@ -1904,7 +1325,7 @@ function RefreshAlojTableDias() {
                 '<td>' + NomeTipo + '</td>' +
                 '<td >' + totalQuartos + '</td>' +
                 '<td><input type="number" class="smNumInput" value="' + parseInt(0) + '"></td>' +
-                '<td><input type="number"  class="smNumInput" min="0" step=0.01 value="' + parseFloat(0) + '">%</td>' +
+                '<td><input type="number"  class="smNumInput" min="0" step=0.01 value="' + parseFloat(0) + '"></td>' +
                 '<td><input type="number" class="smNumInput" value="' + parseFloat(0) + '"></td>' +
                 '<td>' + parseFloat(0) + '</td>' +
                 '<td>' + parseFloat(0) + '</td>' +
@@ -1917,7 +1338,7 @@ function RefreshAlojTableDias() {
                     '<td>' + NomeTipo + '</td>' +
                     '<td>' + totalQuartos + '</td>' +
                     '<td><input type="number" class="smNumInput" value="' + parseInt(0) + '"></td>' +
-                    '<td><input type="number"  class="smNumInput" min="0" step=0.01 value="' + parseFloat(0) + '">%</td>' +
+                    '<td><input type="number"  class="smNumInput" min="0" step=0.01 value="' + parseFloat(0) + '"></td>' +
                     '<td><input type="number" class="smNumInput" value="' + parseFloat(0) + '"></td>' +
                     '<td>' + parseFloat(0) + '</td>' +
                     '<td>' + parseFloat(0) + '</td>' +
@@ -1934,68 +1355,7 @@ function RefreshAlojTableDias() {
 
 }
 $('#tabs').on('change', '.AlojTableNumberIn', function () {
-
-
-
-    var tipo = this.className.split(' ')[1];
-    var table = $(this).parent().parent().parent().parent();
-
-    var spns = $(table).find(".AlojTotais." + tipo);
-    var arrInputs = $(table).find(".AlojTableNumberIn." + tipo);
-
-    var total = 0;
-
-    /*Somas*/
-    $(arrInputs).each(function (i, input) {
-        if (input.className.indexOf(tipo) > -1) {
-
-            var valor = parseInt($(input).val());
-
-            total += valor;
-        }
-    })
-
-
-    $(spns).html(total.toString());
-
-    $(".AlojamentoRecords").find()
-
-
-    var capacidadeTotalPax = parseInt($("#OrcamentoNumeroDePessoas").val());
-
-    var linhas = $(table).find(".AlojDiasTable");
-    var AlojNPax = $(table).find(".AlojNPax");
-    $(linhas).each(function (index, obj) {
-
-
-        var Percentagem = $(obj).find(".AlojTotaisPax");
-        var AlojTotaisPaxN = $(obj).find(".AlojTotaisPaxN");
-        var nquartos = $(obj).find(".AlojTableNumberIn");
-        var somapax = 0;
-
-        $(nquartos).each(function (i, o) {
-
-            var capac = parseInt(AlojNPax[i].value);
-            var inputnumero = parseInt(o.value);
-            somapax += inputnumero * capac;
-        })
-
-
-
-        var result = parseFloat((somapax * 100) / capacidadeTotalPax);
-
-
-
-        $(AlojTotaisPaxN).html(somapax.toString());
-        $(Percentagem).html(result.toFixed(2).toString());
-    })
-
-
-
-
-    RefreshTabelaresume();
-
-    RefreshAlojTableDias();
+    RefreshAlojamento();
 });
 
 
@@ -2132,6 +1492,7 @@ function GetProjectoFiles(id) {
 
 function sendAlojamento(objectToSend, save) {
 
+
     $.post('api/Postman/InsertAlojamento', objectToSend,
         function (returnedData) {
 
@@ -2169,7 +1530,7 @@ function InsertProjectoInicial(objectToSend, orcamento) {
                 
                 orcamento.Orcamento.projectoidv = objectToSend.projecto._id;
                 InsertOrcamentoInicial(orcamento);
-
+               
             }).fail(function () {
                 alert("Erro ao criar o projecto!");
             });
@@ -2185,7 +1546,7 @@ function InsertOrcamentoInicial(objectToSend) {
 
             var page = 'NewProject?ID=' + projectID;
             var page2 = page + "&IDorc=" + OrcamentoID;
-            //insertTableListaAlojamento()
+            
             window.location.href = page2;
             objectToSend = null;
 
@@ -2315,35 +1676,31 @@ function sendFornecedor(objectToSend, idTab) {
 function GetFornecedor(objectToSend, idTab) {
 
 
-
-
     var res;
     $.post('api/Postman/getFornecedor', { "fornecedoridv": objectToSend },
         function (returnedData) {
             res = returnedData;
 
-            if (res.fornecedoridv != null) {
+            if (res.Id != null) {
 
+                var FORNECEDORIDV = res.Id;
 
-
-                var FORNECEDORIDV = res.fornecedoridv
-
-                $("#FornecedorPais option:selected").val(res.paisidv);
+                $("#FornecedorPais option:selected").val(res.Country);
                 var tipoc = res.tipocustoidv;
-                $("#FornecedorNome").val(res.f_nome);
+                $("#FornecedorNome").val(res.nome);
                 $("#FornecedorCidade").val(res.cidade);
-                $("#FornecedorNomeComercial").val(res.f_nomecomercial);
-                $("#FornecedorMorada").val(res.f_morada);
-                $("#FornecedorLocalidade").val(res.f_localidade);
-                $("#FornecedorCodigoPostal").val(res.f_codigopostal);
-                $("#FornecedorTelefone").val(res.f_telefone);
-                $("#FornecedorFax").val(res.f_fax);
-                $("#FornecedorTelemovel").val(res.f_telemovel);
-                $("#FornecedorContacto").val(res.f_contacto);
-                $("#FornecedorEmail").val(res.f_email);
-                $("#FornecedorUrl").val(res.f_url);
-                $("#FornecedorContribuinte").val(res.f_contribuinte);
-                $("#FornecedorTipoFornecedor option:selected").text(res.tipofornecedoreidv);
+                $("#FornecedorNomeComercial").val(res.nomecomercial);
+                $("#FornecedorMorada").val(res.morada);
+                $("#FornecedorLocalidade").val(res.localidade);
+                $("#FornecedorCodigoPostal").val(res.codigopostal);
+                $("#FornecedorTelefone").val(res.telefone);
+                $("#FornecedorFax").val(res.fax);
+                $("#FornecedorTelemovel").val(res.telemovel);
+                $("#FornecedorContacto").val(res.contacto);
+                $("#FornecedorEmail").val(res.email);
+                $("#FornecedorUrl").val(res.url);
+                $("#FornecedorContribuinte").val(res.contribuinte);
+                $("#FornecedorTipoFornecedor option:selected").text(res.TipoFornecedor);
 
                 /*$(".FornecedorCheck").css("display","block");*/
 
@@ -2356,9 +1713,6 @@ function GetFornecedor(objectToSend, idTab) {
                 $(".FornecedorError").css("display", "none");
                 $(".FornecedorCheck").css("display", "none");
 
-
-
-
             }
             else {
                 $(".FornecedorError").css("display", "block");
@@ -2370,10 +1724,6 @@ function GetFornecedor(objectToSend, idTab) {
             console.log("erro insertFornecedor");
         });
 }
-
-
-
-
 
 
 function preencherTabelaAlojamento(data) {
@@ -2997,8 +2347,7 @@ $("#AddServicos").click(function () {
     var ServicosObservacoes = $("#ServicosObservacoes").val();
     var ServicosQuantidade = parseInt($("#ServicosQuantidade").val());
 
-    var ServicoPagamento = $("#ServicoPagamento").val();
-    var ServicosData = ConvertDateForSend($("#ServicosData").val());
+
 
 
     data = {
@@ -3019,8 +2368,6 @@ $("#AddServicos").click(function () {
         "s_unidades": 0,
         "s_margemvenda": ServicosMargem,
         "s_markup": ServicosMarkup,
-        "s_pagamento": ServicoPagamento,
-        "s_datapagamento": ServicosData,
         "s_numeropessoas": 0,
         "s_valortotalpvp": 0,
         "s_valorporpessoapvp": 0,
@@ -3054,11 +2401,11 @@ $("#AddDiaria").click(function () {
     var DiariaMargem = parseFloat($("#DiariaMargem").val());
     var DiariaNet = parseFloat($("#DiariaNet").val());
     var DiariaObservaçoes = $("#DiariaObservaçoes").val();
-    var DiariaPagamento = $("#DiariaPagamento").val();
+
 
 
     var DiariaQuantidade = parseInt($("#DiariaQuantidade").val());
-    var DiariaPagamentoData = ConvertDateForSend($("#DiariaDataPagamento").val());
+
 
 
     /* este campo sera usado para identificar para que dia se trata este item diario, ou seja, data do orcamento + DiariaAuxDia - 1 para poder incrementar */
@@ -3085,8 +2432,6 @@ $("#AddDiaria").click(function () {
         "d_unidades": 0,
         "d_margemvenda": DiariaMargem,
         "d_markup": DiariaMarkup,
-        "d_pagamento": DiariaPagamento,
-        "d_datapagamento": DiariaPagamentoData,
         "d_numeropessoas": 0,
         "d_valortotalpvp": 0,
         "d_valorporpessoapvp": 0,
@@ -3126,8 +2471,6 @@ $("#AddVoo").click(function () {
     var VoosMargemVenda = parseFloat($("#VoosMargemVenda").val());
     var VoosTaxaA = parseFloat($("#VoosTaxaA").val());
     var VoosTaxaB = parseFloat($("#VoosTaxaB").val());
-    var VoosFormaPagemento = $("#VoosFormaPagemento").val();
-    var VoosDataPagamento = ConvertDateForSend($("#VoosDataPagamento").val());
     var VoosMarkup = parseFloat($("#VoosMarkup").val());
 
 
@@ -3158,9 +2501,7 @@ $("#AddVoo").click(function () {
         "v_numeropessoas": 0,
         "v_disponibilidade": 1,
         "v_valortotalpvp": 0,
-        "v_valorporpessoapvp": VoosValor,
-        "v_pagamento": VoosFormaPagemento,
-        "v_datapagamento": VoosDataPagamento
+        "v_valorporpessoapvp": VoosValor
     };
 
 
@@ -3168,72 +2509,6 @@ $("#AddVoo").click(function () {
     sendVoo(data, false);
 
 });
-
-
-$("#AddAlojamento").click(function () {
-
-    var countRows = $('#AlojamentoRecords tr').length;
-    var Entidade = $("#Hoteis").val();
-    var HotelName = $("#AlojamentoNomeHotel").val();
-    var TipoQuarto = $("#TipoQuarto option:selected").val();
-    var Valor = parseFloat($("#ValorAlojamento").val());
-    var MoedaName = $("#MoedaAlojamento option:selected").text();
-    var MoedaidvArr = $("#MoedaAlojamento option:selected").val();
-    var cambioarray = MoedaidvArr.split('-');
-    var cambioidv = cambioarray[0];
-    var cambioval = parseFloat(cambioarray[1]);
-
-
-    var Nnoites = parseInt($("#NumNoites").val());
-    var IvaAlj = $("#IvaAloj option:selected").text();
-    var IvaValor = $("#IvaAloj").val();
-    var Markup = parseFloat($("#MarkupAloj").val());
-    var Almoço = $("#Almoço").val();
-    var MargemVenda = parseFloat($("#MargemAloj").val());
-    var ALojamentoComisao = parseFloat($("#ALojamentoComisao").val());
-    var AlojamentoObservacoes = $("#AlojamentoObservacoes").val();
-    var AlojamentoFornecedor = $("#AlojamentoFornecedor").val();
-    var AlojamentoFornecedorID = $(".AlojamentoFornecedorID").val();
-    var AlojomanentoNet = parseFloat($("#AlojomanentoNet").val());
-    var AlojPaydayComment = $("#AlojPaydayComment").val();
-
-
-    var AlojamentoDataPagamento = ConvertDateForSend($("#AlojamentoDataPagamento").val());
-    var AlojamentoTipoIva = $("#AlojamentoTipoIva option:selected").val();
-
-    var data = {
-        "orcamentoidv": OrcamentoID,
-        "alojamentoidv": "",
-        "fornecedoridv": AlojamentoFornecedorID,
-        "quartoidv": TipoQuarto,
-        "cambioidv": cambioidv,
-        "ivaidv": IvaValor,
-        "tipocustoidv": AlojamentoTipoIva,
-        "a_preco": Valor,
-        "a_comissao": ALojamentoComisao,
-        "a_net": AlojomanentoNet,
-        "a_valorcambio": cambioval,
-        "a_valoreuros": Valor,
-        "a_numeronoites": Nnoites,
-        "a_margemvenda": MargemVenda,
-        "a_markup": Markup,
-        "a_pagamento": AlojPaydayComment,
-        "a_datapagamento": AlojamentoDataPagamento,
-        "a_numeroquartos": 0,
-        "a_numeropessoas": 0,
-        "a_valortotalpvp": 0,
-        "a_valorporpessoapvp": 0,
-        "a_observacoes": AlojamentoObservacoes,
-        "a_opcao": "1"
-    };
-
-    sendAlojamento(data, false);
-
-
-
-
-});
-
 
 
 $(".AddFornecedor").click(function () {
@@ -3566,9 +2841,8 @@ function SaveRecs(table, id, Tr) {
         var DiariaMarkup = parseFloat($(Tr[0]).find(".HiddenRecordMarkup").val());
         var DiariaNet = $(Tr[0]).find(".HiddenRecordNet").val();
         var DiariaIva = parseFloat($(Tr[0]).find(".HiddenRecordIvaIdv").val());
-        var DiariaPagamentoData = ConvertDateForSend($(Tr[0]).find(".HiddenRecordADATAPagamento").val());
         var DiariaData = ConvertDateForSend($(Tr[0]).find(".HiddenRecordADATA").val());
-        var DiariaPagamento = $(Tr[0]).find(".HiddenRecordADATAPagamento").val();
+
         var Str = $(Tr[0]).text();
 
         var ht = $(Tr[0].children[2]).html();
@@ -3625,8 +2899,6 @@ function SaveRecs(table, id, Tr) {
             "d_unidades": Unidades,
             "d_margemvenda": DiariaMargem,
             "d_markup": DiariaMarkup,
-            "d_pagamento": DiariaPagamento,
-            "d_datapagamento": DiariaPagamentoData,
             "d_numeropessoas": Unidades,
             "d_valortotalpvp": totalCusto,
             "d_valorporpessoapvp": totalCustoPax,
@@ -3648,8 +2920,6 @@ function SaveRecs(table, id, Tr) {
         var ServicosMarkup = parseFloat($(Tr[0]).find(".HiddenRecordMarkup").val());
         var ServicosNet = $(Tr[0]).find(".HiddenRecordNet").val();
         var ServicosIva = parseFloat($(Tr[0]).find(".HiddenRecordIvaIdv").val());
-        var ServicoPagamento = $(Tr[0]).find(".HiddenRecordAPagamento").val();
-        var ServicosData = ConvertDateForSend($(Tr[0]).find(".HiddenRecordADATAPagamento").val());
 
 
         var ht = $(Tr[0].children[2]).html();
@@ -3697,8 +2967,6 @@ function SaveRecs(table, id, Tr) {
             "s_unidades": Unidades,
             "s_margemvenda": ServicosMargem,
             "s_markup": ServicosMarkup,
-            "s_pagamento": ServicoPagamento,
-            "s_datapagamento": ServicosData,
             "s_numeropessoas": Unidades,
             "s_valortotalpvp": totalCusto,
             "s_valorporpessoapvp": totalCustoPax,
@@ -3790,11 +3058,6 @@ $(document).ready(function () {
         SaveRecs(table, recID, Tr);
     });
 
-
-
-
-
-
     $('body').on('click', '.rmvRecord', function () {
         var table = $(this).parent().parent().parent().parent().attr("id");
         var recID = $(this).parent().parent().find(".HiddenRecordId").val();
@@ -3867,8 +3130,6 @@ $(document).ready(function () {
     });
 
 
-
-
     $(".CloseAlojAcordo").click(function () {
         $('#AcordoComercial').modal('hide');
 
@@ -3889,21 +3150,71 @@ $(document).ready(function () {
 
     $("#GuardarOrcamentoAlojamento").click(function () {
 
-        savecurrentProject();
+        var AlojCambioName = $("#AlojamentoMoedaCompra option:selected").text();
+        var AlojCambioArr = $("#AlojamentoMoedaCompra option:selected").val();
+        var cambioarray = AlojCambioArr.split('-');
+        var AlojCambioidv = cambioarray[0];
+        var AlojMoedaValor = parseFloat(cambioarray[1]);
 
+        var Almoco = $("#AlmocoChk").val();
+        var AlojamentoObservacoes = $("#AlojamentoObservacoes").val();
+
+        var AlojIvaName = $("#IvaAloj option:selected").text();
+        var AlojIva = $("#IvaAloj option:selected").val();
+        var AlojTipoIvaName = $("#AlojamentoTipoIva option:selected").text();
+        var AlojTipoIva = $("#AlojamentoTipoIva option:selected").val();
+ 
+        var MarkupAloj = parseFloat($("#MarkupAloj").val());
+        var AlojomanentoNet = parseFloat($("#AlojomanentoNet").val());
+        var MargemAloj = parseFloat($("#MargemAloj").val());
+        var ALojamentoComisao = parseFloat($("#ALojamentoComisao").val());
+
+        var hotel = {
+            "cambio": { "_id": AlojCambioidv, "name": AlojCambioName, "value": AlojMoedaValor },
+            "AlmocoIncluido": Almoco,
+            "Iva": { "_id": AlojIva, "name": AlojIvaName },
+            "markup": MarkupAloj,
+            "net": AlojomanentoNet,
+            "margem": MargemAloj,
+            "Comissao": ALojamentoComisao,
+            "TipoIva": { "_id": AlojTipoIva, "name": AlojTipoIvaName },
+            "Observacoes": AlojamentoObservacoes
+        };
+
+        var jsohotel = JSON.stringify(hotel);
+
+        var inputaux = $("#tabs#tabs .AlojamentoFornecedorID");
+        var t = $(".AuxAcordo").val();
+
+        $.each(inputaux, function (index, item) {
+            var Forneced =$(item).val()
+            if (t === Forneced) {
+
+                var input = $(item).parent().find(".hiddenAlojamentoAcordo");
+
+
+                $(input).val(jsohotel);
+            }
+        });
+
+
+        
+
+        
+        $('#AcordoComercial').modal('hide');
     });
 
+    $("#InserirTipologiaBTN").click(function () {
+        var ti = $("#TabelaInvoker").val();
+        var NomeTipo = $("#NomeTipologia").val();
+        var Capatipo = parseInt($("#CapacidadeTipologia").val());
 
-
-    function AddAlojamentoTipologia(idtable) {
-
+        ti = ti.replace(" ", ".");
+        var idtable = "." + ti;
         var rows = $(idtable).children().children();
         var cnt = rows.length;
 
 
-
-
-        var quartosArr = JSON.parse($("#quartos").val());
 
         $(rows).each(function (linha, value) {
             var ArrayTd = value.children;
@@ -3911,39 +3222,25 @@ $(document).ready(function () {
 
 
             if (linha == 0) {
-                $(ArrayTd[posColuna - 1]).after("<td><input type='text' class='form-control AlojTableType' ><input type='number' class='AlojTableNumber' value='0'  ><img class='rmvAlojType " + posColuna + "' src='img/remove.png' alt='remover'></td>");
+                $(ArrayTd[posColuna - 1]).after("<td><input type='text' class='form-control AlojTableType' value='" + NomeTipo + "' ><input type='hidden' class='AlojTableNumber' value='" + Capatipo + "'  ><img class='rmvAlojType " + posColuna + "' src='img/remove.png' alt='remover'></td>");
             }
             else if (linha > 0 && linha < cnt - 1) {
-                $(ArrayTd[posColuna - 1]).after("<td> <input type='number' min-value='0' value='0'  class='AlojTableNumberIn " + posColuna + "' ></td>");
+                $(ArrayTd[posColuna - 1]).after("<td> <input type='number' min-value=0 value='0'  class='AlojTableNumberIn " + Capatipo + "' ></td>");
             } else
                 if (linha == cnt - 1) {
-                    $(ArrayTd[posColuna]).after("<td><span class='AlojTotais " + 0 + "'>0</span></td>");
+                    $(ArrayTd[posColuna]).after("<td><span class='AlojTotais " + Capatipo + "'>0</span></td>");
                 }
-
-
-
-
-
-            /*     var k = key;
-                 var tdarr = value.children;
-                 
-                 var le = tdarr.length - 1;
-     
-                 $(tdarr).each(function (key, value2) {
-     
-                     if(cnt != k)
-                     {
-     
-                         if(key=== 0 && k === 0){
-                             $(tdarr[le - 1]).after("<td><input type='text' class='form-control AlojTableType' ><img class='rmvAlojType "+le+"' src='img/remove.png' alt='remover'></td>");
-                         }else if(key=== 0){
-                             $(tdarr[le - 1]).after("<td> <input type='number' min-value='0' value='0'  class='AlojTableNumberIn " + key + "' ></td>");
-                         }
-                     }
-     
-                 })*/
         });
+    });
+
+    function AddAlojamentoTipologia(idtable) {
+        
+
+        $("#TabelaInvoker").val(idtable);
+        $('#PopUpTipologia').modal('show');
     }
+
+
 
 
     function AddAlojamentoDias(idtable) {
@@ -3965,7 +3262,7 @@ $(document).ready(function () {
                 $(arraRows[cnt - 1]).append("<td> <input type='date' class='form-control' class='AlojamentoDateAddVar' > </td>");
             }
             else {
-                $(arraRows[cnt - 1]).append("<td> <input type='number' class='form-control' min-value='0' value='0' class='AlojTableNumberIn' > </td>");
+                $(arraRows[cnt - 1]).append("<td> <input type='number' class='form-control' min-value=0 value='0' class='AlojTableNumberIn' > </td>");
 
             }
 
@@ -3984,7 +3281,7 @@ $(document).ready(function () {
             AddAlojamentoDias(idtable);
         } else
             if (callClass.split(" ")[1] == "AlojamentoTipos") {
-                var idtable = this.closest("table");
+                var idtable = this.closest("table").className.toString();
                 AddAlojamentoTipologia(idtable);
             } else {
                 $("#FiredInsert").val(callClass.split(" ")[1]);
@@ -4006,7 +3303,22 @@ $(document).ready(function () {
     });
 
 
+    $('#tabs').on('click', '.RemoveBtnFornecedor', function () {
 
+        var callClass = this.className.toString();
+        var divid = $(this).parent().attr('id');
+        var root = $(this).parent().parent();
+        var lastChar = parseInt(divid.substr(divid.length - 1));
+        $(this).parent().remove();
+
+        var ul = $(root).find("li")[lastChar-1];
+
+        $(ul).remove();
+        RefreshAlojTableDias();
+        $("#tabs#tabs").tabs("refresh");
+
+
+    });
 
 
     $(".AddBtnFornecedor").click(function () {
@@ -4031,7 +3343,31 @@ $(document).ready(function () {
         }
 
     });
-    function showBill(id) {
+    function showBill(id, acordo) {
+
+        
+
+        var AlojCambioName = $("#AlojamentoMoedaCompra option:selected").text();
+        var AlojCambioArr = $("#AlojamentoMoedaCompra option:selected").val();
+        var cambioarray = AlojCambioArr.split('-');
+        var AlojCambioidv = cambioarray[0];
+        var AlojMoedaValor = parseFloat(cambioarray[1]);
+
+        
+        $("#OrcamentoMoedaCompra option:contains(" + acordo.cambio.name + ")").attr('selected', 'selected')
+
+        $("#AlmocoChk").val(acordo.AlmocoIncluido);
+        $("#AlojamentoObservacoes").val(acordo.Observacoes);
+
+        $("#IvaAloj").val(acordo.Iva.inId);
+        $("#AlojamentoTipoIva").val(acordo.TipoIva.inId);
+  
+        $("#MarkupAloj").val(parseFloat(acordo.markup));
+        $("#AlojomanentoNet").val(parseFloat(acordo.net));
+        $("#MargemAloj").val(parseFloat(acordo.margem));
+        $("#ALojamentoComisao").val(parseFloat(acordo.Comissao));
+
+
         $('#AcordoComercial').modal('show');
     }
 
@@ -4040,16 +3376,23 @@ $(document).ready(function () {
 
         var callClass = this.className.toString();
         var id = $(this).parent().children()[1];
+        
+        var jsonacordo = $(this).parent().find(".hiddenAlojamentoAcordo").val();
+        if (jsonacordo === "") {
+            $('#AcordoComercial').modal('show');
+        }
+        else {
+            var acordo = JSON.parse(jsonacordo);
 
-        var valueId = $(id).val();
-        if (valueId != "") {
-            showBill(valueId);
+            var valueId = $(id).val();
+            if (valueId != "") {
+                $(".AuxAcordo").val(valueId);
+                showBill(valueId, acordo);
+            }
         }
 
+
     });
-
-
-
 
 
 
@@ -4341,18 +3684,6 @@ Number.prototype.formatMoney = function (c, d, t) {
     return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
 };
 
-function PopulatePaisesList() {
-    var list;
-    $.get("http://www.touchgroup.com/sgtt/cfc/main.cfc?method=getAllPaises", function (data, status) {
-        resp = JSON.parse(data);
-        $.each(resp, function () {
-            list = this['PAIS_NOME'];
-
-        });
-    });
-    var lista = list;
-}
-
 function ConvertDateForInput(date) {
     var dataIni = function (d) {
 
@@ -4512,24 +3843,6 @@ function ConvertDateForSend(date) {
     return dataIni;
 }
 
-function populateFornecedorList() {
-    var response;
-    $.ajax({
-        url: "http://www.touchgroup.com/sgtt/cfc/main.cfc?method=getAllFornecedores",
-        type: "GET",
-        contentType: "json",
-        success: function (data) {
-            response = data;
-            if (data.status === 'success') {
-                var test = this
-            }
-            else if (data.status === 'error')
-                var test = this
-        },
-        dataType: 'json'
-    });
-    var baba = response;
-}
 function callPopUpDiarias(x) {
     var id = x;
 

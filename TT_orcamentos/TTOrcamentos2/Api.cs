@@ -143,76 +143,22 @@ namespace TT_orcamentos
 
          
         
-        public static List<alojamentoList> GetAlojamento(string orcamento)
+        public static List<Alojamento> GetAlojamento(string orcamento)
         {
-            List<alojamentoList> ObjList = new List<alojamentoList>();
+            List<Alojamento> Lista = new List<Alojamento>();
             try
             {
-                using (var conn = new SqlConnection(TTOrcamentos2.Properties.Settings.Default.ConnectionString))
-                using (var command = new SqlCommand("getAllAlojamentos", conn)
-                {
-                    CommandType = CommandType.StoredProcedure
-                })
-                {
-                    command.Parameters.Add("@orcamentoidv", SqlDbType.VarChar).Value = orcamento;
-                    conn.Open();
-                    SqlDataReader reader = command.ExecuteReader();
+                Lista = Alojamento.GetAll(orcamento);
 
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            alojamentoList obj = new alojamentoList();
-
-                            obj.alojamentoidv = reader.GetString(0);
-                            obj.orcamentoidv = reader.GetString(1);
-                            obj.fornecedoridv = reader.GetString(2);
-                            obj.quartoidv = reader.GetString(3);
-                            obj.cambioidv = reader.GetString(4);
-                            obj.ivaidv = reader.GetString(5);
-                            obj.tipocustoidv = reader.GetString(6);
-                            obj.a_preco = reader.GetDouble(7);
-                            obj.a_comissao = reader.GetDouble(8);
-                            obj.a_net = reader.GetDouble(9);
-                            obj.a_valorcambio = reader.GetDouble(10);
-                            obj.a_valoreuros = reader.GetDouble(11);
-                            obj.a_numeronoites = reader.GetInt32(12);
-                            obj.a_margemvenda = reader.GetDouble(13);
-                            obj.a_markup = reader.GetDouble(14);
-                            obj.a_pagamento = reader.GetString(15);
-                            obj.a_datapagamento = reader.GetDateTime(16);
-                            obj.a_numeroquartos = reader.GetInt32(17);
-                            obj.a_numeropessoas = reader.GetInt32(18);
-                            obj.a_valortotalpvp = reader.GetDouble(19);
-                            obj.a_valorporpessoapvp = reader.GetDouble(20);
-                            obj.a_observacoes = reader.GetString(21);
-                            obj.a_opcao = reader.GetString(22);
-                            obj.f_nome = reader.GetString(23);
-                            obj.q_nome = reader.GetString(24);
-                            obj.c_nome = reader.GetString(25);
-                            obj.i_taxa = reader.GetString(26);
-                            obj.tc_nome = reader.GetString(27);
-
-                            ObjList.Add(obj);
-
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("No rows found.");
-                    }
-                    reader.Close();
-                    conn.Close();
-
-                }
-                return ObjList;
+                return Lista;
             }
             catch (Exception ex)
             {
+
                 Console.WriteLine(ex.Message);
+                return Lista;
             }
 
-            return ObjList;
         }
 
         public static List<Voos> getVoos(string orcamento)

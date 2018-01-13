@@ -13,7 +13,8 @@ namespace TTOrcamentos2.Model {
         public ObjectId Id { get; set; }
         public string  Hotelname { get; set; }
         public string OrcamentoId { get; set; }
-        public List<int> quartosId { get; set; }
+        public string Fornecedor { get; set; }
+        public List<quarto> quartos { get; set; }
         public Acordo acordo { get; set; }
         public List<Dias> Dias { get; set; }
 
@@ -24,20 +25,37 @@ namespace TTOrcamentos2.Model {
 
 
         }
-        public Alojamento(string hotelName, string OrcamentoId, List<int> quartos, Acordo acordo,List<Dias> dias)
+        public Alojamento(string hotelName, string OrcamentoId,string Fornecedort, List<quarto> quartos, Acordo acordo,List<Dias> dias)
         {
             this.Hotelname = hotelName;
             this.OrcamentoId = OrcamentoId;
-            this.quartosId = quartos;
+            this.quartos = quartos;
             this.acordo = acordo;
             this.Dias = dias;
+            this.Fornecedor = Fornecedort;
         }
-        public static bool Insert(string hotelName, string OrcamentoId, List<int> quartos, Acordo acordo, List<Dias> dias)
+        public static bool Insert(string hotelName, string OrcamentoId,string Fornecedor, List<quarto> quartos, Acordo acordo, List<Dias> dias)
         {
             try
             {
-                Alojamento cntr = new Alojamento(hotelName, OrcamentoId, quartos, acordo, dias);
+                Alojamento cntr = new Alojamento(hotelName, OrcamentoId, Fornecedor, quartos, acordo, dias);
                 DB.Alojamento.InsertOne(cntr);
+
+                return true;
+            }
+            catch (Exception e)
+            {
+
+                throw new Exception("Erro Inserir Alojamento" + e.ToString());
+            }
+        }
+
+        public static bool Insert(Alojamento aloj)
+        {
+            try
+            {
+ 
+                DB.Alojamento.InsertOne(aloj);
 
                 return true;
             }
@@ -89,9 +107,12 @@ namespace TTOrcamentos2.Model {
 
     }
 
+    public class quarto {
+        public string nome { get; set; }
+        public int capacidade { get; set; }
+    }
 
-
-    public class Acordo {
+        public class Acordo {
         public Cambio cambio { get; set; }
         public bool AlmocoIncluido { get; set; }
         public Ivas Iva { get; set; }
@@ -100,7 +121,7 @@ namespace TTOrcamentos2.Model {
         public double margem { get; set; }
         public double Comissao { get; set; }
         public Tipo_Iva TipoIva { get; set; }
-        public string Observaçoes { get; set; }
+        public string Observacoes { get; set; }
     }
 
     public class Dias {

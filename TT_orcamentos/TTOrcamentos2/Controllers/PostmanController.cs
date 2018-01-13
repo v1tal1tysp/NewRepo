@@ -25,78 +25,22 @@ namespace TTOrcamentos2.Controllers
     {
         [HttpPost]
         [Route("api/Postman/GetListAlojamento")]
-        public List<alojamentoList> GetAlojamento([FromBody]alojamento orcamentoidv)
+        public List<Alojamento> GetAlojamento(JObject orcamentoidv)
         {
-            List<alojamentoList> ObjList = new List<alojamentoList>();
+            List<Alojamento> Lista = new List<Alojamento>();
             try
             {
-                using (var conn = new SqlConnection(TTOrcamentos2.Properties.Settings.Default.ConnectionString))
-                using (var command = new SqlCommand("getAllAlojamentos", conn)
-                {
-                    CommandType = CommandType.StoredProcedure
-                })
-                {
-                    command.Parameters.Add("@orcamentoidv", SqlDbType.VarChar).Value = orcamentoidv.orcamentoidv;
-                    conn.Open();
-                    SqlDataReader reader = command.ExecuteReader();
+                var t = orcamentoidv.GetValue("orcamentoidv").ToString();
+                Lista = Alojamento.GetAll(t);
 
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            alojamentoList obj = new alojamentoList();
-
-                            obj.alojamentoidv = reader.GetString(0);
-                            obj.orcamentoidv = reader.GetString(1);
-                            obj.fornecedoridv = reader.GetString(2);
-                            obj.quartoidv = reader.GetString(3);
-                            obj.cambioidv = reader.GetString(4);
-                            obj.ivaidv = reader.GetString(5);
-                            obj.tipocustoidv = reader.GetString(6);
-                            obj.a_preco = reader.GetDouble(7);
-                            obj.a_comissao = reader.GetDouble(8);
-                            obj.a_net = reader.GetDouble(9);
-                            obj.a_valorcambio = reader.GetDouble(10);
-                            obj.a_valoreuros = reader.GetDouble(11);
-                            obj.a_numeronoites = reader.GetInt32(12);
-                            obj.a_margemvenda = reader.GetDouble(13);
-                            obj.a_markup = reader.GetDouble(14);
-                            obj.a_pagamento = reader.GetString(15);
-                            obj.a_datapagamento = reader.GetDateTime(16);
-                            obj.a_numeroquartos = reader.GetInt32(17);
-                            obj.a_numeropessoas = reader.GetInt32(18);
-                            obj.a_valortotalpvp = reader.GetDouble(19);
-                            obj.a_valorporpessoapvp = reader.GetDouble(20);
-                            obj.a_observacoes = reader.GetString(21);
-                            obj.a_opcao = reader.GetString(22);
-                            obj.f_nome = reader.GetString(23);
-                            obj.q_nome = reader.GetString(24);
-                            obj.c_nome = reader.GetString(25);
-                            obj.i_taxa = reader.GetString(26);
-                            obj.tc_nome = reader.GetString(27);
-
-
-
-                            ObjList.Add(obj);
-
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("No rows found.");
-                    }
-                    reader.Close();
-                    conn.Close();
-
-                }
-                return ObjList;
+                return Lista;
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-            }
 
-            return ObjList;
+                Console.WriteLine(ex.Message);
+                return Lista;
+            }
         }
 
         [HttpPost]
@@ -222,62 +166,11 @@ namespace TTOrcamentos2.Controllers
 
         [HttpPost]
         [Route("api/Postman/getFornecedor")]
-        public fornecedor getFornecedor([FromBody]fornecedor fornecedor)
+        public Fornecedor getFornecedor(JObject fornecedorid)
         {
-            fornecedor obj = new fornecedor();
-            try
-            {
-                using (var conn = new SqlConnection(TTOrcamentos2.Properties.Settings.Default.ConnectionString))
-                using (var command = new SqlCommand("getFornecedor", conn)
-                {
-                    CommandType = CommandType.StoredProcedure
-                })
-                {
-                    command.Parameters.Add("@fornecedoridv", SqlDbType.VarChar).Value = fornecedor.fornecedoridv;
-                    conn.Open();
-                    SqlDataReader reader = command.ExecuteReader();
+            var t = fornecedorid.GetValue("fornecedoridv").ToString();
 
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            obj.fornecedoridv = reader.GetString(0);
-	                        obj.tipofornecedoreidv = reader.GetString(1);
-                            obj.paisidv = reader.GetString(2);
-                            obj.cidade = reader.GetString(3);
-                            obj.tipocustoidv = reader.GetString(4);
-                            obj.f_nome = reader.GetString(5);
-                            obj.f_nomecomercial = reader.GetString(6);
-                            obj.f_morada = reader.GetString(7);
-                            obj.f_localidade = reader.GetString(8);
-                            obj.f_codigopostal = reader.GetString(9);
-                            obj.f_telefone = reader.GetString(10);
-                            obj.f_fax = reader.GetString(11);
-                            obj.f_telemovel = reader.GetString(12);
-                            obj.f_contacto = reader.GetString(13);
-                            obj.f_email = reader.GetString(14);
-                            obj.f_url = reader.GetString(15);
-                            obj.f_contribuinte = reader.GetString(16);
-                            obj.f_categoria = reader.GetString(17);
-                           
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("No rows found.");
-                    }
-                    reader.Close();
-                    conn.Close();
-
-                }
-                return obj;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-
-            return obj;
+            return Fornecedor.Get(t);
         }
 
 
@@ -596,96 +489,37 @@ namespace TTOrcamentos2.Controllers
 
         [HttpPost]
         [Route("api/Postman/InsertAlojamento")]
-        public alojamento InsertAlojamento([FromBody]alojamento Obj)
+        public string InsertAlojamento(JObject Obj)
         {
 
+            var Orcamento = Obj.GetValue("Objeto");
+            Alojamento aloj = Orcamento.ToObject<Alojamento>();
 
-            SqlConnection conn = new SqlConnection(TTOrcamentos2.Properties.Settings.Default.ConnectionString);
-            SqlCommand cmd = new SqlCommand("insertAlojamento", conn);
-            cmd.CommandType = CommandType.StoredProcedure;
 
-            Obj.alojamentoidv = "";
-            cmd.Parameters.AddWithValue("@alojamentoidv", SqlDbType.VarChar).Value = Obj.alojamentoidv;
-            cmd.Parameters.AddWithValue("@orcamentoidv", SqlDbType.VarChar).Value = Obj.orcamentoidv;
-            cmd.Parameters.AddWithValue("@fornecedoridv", SqlDbType.VarChar).Value = Obj.fornecedoridv;
-	        cmd.Parameters.AddWithValue("@quartoidv", SqlDbType.VarChar).Value = Obj.quartoidv;
-            cmd.Parameters.AddWithValue("@cambioidv", SqlDbType.VarChar).Value = Obj.cambioidv;
-            cmd.Parameters.AddWithValue("@ivaidv", SqlDbType.VarChar).Value = Obj.ivaidv;
-            cmd.Parameters.AddWithValue("@tipocustoidv", SqlDbType.VarChar).Value = Obj.tipocustoidv;
-            cmd.Parameters.AddWithValue("@a_preco", SqlDbType.Float).Value = Obj.a_preco;
-            cmd.Parameters.AddWithValue("@a_comissao" , SqlDbType.Float).Value = Obj.a_comissao;
-            cmd.Parameters.AddWithValue("@a_net" , SqlDbType.Float).Value = Obj.a_net;
-            cmd.Parameters.AddWithValue("@a_valorcambio" , SqlDbType.Float).Value = Obj.a_valorcambio;
-            cmd.Parameters.AddWithValue("@a_valoreuros", SqlDbType.Float).Value = Obj.a_valoreuros;
-            cmd.Parameters.AddWithValue("@a_numeronoites", SqlDbType.TinyInt).Value = Obj.a_numeronoites;
-            cmd.Parameters.AddWithValue("@a_margemvenda", SqlDbType.Float).Value = Obj.a_margemvenda;
-            cmd.Parameters.AddWithValue("@a_markup", SqlDbType.Float).Value = Obj.a_markup;
-            cmd.Parameters.AddWithValue("@a_pagamento", SqlDbType.VarChar).Value = Obj.a_pagamento;
-            cmd.Parameters.AddWithValue("@a_datapagamento", SqlDbType.DateTime).Value = Obj.a_datapagamento;
-            cmd.Parameters.AddWithValue("@a_numeroquartos", SqlDbType.TinyInt).Value = Obj.a_numeroquartos;
-            cmd.Parameters.AddWithValue("@a_numeropessoas", SqlDbType.TinyInt).Value = Obj.a_numeropessoas;
-            cmd.Parameters.AddWithValue("@a_valortotalpvp" , SqlDbType.Float).Value = Obj.a_valortotalpvp;
-            cmd.Parameters.AddWithValue("@a_valorporpessoapvp", SqlDbType.Float).Value = Obj.a_valorporpessoapvp;
-            cmd.Parameters.AddWithValue("@a_observacoes", SqlDbType.VarChar).Value = Obj.a_observacoes;
-            cmd.Parameters.AddWithValue("@a_opcao", SqlDbType.VarChar).Value = Obj.a_opcao;
-            alojamento newObject = new alojamento();
+            Alojamento.Insert(aloj);
 
-            try
+
+            /*
+
+            var Orcamento = orca.GetValue("Orcamento");
+            Orcamentos Orcamentos = Orcamento.ToObject<Orcamentos>();
+
+            if (Orcamentos.parrentorcamentoidv != "0")
             {
-                conn.Open();
+                Orcamentos.UpdateActivity(Orcamentos.parrentorcamentoidv);
 
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                if (reader.HasRows)
-                {
-                    
-                    while (reader.Read())
-                    {
-                       
-
-                        newObject.alojamentoidv = reader.GetString(0);
-                        newObject.orcamentoidv = reader.GetString(1);
-                        newObject.fornecedoridv = reader.GetString(2);
-                        newObject.quartoidv = reader.GetString(3);
-                        newObject.cambioidv = reader.GetString(4);
-                        newObject.ivaidv = reader.GetString(5);
-                        newObject.tipocustoidv = reader.GetString(6);
-                        newObject.a_preco = reader.GetDouble(7);
-                        newObject.a_comissao = reader.GetDouble(8);
-                        newObject.a_net = reader.GetDouble(9);
-                        newObject.a_valorcambio = reader.GetDouble(10);
-                        newObject.a_valoreuros = reader.GetDouble(11);
-                        newObject.a_numeronoites = reader.GetInt32(12);
-                        newObject.a_margemvenda = reader.GetDouble(13);
-                        newObject.a_markup = reader.GetDouble(14);
-                        newObject.a_pagamento = reader.GetString(15);
-                        newObject.a_datapagamento = reader.GetDateTime(16);
-                        newObject.a_numeroquartos = reader.GetInt32(17);
-                        newObject.a_numeropessoas = reader.GetInt32(18);
-                        newObject.a_valortotalpvp = reader.GetDouble(19);
-                        newObject.a_valorporpessoapvp = reader.GetDouble(20);
-                        newObject.a_observacoes = reader.GetString(21);
-                        newObject.a_opcao = reader.GetString(22);
-
-                        return newObject;
-
-                    }
-                    
-                }
             }
-            catch (Exception ex)
+            string id = string.Empty;
+            if (Orcamentos.Insert(Orcamentos, out id))
             {
-                throw new Exception("Execption adding account. " + ex.Message);
-            }
-            finally
-            {
-                conn.Close();
-            }
+                return id;
+            }*/
+
+            return "";
 
 
 
-
-            return newObject;
+     
         }
 
         [HttpPost]

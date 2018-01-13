@@ -396,8 +396,25 @@ div.tab button.active {
     height: auto;
 }
 
+.modal-content5{
+    position: relative;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #999;
+    border: 1px solid rgba(0,0,0,.2);
+    border-radius: 6px;
+    outline: 0;
+    -webkit-box-shadow: 0 3px 9px rgba(0,0,0,.5);
+    box-shadow: 0 3px 9px rgba(0,0,0,.5);
+        background-color: #fefefe;
+    margin: 8% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 30%;
+    height: auto;
+}
 .tablinks:not(:first-child){
-    /*display: none;*/
+    display: none;
 }
 .ProjectMenu button{
     display: none
@@ -454,7 +471,7 @@ div.tab button.active {
     float:left;
     width:30%;
 }
-.AddOrcamentoBtn, .SaveOrcamentoBtn,.AddAlojamento,.AddVoo,.AddDiaria,.AddFornecedor,.AddServicos,.GuardarOrcamentoAlojamento{
+.AddOrcamentoBtn, .SaveOrcamentoBtn,.AddAlojamento,.AddVoo,.AddDiaria,.AddFornecedor,.AddServicos,.GuardarOrcamentoAlojamento, .addSaveBtn{
     font-size: 16px;
     margin-top: 20px;
     margin-bottom: 10px;
