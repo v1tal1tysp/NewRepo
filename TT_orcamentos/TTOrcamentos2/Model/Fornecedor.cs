@@ -114,11 +114,12 @@ namespace TTOrcamentos2.Model {
             }
         }
 
-        public static Fornecedor Get(string name)
+        public static Fornecedor Get(string Id)
         {
             try
             {
-                Fornecedor fornecedor = DB.Fornecedor.Find(x => x.nome == name).FirstOrDefault();
+                var id = new ObjectId(Id);
+                Fornecedor fornecedor = DB.Fornecedor.Find(x => x.Id == id).FirstOrDefault();
                 if (fornecedor != null)
                 {
                     return fornecedor;

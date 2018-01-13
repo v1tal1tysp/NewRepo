@@ -186,6 +186,7 @@
                             </div>
                         </div>
                         <!--Orcamentos Geral-->
+
                         <h3>Orçamento <label ID="VersaoID" class="LabelOrcamento"></label></h3>
                         <div class="panel-body">
                             <asp:HiddenField ID="OrcamentosHidden" runat="server" />
@@ -311,7 +312,7 @@
                                     <button type="button"  class="AddBtnFornecedor" style="padding: 0px"><img class="AddIcon 2" src="img\add_btn.png" alt="Guardar"></button>
                                 </div>
                                 <div class="col-lg-2">
-                                    <button type="button"  class="addSaveBtn" style="padding: 0px"></button>
+                                    <button type="button"  class="addSaveBtn" style="padding: 0px">Guardar</button>
                                 </div>
 
                             </div>
@@ -458,14 +459,6 @@
                                 <div class="col-lg-2">
                                     <input class="form-control" type="number" value="60" id="VoosNumeroAviao">
                                 </div>
-                                <label for="example-number-input" class="col-lg-2 col-form-label">Forma de pagar</label>
-                                <div class="col-lg-2">
-                                    <input class="form-control" type="text" value="Advance 50%" id="VoosFormaPagemento">
-                                </div>
-                                <label for="example-number-input" class="col-lg-2 col-form-label">Data de pagamento</label>
-                                <div class="col-lg-2">
-                                    <input class="form-control" type="date" value="" id="VoosDataPagamento">
-                                </div>
                             </div>
                             <div class="row">
                                 <label for="example-number-input" class="col-lg-1 col-form-label">Observações</label>
@@ -599,17 +592,6 @@
                                         <input class="form-control" type="date" value="2011-08-19" id="DiariaData"/>
                                     </div>
                                 </div>
-                                <!--Forma de pagamento &  Data de Pagamento-->
-                                <div class="row">
-                                    <label for="example-number-input" class="col-lg-2 col-form-label">Forma de pagar</label>
-                                    <div class="col-lg-4">
-                                        <input class="form-control" type="text" value="Advance 50%" id="DiariaPagamento"/>
-                                    </div>
-                                    <label for="example-number-input" class="col-lg-2 col-form-label">Data de pagamento</label>
-                                    <div class="col-lg-3">
-                                        <input class="form-control" type="date" value="" id="DiariaDataPagamento"/>
-                                    </div>
-                                </div>
 
                                 <!--addicionar-->
                                 <div class="row">
@@ -692,17 +674,6 @@
                                 <label for="example-number-input" class="col-lg-2 col-form-label">Quantidade</label>
                                 <div class="col-lg-4">
                                     <input class="form-control" type="number" value="" id="ServicosQuantidade"/>
-                                </div>
-                            </div>
-                            <!--Forma de pagamento &  Data de Pagamento-->
-                            <div class="row">
-                                <label for="example-number-input" class="col-lg-2 col-form-label">Forma de pagar</label>
-                                <div class="col-lg-4">
-                                    <input class="form-control" type="text" value="Advance 50%" id="ServicoPagamento">
-                                </div>
-                                <label for="example-number-input" class="col-lg-2 col-form-label">Data de pagamento</label>
-                                <div class="col-lg-2">
-                                    <input class="form-control" type="date" value="" id="ServicosData">
                                 </div>
                             </div>
                             <!--addicionar-->
@@ -1134,85 +1105,91 @@
                             </div>
                 </div>
                 <div id="AcordoComercial" class="modal">
-                            <div  class="modal-content4">
-                                <!-- Modal content -->
-                                <span class="close CloseAlojAcordo">&times;</span>
+                    <div  class="modal-content4">
+                        <!-- Modal content -->
+                        <span class="close CloseAlojAcordo">&times;</span>
+                            <div class="TitleTabela">Acordo Comercial</div>
+                            <div class="row">
                                 
-                                    <div class="TitleTabela">Acordo Comercial</div>
-
-
-
-
-                                    <div class="row">
-                                        <div class="col-lg-2">
-                                            <select name="Moeda" id="AlojamentoMoedaCompra" class="moneyCtrl form-control">
-                                            </select>
-                                        </div>
-                                       <label for="Almoço" class="col-lg-1 col-form-label">P.A. Incluido?</label>
-                                        <div class="col-lg-1">
-                                            <input type="checkbox" value="false" id="Almoço"/>
-                                        </div>
-                                        <label for="example-text-input" class="col-lg-1 col-form-label">Iva</label>
-                                        <div class="col-lg-1">
-                                            <select name="Estado" id="IvaAloj" class="IVA form-control">
-
-                                            </select>
-                                        </div>
-                                        <label for="MarkupAloj" class="col-lg-1 col-form-label">Markup</label>
-                                        <div class="col-lg-1">
-                                            <input class="form-control" type="number" value="0" id="MarkupAloj"/>
-                                        </div>
-                                        <label for="MargemAloj" class="col-lg-1 col-form-label">net</label>
-                                        <div class="col-lg-1">
-                                            <input class="form-control" type="number" value="0" id="AlojomanentoNet"  min="0" step=0.01 />
-                                        </div>
-                                        
-                                    </div>
-                                    <!--Piqueno Almoço &  Margem venda-->
-                                    <div class="row">
-                                        <label for="MargemAloj" class="col-lg-1 col-form-label">Margem de venda</label>
-                                        <div class="col-lg-1">
-                                            <input class="form-control" type="number" value="0" id="MargemAloj" min="0" step=0.01/>
-                                        </div>
-                                        <label for="MargemAloj" class="col-lg-1 col-form-label">Comisão</label>
-                                        <div class="col-lg-1">
-                                            <input class="form-control" type="number" id="ALojamentoComisao" value="0" min="0" step="0.01"/>
-                                        </div>
-                                        <label for="example-text-input" class="col-lg-1 col-form-label">Tipo de Iva</label>
-                                        <div class="col-lg-2">
-                                            <select name="Estado" id="AlojamentoTipoIva" class="TipoIVA form-control">
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <!--Forma de pagamento &  Data de Pagamento-->
-                                    <div class="row">
-                                        <label for="example-number-input" class="col-lg-1 col-form-label">Forma de pagar</label>
-                                        <div class="col-lg-2">
-                                            <input class="form-control" type="text" value="Advance 50%" id="AlojPaydayComment"/>
-                                        </div>
-                                        <label for="example-number-input" class="col-lg-1 col-form-label">Data de pagamento</label>
-                                        <div class="col-lg-2">
-                                            <input class="form-control" type="date" value="" id="AlojamentoDataPagamento"/>
-                                        </div>
-                                        <label for="example-number-input" class="col-lg-1 col-form-label">Observações</label>
-                                        <div class="col-lg-5">
-                                            <textarea class="form-control" id="AlojamentoObservacoes" rows="3"></textarea>
-                                            
-                                        </div>
-                                        
-                                    </div>
-
-
-
-                                    <div class="row">
-
-                                                                              
-                                        <div class="col-lg-6">
-                                            <button class="GuardarOrcamentoAlojamento" type="button" id="GuardarOrcamentoAlojamento">Guardar Orçamento</button>
-                                        </div>
-                                    </div>
+                                <input type="hidden" value="" class="AuxAcordo"/>
+                                
+                                <div class="col-lg-2">
+                                    <select name="Moeda" id="AlojamentoMoedaCompra" class="moneyCtrl form-control">
+                                    </select>
+                                </div>
+                               <label for="Almoço" class="col-lg-1 col-form-label">P.A. Incluido?</label>
+                                <div class="col-lg-1">
+                                    <input type="checkbox" value="false" id="AlmocoChk"/>
+                                </div>
+                                <label for="example-text-input" class="col-lg-1 col-form-label">Iva</label>
+                                <div class="col-lg-1">
+                                    <select name="Estado" id="IvaAloj" class="IVA form-control">
+                                    </select>
+                                </div>
+                                <label for="MarkupAloj" class="col-lg-1 col-form-label">Markup</label>
+                                <div class="col-lg-1">
+                                    <input class="form-control" type="number" value="0" id="MarkupAloj"/>
+                                </div>
+                                <label for="MargemAloj" class="col-lg-1 col-form-label">net</label>
+                                <div class="col-lg-1">
+                                    <input class="form-control" type="number" value="0" id="AlojomanentoNet"  min="0" step=0.01 />
                                 </div>
                             </div>
+                            <!--Piqueno Almoço &  Margem venda-->
+                            <div class="row">
+                                <label for="MargemAloj" class="col-lg-1 col-form-label">Margem de venda</label>
+                                <div class="col-lg-1">
+                                    <input class="form-control" type="number" value="0" id="MargemAloj" min="0" step=0.01/>
+                                </div>
+                                <label for="MargemAloj" class="col-lg-1 col-form-label">Comisão</label>
+                                <div class="col-lg-1">
+                                    <input class="form-control" type="number" id="ALojamentoComisao" value="0" min="0" step="0.01"/>
+                                </div>
+                                <label for="example-text-input" class="col-lg-1 col-form-label">Tipo de Iva</label>
+                                <div class="col-lg-2">
+                                    <select name="Estado" id="AlojamentoTipoIva" class="TipoIVA form-control">
+                                    </select>
+                                </div>
+                            </div>
+                            <!--Observaçoes-->
+                            <div class="row">
+                                <label for="example-number-input" class="col-lg-1 col-form-label">Observações</label>
+                                <div class="col-lg-5">
+                                    <textarea class="form-control" id="AlojamentoObservacoes" rows="3"></textarea>
+                                </div>
+                            </div>
+                            <div class="row">                                     
+                                <div class="col-lg-6">
+                                    <button class="GuardarOrcamentoAlojamento" type="button" id="GuardarOrcamentoAlojamento">Guardar Orçamento</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                 <div id="PopUpTipologia" class="modal">
+                    <div  class="modal-content5">
+                        <!-- Modal content -->
+                        <span class="close ClosePopUpTipologia">&times;</span>
+                            <div class="TitleTabela">Inserir Tipologia</div>
+                            <div class="row">
+                                
+                                <input type="hidden" value="" id="TabelaInvoker"/>
+ 
+                                <label for="MarkupAloj" class="col-lg-2 col-form-label">Descrição</label>
+                                <div class="col-lg-3">
+                                    <input class="form-control" type="text" value="" id="NomeTipologia"/>
+                                </div>
+                                <label for="MargemAloj" class="col-lg-2 col-form-label">Capacidade</label>
+                                <div class="col-lg-3">
+                                    <input class="form-control" type="number" value="0" id="CapacidadeTipologia"  min="1" />
+                                </div>
+                            </div>
+                            <div class="row">                                     
+                                <div class="col-lg-6">
+                                    <button class="GuardarOrcamentoAlojamento" type="button" id="InserirTipologiaBTN">Inserir Tipologia</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         

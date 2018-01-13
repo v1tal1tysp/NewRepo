@@ -51,10 +51,10 @@ namespace TT_orcamentos
                     if (orcamento != null)
                     {
                         //Alojamento
-                    /*    var alojamento = Api.GetAlojamento(orcamento);
+                        var alojamento = Api.GetAlojamento(orcamento);
                         var jsonAlojamento = JsonConvert.SerializeObject(alojamento);
                         HiddenAlojamento.Value = jsonAlojamento;
-                        */
+                        
                         //Voos
                         var voos = Api.getVoos(orcamento);
                         var jsonVoos = JsonConvert.SerializeObject(voos);
