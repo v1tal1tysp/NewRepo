@@ -3188,7 +3188,7 @@ $(document).ready(function () {
 
         $.each(inputaux, function (index, item) {
             var Forneced =$(item).val()
-            if (t === Forneced) {
+            if (t === Forneced || t=== "") {
 
                 var input = $(item).parent().find(".hiddenAlojamentoAcordo");
 
@@ -3306,10 +3306,15 @@ $(document).ready(function () {
     $('#tabs').on('click', '.RemoveBtnFornecedor', function () {
 
         var callClass = this.className.toString();
+        $(this).parent().remove();
+
+
+
         var divid = $(this).parent().attr('id');
         var root = $(this).parent().parent();
         var lastChar = parseInt(divid.substr(divid.length - 1));
-        $(this).parent().remove();
+        
+
 
         var ul = $(root).find("li")[lastChar-1];
 

@@ -344,7 +344,7 @@
                                     <tr>
                                         <th>Hotel</th>
                                         <th>Tipo</th>
-                                        <th>Quarto-Noites</th>
+                                        <th>Roomnights</th>
                                         <th>Valor/Moeda</th>
                                         <th>Unidades</th>
                                         <th class="paraVenda">Total</th>
