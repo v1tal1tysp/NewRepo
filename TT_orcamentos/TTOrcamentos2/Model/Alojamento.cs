@@ -112,7 +112,7 @@ namespace TTOrcamentos2.Model {
         public int capacidade { get; set; }
     }
 
-        public class Acordo {
+    public class Acordo {
         public Cambio cambio { get; set; }
         public bool AlmocoIncluido { get; set; }
         public Ivas Iva { get; set; }
@@ -138,5 +138,9 @@ namespace TTOrcamentos2.Model {
             this.nome = nome;
             this.numero = numero;
         }
+    }
+
+    public class ResultRecords {
+
     }
 }

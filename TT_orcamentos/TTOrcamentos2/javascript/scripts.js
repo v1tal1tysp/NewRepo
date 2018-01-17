@@ -11,6 +11,7 @@ var url4 = "img/InfoObs.png";
 var url5 = "img/add_btn.png";
 var url6 = "img/setting.png";
 var url7 = "img/icon-hotelbill.png";
+var url8 = "img/arrow_down.png";
 
 var res = encodeURI(url);
 var res2 = encodeURI(url2);
@@ -19,6 +20,7 @@ var res4 = encodeURI(url4);
 var res5 = encodeURI(url5);
 var res6 = encodeURI(url6);
 var res7 = encodeURI(url7);
+var res8 = encodeURI(url8);
 
 var InputClick;
 var InputId;
@@ -1128,6 +1130,10 @@ function InsertTableAlojamentoHotel(hotelname, valueID) {
 
 
     var days = parseInt($("#OrcamentoNoites").val());
+
+
+    var btnApplyToAllItemsBtn = "<button class='ApplyToTableColumn' type='button' style='padding: 0px'><img class='GetIcon 5' src='" + res8 + "' alt='Guardar'></button>";
+
     var btnBill = "<button class='GetBill' type='button' style='padding: 0px'><img class='GetIcon 5' src='" + res7 + "' alt='Guardar'></button>";
     var btn = "<button class='GetBtnFornecedor' type='button' style='padding: 0px'><img class='GetIcon 5' src='" + res6 + "' alt='Guardar'></button>";
     var btnRemove = "<button class='RemoveBtnFornecedor' type='button' style='padding: 0px'><img class='removeFornecedor' src='img/remove.png' alt='remover'></button>";
@@ -1148,7 +1154,10 @@ function InsertTableAlojamentoHotel(hotelname, valueID) {
             table += "<td class='QuartoDev'><img class='rmvAlojType " + (index + 1) + "' src='img/remove.png' alt='remover'><input type='text' value='" + obj.name + "' class='form-control AlojTableType'><input type='hidden' value='" + obj.capacidade + "' class='form-control AlojNPax " + obj.inId + "'></td>";
         }
     });
-    table += "<td><img class='AddIcon AlojamentoTipos " + cnt + "' src='" + res5 + "' alt='Guardar'></td></tr>";
+
+
+    /*Inserir aqui*/
+    table += "<td>" + btnApplyToAllItemsBtn + "<img class='AddIcon AlojamentoTipos " + cnt + "' src='" + res5 + "' alt='Guardar'></td></tr>";
 
 
     /*TABLE - Day Rows*/
@@ -1246,6 +1255,8 @@ function RefreshTabelaresume() {
 
 
 
+
+
 }
 
 
@@ -1305,7 +1316,7 @@ function RefreshAlojTableDias() {
 
 
     $(tableas).each(function (i, o) {
-
+        var fornecedorId = $(o).parent().find(".AlojamentoFornecedorID").val();
         var tipologias = $(o).find(".AlojTableType");
         var tipologiVal = $(".AlojNPax");
 
@@ -1318,7 +1329,7 @@ function RefreshAlojTableDias() {
             var NomeTipo = tipologias[i].value;
             var totalQuartos = totais[i].innerHTML;
             if (i == 0) {
-                $("#AlojamentoRecords tr:last").after('<tr>' +
+                $("#AlojamentoRecords tr:last").after('<tr class="' + fornecedorId + '">' +
                 '<td rowspan="' + tipologias.length + '">' + NomeHotel +
                     '<input type="hidden" class="HiddenRecordId" value="' + 0 + '">' +
                     '<input type="hidden" class="HiddenRecordIdFornecedor" value="' + 0 + '">' +
@@ -1334,7 +1345,7 @@ function RefreshAlojTableDias() {
                 '</tr>');
             }
             else {
-                $("#AlojamentoRecords tr:last").after('<tr>' +
+                $("#AlojamentoRecords tr:last").after('<tr class="' + fornecedorId + '">' +
                     '<td>' + NomeTipo + '</td>' +
                     '<td>' + totalQuartos + '</td>' +
                     '<td><input type="number" class="smNumInput" value="' + parseInt(0) + '"></td>' +
@@ -1359,6 +1370,28 @@ $('#tabs').on('change', '.AlojTableNumberIn', function () {
 });
 
 
+
+$('.AlojamentoHoteis').on('click', '.ApplyToTableColumn', function () {
+
+    var table = $(this).parent().parent().parent().parent();
+
+    var First_linha = $(".AlojDiasTable:first");
+    var all_lines = $(".AlojDiasTable:not(:first)")
+    var inputs = $(First_linha).find(".AlojTableNumberIn");
+
+    $(inputs).each(function (i, inpu) {
+        var val = parseInt($(inpu).val());
+        var tipo = $(inpu).attr("class");
+        tipo = "." + tipo.replace(" ", ".");
+        $(all_lines).each(function (i2, lin) {
+            var inputToChange = $(lin).find(tipo);
+            $(inputToChange).val(val)
+        });
+    });
+
+    RefreshAlojamento()
+
+});
 
 $('.AlojamentoHoteis').on('click', '.rmvAlojType', function () {
 
@@ -1403,7 +1436,7 @@ $('body').on('change', '#txtUploadFile', function () {
                     ' </td>' +
                     '<td>' + ConvertDateForOrcamentosTable(d.DataCriacao) + '</td>' +
                     '</tr>');
-            })
+            });
 
 
         },
@@ -3538,6 +3571,7 @@ $(document).ready(function () {
         select: function (event, ui) {
             if (InputClick == "#AlojamentoFornecedor") {
                 InsertTableAlojamentoHotel(ui.item.label, ui.item.value);
+                $('#AcordoComercial').modal('show');
             }
             $(InputClick).val(ui.item.label);
             $(InputId).val(ui.item.value);

@@ -498,7 +498,7 @@ div.tab button.active {
     color: white;
     border: 0px;
 }
-.AddBtnFornecedor,.GetBtnFornecedor, .GetBill, .RemoveBtnFornecedor{
+.AddBtnFornecedor,.GetBtnFornecedor, .GetBill, .RemoveBtnFornecedor, .ApplyToTableColumn{
     background-color: white;
     color: white;
     border: 0px;
@@ -546,11 +546,11 @@ height: 50px;
 .AddPagamento, .AddIcon{
         height: 32px;
 }
-.AddPagamento, .AddIcon:hover{
+.AddPagamento,.ApplyToTableColumn, .AddIcon:hover{
 height: 34px;
 }
 
-.AddPagamento{
+.AddPagamento , .ApplyToTableColumn{
         height: 32px;
 }
 .AddPagamento:hover{

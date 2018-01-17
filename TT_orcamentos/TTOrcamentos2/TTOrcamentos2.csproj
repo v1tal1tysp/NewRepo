@@ -174,6 +174,7 @@
     <Content Include="css\style.css" />
     <Content Include="fonts\Roboto-Regular.ttf" />
     <Content Include="img\add_btn.png" />
+    <Content Include="img\arrow_down.png" />
     <Content Include="img\background.jpg" />
     <Content Include="img\check.png" />
     <Content Include="img\Excell.ico" />
