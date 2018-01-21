@@ -346,7 +346,7 @@
                                         <th>Tipo</th>
                                         <th>Roomnights</th>
                                         <th>Valor/Moeda</th>
-                                        <th>Unidades</th>
+                                        <th>Margem</th>
                                         <th class="paraVenda">Total</th>
                                         <th class="paraVenda">Total Pessoa</th>
                                         <th class="Lucro">Total</th>
@@ -721,22 +721,18 @@
                         </div>
                         <table class="" id="AlojamentoVerRecords">
                             <tbody>
-                                <tr>
-                                    <th>Hotel</th>
-                                    <th>Tipo</th>
-                                    <th>Valor/Moeda</th>
-                                    <th>Noites</th>
-                                    <th>PAX</th>
-                                    <th>Margem</th>
-                                    <th>Comissão</th>
-                                    <th class="paraVenda TotalCompra">Total</th>
-                                    <th class="paraVenda">Total Pessoa</th>
-                                    <th class="Lucro TotalVenda">Total</th>
-                                    <th class="Lucro">Total Pessoa</th>
-                                    <th class="Lucro TotalLucro">Lucro</th>
-                                    <th>Observaçoes</th>
-                                    <th>Operaçoes</th>
-                                </tr>
+                                    <tr>
+                                        <th>Hotel</th>
+                                        <th>Tipo</th>
+                                        <th>Roomnights</th>
+                                        <th>Valor/Moeda</th>
+                                        <th>Margem</th>
+                                        <th class="paraVenda">Total</th>
+                                        <th class="paraVenda">Total Pessoa</th>
+                                        <th class="Lucro">Total</th>
+                                        <th class="Lucro">Total Pessoa</th>
+                                        <th class="Lucro">Lucro</th>
+                                    </tr>
                             </tbody>
                         </table>
                     </div>

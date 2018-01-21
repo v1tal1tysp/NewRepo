@@ -706,11 +706,11 @@ tr:nth-child(even) {
     width: 80px;
 }
 .paraVenda{
-    background-color: red;
+    background-color: #ed4337;
 
 }
 .Lucro{
-    background-color: green;
+    background-color: #118C4E;
 }
 
 #accordion h3{
