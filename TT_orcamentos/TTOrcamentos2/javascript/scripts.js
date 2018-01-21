@@ -1092,14 +1092,32 @@ function ReadAlojamento() {
         var MargemAloj = parseFloat($("#MargemAloj").val());
         var ALojamentoComisao = parseFloat($("#ALojamentoComisao").val());
 
+        var trs = $("#AlojamentoRecords").find("." + fornecedorId);
+
+
+        $.each(trs, function (index, d) {
+            var hasdfa = d;
+        });
+
+        var records = [];
+
+        var AlojamentoID = $(tabela).parent().find(".AlojamentoID").val();
+
+        if (AlojamentoID === "none") {
+            var AlojamentoID = "";
+        } 
+
+
+
         var hotel = {
-            "_id" : "",
+            "_id": AlojamentoID,
             "Hotelname": hotelname,
             "OrcamentoId": orcaid,
             "Fornecedor": fornecedorId,
             "quartos": arrQuartosID,
             "acordo": acordo,
-            "Dias": Dias
+            "Dias": Dias,
+            "Records": records
         }
 
 
@@ -1113,7 +1131,7 @@ function ReadAlojamento() {
             "hotel": "",
             "Objeto": item
         }
-        sendAlojamento(objeto, true)
+        //sendAlojamento(objeto, true)
     });
 
 
@@ -1137,6 +1155,7 @@ function InsertTableAlojamentoHotel(hotelname, valueID) {
     var btnBill = "<button class='GetBill' type='button' style='padding: 0px'><img class='GetIcon 5' src='" + res7 + "' alt='Guardar'></button>";
     var btn = "<button class='GetBtnFornecedor' type='button' style='padding: 0px'><img class='GetIcon 5' src='" + res6 + "' alt='Guardar'></button>";
     var btnRemove = "<button class='RemoveBtnFornecedor' type='button' style='padding: 0px'><img class='removeFornecedor' src='img/remove.png' alt='remover'></button>";
+    var hiddenIDInterno = "<input type='hidden' class='AlojamentoID' value='none' >";
     var hidden = "<input type='hidden' class='AlojamentoFornecedorID' value='" + valueID + "' >";
     var hiddenAcordo = "<input type='hidden' class='hiddenAlojamentoAcordo' >";
     var cnt = $(".AlojamentoHoteis").children().length + 1;
@@ -1193,7 +1212,7 @@ function InsertTableAlojamentoHotel(hotelname, valueID) {
     lastTr += "</tr></table>";
     table += lastTr;
 
-    $("#tabs#tabs").append("<div id='tab" + num_tabs + "'>" + btnBill + hidden + hiddenAcordo + btn + btnRemove + table + "</div>");
+    $("#tabs#tabs").append("<div id='tab" + num_tabs + "'>" + btnBill + hidden + hiddenAcordo + hiddenIDInterno + btn + btnRemove + table + "</div>");
 
     $("#tabs#tabs").tabs("refresh");
     RefreshAlojTableDias();

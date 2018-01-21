@@ -17,6 +17,7 @@ namespace TTOrcamentos2.Model {
         public List<quarto> quartos { get; set; }
         public Acordo acordo { get; set; }
         public List<Dias> Dias { get; set; }
+        public List<ResultRecords> Records { get; set; }
 
         public Alojamento()
         {
@@ -25,7 +26,7 @@ namespace TTOrcamentos2.Model {
 
 
         }
-        public Alojamento(string hotelName, string OrcamentoId,string Fornecedort, List<quarto> quartos, Acordo acordo,List<Dias> dias)
+        public Alojamento(string hotelName, string OrcamentoId,string Fornecedort, List<quarto> quartos, Acordo acordo,List<Dias> dias, List<ResultRecords> Records)
         {
             this.Hotelname = hotelName;
             this.OrcamentoId = OrcamentoId;
@@ -33,12 +34,13 @@ namespace TTOrcamentos2.Model {
             this.acordo = acordo;
             this.Dias = dias;
             this.Fornecedor = Fornecedort;
+            this.Records = Records;
         }
-        public static bool Insert(string hotelName, string OrcamentoId,string Fornecedor, List<quarto> quartos, Acordo acordo, List<Dias> dias)
+        public static bool Insert(string hotelName, string OrcamentoId,string Fornecedor, List<quarto> quartos, Acordo acordo, List<Dias> dias, List<ResultRecords> Records)
         {
             try
             {
-                Alojamento cntr = new Alojamento(hotelName, OrcamentoId, Fornecedor, quartos, acordo, dias);
+                Alojamento cntr = new Alojamento(hotelName, OrcamentoId, Fornecedor, quartos, acordo, dias, Records);
                 DB.Alojamento.InsertOne(cntr);
 
                 return true;
@@ -141,6 +143,16 @@ namespace TTOrcamentos2.Model {
     }
 
     public class ResultRecords {
+        public string tipo { get; set; }
+        public int roomnights { get; set; }
+        public double valor { get; set; }
+        public double margem { get; set; }
+        public double totalCusto { get; set; }
+        public double totalPaxCusto { get; set; }
+        public double totalVenda { get; set; }
+        public double totalVendaPax { get; set; }
+        public double lucro { get; set; }
+
 
     }
 }
