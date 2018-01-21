@@ -1103,13 +1103,13 @@ function ReadAlojamento() {
                 var tipo = childs[1].innerHTML;
                 var roomnights = parseInt(childs[2].innerHTML);
 
-                var valor = parseFloat(childs[3].find(".smNumInput").val());
-                var margem = parseFloat(childs[4].find(".smNumInput").val());
-                var totalCusto = parseFloat(childs[5].find(".smNumInput").val());
-                var totalPaxCusto= parseFloat
-                var totalVenda = parseFloat
-                var totalVendaPax= parseFloat
-                var lucro = parseFloat
+                var valor = parseFloat($(childs[3]).find(".smNumInput").val());
+                var margem = parseFloat($(childs[4]).find(".smNumInput").val());
+                var totalCusto = parseFloat(childs[5].innerHTML);
+                var totalPaxCusto = parseFloat(childs[6].innerHTML);
+                var totalVenda = parseFloat(childs[7].innerHTML);
+                var totalVendaPax = parseFloat(childs[8].innerHTML);
+                var lucro = parseFloat(childs[9].innerHTML);
             }
 
 
@@ -1160,6 +1160,7 @@ function InsertTableAlojamentoHotel(hotelname, valueID) {
 
     /*ICONS*/
     $("#tabs#tabs ul").append("<li><a href='#tab" + num_tabs + "'>" + hotelname + "</a></li>");
+
 
 
 
@@ -1231,7 +1232,7 @@ function InsertTableAlojamentoHotel(hotelname, valueID) {
     $("#tabs#tabs").append("<div id='tab" + num_tabs + "'>" + btnBill + hidden + hiddenAcordo + hiddenIDInterno + btn + btnRemove + table + "</div>");
 
     $("#tabs#tabs").tabs("refresh");
-    RefreshAlojTableDias();
+    //RefreshAlojTableDias();
 
     $("#AlojamentoResume").css("display", "block");
 }
@@ -1356,8 +1357,16 @@ function RefreshAlojTableDias() {
         var tipologias = $(o).find(".AlojTableType");
         var tipologiVal = $(".AlojNPax");
 
-        var acordo = JSON.parse($(o).parent().find(".hiddenAlojamentoAcordo").val());
+        var acordojson = $(o).parent().find(".hiddenAlojamentoAcordo").val();
 
+
+        var acordo = "";
+        if (acordojson === "") {
+            return;
+        }
+        else {
+            acordo = JSON.parse(acordojson);
+        }
         var cambioAcordo = acordo.cambio;
 
         
@@ -1376,6 +1385,15 @@ function RefreshAlojTableDias() {
         var Rows = $(o).find(".AlojDiasTable");
         var totais = $(o).find(".AlojTotais");
 
+        var tdValor = "";
+        if (cambioAcordo.name === "EUR") {
+            tdValor = '<input type="number" class="smNumInput" value="' + parseInt(0) + '">' + '<input type="hidden" class="HiddenCambioValue" value="' + cambioAcordo.value + '">' + '/' + cambioAcordo.name;
+        }
+        else {
+            tdValor = '<input type="number" class="smNumInput" value="' + parseInt(0) + '">' + '<input type="hidden" class="HiddenCambioValue" value="' + cambioAcordo.value + '">' + '/' + cambioAcordo.name + '</br>' + (0 / cambioAcordo.value).formatMoney(2, '.', ',') + '/' + 'EUR';;
+
+        }
+
         for (var i = 0; i < tipologias.length; i++) {
             var NomeTipo = tipologias[i].value;
             var cap = tipologiVal[i].value;
@@ -1389,7 +1407,7 @@ function RefreshAlojTableDias() {
                     '<input type="hidden" class="HiddenRecordQuartoIdv" value="' + cap + '">' +
                 '</td>' +
                 '<td >' + totalQuartos + '</td>' +
-                '<td><input type="number" class="smNumInput" value="' + parseInt(0) + '">' + '/' + cambioAcordo.name + '</td>' +
+                '<td>'+tdValor+'</td>' +
                 '<td><input type="number"  class="smNumInput" min="0" step=0.01 value="' + parseFloat(0) + '"></td>' +
                 '<td>' + parseFloat(0) + '</td>' +
                 '<td>' + parseFloat(0) + '</td>' +
@@ -1406,7 +1424,7 @@ function RefreshAlojTableDias() {
                         '<input type="hidden" class="HiddenRecordQuartoIdv" value="' + cap + '">' +
                     '</td>' +
                     '<td >' + totalQuartos + '</td>' +
-                    '<td><input type="number" class="smNumInput" value="' + parseInt(0) + '">' + '/' + cambioAcordo.name + '</td>' +
+                    '<td>' + tdValor + '</td>' +
                     '<td><input type="number"  class="smNumInput" min="0" step=0.01 value="' + parseFloat(0) + '"></td>' +
                     '<td>' + parseFloat(0) + '</td>' +
                     '<td>' + parseFloat(0) + '</td>' +
@@ -1423,7 +1441,7 @@ function RefreshAlojTableDias() {
                     '</td>' +
                     '<td>' + totalQuartos +
                     '</td>' +
-                    '<td><input type="number" class="smNumInput" value="' + parseInt(0) + '">' + '/' + cambioAcordo.name + '</td>' +
+                    '<td>' + tdValor + '</td>' +
                     '<td><input type="number"  class="smNumInput" min="0" step=0.01 value="' + parseFloat(0) + '"></td>' +
                     '<td>' + parseFloat(0) + '</td>' +
                     '<td>' + parseFloat(0) + '</td>' +
@@ -1438,7 +1456,7 @@ function RefreshAlojTableDias() {
                         '<input type="hidden" class="HiddenRecordQuartoIdv" value="' + cap + '">' +
                     '</td>' +
                     '<td>' + totalQuartos + '</td>' +
-                    '<td><input type="number" class="smNumInput" value="' + parseInt(0) + '">' + '/' + cambioAcordo.name + '</td>' +
+                    '<td>' + tdValor + '</td>' +
                     '<td><input type="number"  class="smNumInput" min="0" step=0.01 value="' + parseFloat(0) + '"></td>' +
                     '<td>' + parseFloat(0) + '</td>' +
                     '<td>' + parseFloat(0) + '</td>' +
@@ -3316,10 +3334,18 @@ $(document).ready(function () {
         var jsohotel = JSON.stringify(hotel);
 
         var inputaux = $("#tabs#tabs .AlojamentoFornecedorID");
+
+
         var t = $(".AuxAcordo").val();
 
+
+        var label = $(".uiitemlabel").val();
+        var valfornec = $(".uiitemvalue").val();
+
         $.each(inputaux, function (index, item) {
-            var Forneced =$(item).val()
+            var Forneced = $(item).val()
+
+
             if (t === Forneced || t=== "") {
 
                 var input = $(item).parent().find(".hiddenAlojamentoAcordo");
@@ -3330,10 +3356,12 @@ $(document).ready(function () {
         });
 
 
-        
 
-        
+
         $('#AcordoComercial').modal('hide');
+
+        RefreshAlojTableDias();
+        //InsertTableAlojamentoHotel(label, valfornec);
     });
 
     $("#InserirTipologiaBTN").click(function () {
@@ -3666,8 +3694,14 @@ $(document).ready(function () {
         minLength: 1,
         select: function (event, ui) {
             if (InputClick == "#AlojamentoFornecedor") {
-                InsertTableAlojamentoHotel(ui.item.label, ui.item.value);
                 $('#AcordoComercial').modal('show');
+                $(".uiitemlabel").val(ui.item.label);
+                $(".uiitemvalue").val(ui.item.value);
+                $(".AuxAcordo").val(ui.item.value);
+                InsertTableAlojamentoHotel(ui.item.label, ui.item.value);
+
+               
+                
             }
             $(InputClick).val(ui.item.label);
             $(InputId).val(ui.item.value);

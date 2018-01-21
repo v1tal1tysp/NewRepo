@@ -1106,7 +1106,11 @@
                         <span class="close CloseAlojAcordo">&times;</span>
                             <div class="TitleTabela">Acordo Comercial</div>
                             <div class="row">
-                                
+                                 <input type="hidden" value="" class="uiitemlabel"/>
+                                 <input type="hidden" value="" class="uiitemvalue"/>
+
+
+
                                 <input type="hidden" value="" class="AuxAcordo"/>
                                 
                                 <div class="col-lg-2">

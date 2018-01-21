@@ -146,6 +146,7 @@ namespace TTOrcamentos2.Model {
         public string tipo { get; set; }
         public int roomnights { get; set; }
         public double valor { get; set; }
+        public Cambio cambio { get; set; }
         public double margem { get; set; }
         public double totalCusto { get; set; }
         public double totalPaxCusto { get; set; }
