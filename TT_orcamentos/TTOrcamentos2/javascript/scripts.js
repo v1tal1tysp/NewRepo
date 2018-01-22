@@ -2056,11 +2056,17 @@ function updateValues(FiredTable) {
                     //var unitCost = tds[3].innerHTML.spli('/')[1];
                 }
                 else {// Se nao encontra é porque != Euros
-                    var t = unitCost.split('<br>');
-                    var MoedaCompra = t[0].split('/');
 
-                    var Vcompra = parseFloat(t[0]);
-                    var VEuro = parseFloat(t[1]);
+
+
+                    var t = unitCost;
+
+                    var MoedaCompra = td3text.split("\n")[0];
+
+                    parseFloat($(tds[3]).find(".HiddenCambioValue").val());
+
+                    var Vcompra = unitCost;
+                    var VEuro = parseFloat($(tds[3]).find(".HiddenCambioValue").val());
 
                     /*Total*/
                     $(tds[5]).html(

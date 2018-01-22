@@ -683,10 +683,22 @@ namespace TTOrcamentos2.Controllers
 
 
 
-
+        
+        [HttpPost]
+        [Route("api/Postman/UpdateCambio")]
+        public bool UpdateCambio(JObject mystr)
+        {
+            if (Cambio.Update(mystr))
+            {
+                return true;
+            }else
+            {
+                return false;
+            }
+        }
 
         //PESQUISA
-        
+
         [HttpPost]
         [Route("api/Postman/pesquisaFornecedor")]
         public List<dynamic> pesquisaFornecedor(JObject mystr)

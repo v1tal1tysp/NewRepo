@@ -52,23 +52,24 @@
                 <div class="col-lg-6">
                     <div class="input-group">
                         <span class="input-group-addon">
-                            <input type="combo" aria-label="...">
+                            <input type="combo" aria-label="..." />
                         </span>
-                        <input type="text" class="form-control" aria-label="...">
+                        <input type="text" class="form-control" aria-label="..." />
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="input-group">
                         <span class="input-group-addon">
-                            <input type="radio" aria-label="...">
+                            <input type="radio" aria-label="..."/>
                         </span>
-                        <input type="text" class="form-control" aria-label="...">
+                        <input type="text" class="form-control" aria-label="..."/>
                     </div>
                 </div>
 
             </div>
             <div class="row">
                 <div class="col-lg-12">
+                    <asp:HiddenField ID="CambiosToUpdate" runat="server"/>
                     <asp:HiddenField ID="TableData" runat="server"/>
                     <asp:table id="Listaprojectos" runat="server">
                             <asp:TableHeaderRow>
@@ -100,6 +101,7 @@
 	$(document).ready(function () {
 	    LoadList();
 
+	    //UpdateCambios()
 	});
 
 
@@ -285,12 +287,17 @@
 
 
 
-		function UpdateCambios(obj){
+		function UpdateCambios(){
 		    var rates;
-		    var arrayCambios={};
+		    var arrayCambios = {};
 
 
-		    var demo = function(data) {
+
+
+		    var demo = function (data) {
+
+		        var jsnoCambios = JSON.parse($("#CambiosToUpdate").val());
+		        var listacambios = $.parseJSON(jsnoCambios);
 
 		    rates = data.rates;
 		    var ratingsValores = $.param(data.rates);
@@ -298,21 +305,21 @@
 		    var resultado = ratingsValores.split("&");
 		    var i = 1;
 
-		    $.each(obj.DATA['CAMBIOIDV'], function(idx) {
-				var idv = obj.DATA['CAMBIOIDV'][idx];
-				var nome = obj.DATA['C_NOME'][idx];
+		    $.each(listacambios, function (id , obj) {
+
+				var idv = obj.Id;
+				var nome = obj.name;
 				 $.each(resultado, function(){
 					 var currincy = this.split("=");
 
 					 if(nome === currincy[0])
 					 {
-						var resp;
 		    			var data = {
-							"cambioidv": idv,
-		    			    "c_nome": nome,
-							"c_valor": parseFloat(currincy[1])
+		    			    "_id": idv,
+		    			    "inId": obj.inId,
+                            "name": nome,
+                            "value": parseFloat(currincy[1])
 		    			}
-
 		        		sendCambio(data);
 					 }
 
@@ -332,15 +339,10 @@
 
 
         function sendCambio(objectToSend) {
-
-            var res;
-            $.post('http://www.touchgroup.com/sgtt/cfc/main.cfc?method=insertCambio', objectToSend,
+            $.post('api/Postman/UpdateCambio', objectToSend,
                 function (returnedData) {
-                    res = JSON.parse(returnedData);
-
-                    res = null;
                 }).fail(function () {
-                    console.log("erro insertCambio");
+                    window.alert("erro actualizar Cambio")
                 });
         }
 

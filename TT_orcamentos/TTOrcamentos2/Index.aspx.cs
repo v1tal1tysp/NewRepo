@@ -26,8 +26,9 @@ namespace TT_orcamentos
                 var ListaProjectos = table.Select(x => x.projectoidv).Distinct();
 
                 var json = JsonConvert.SerializeObject(table);
-
-
+                var Listcambios = Cambio.GetAll();
+                var jsoncambios = JsonConvert.SerializeObject(Listcambios);
+                CambiosToUpdate.Value = JsonConvert.ToString(jsoncambios);
                 TableData.Value = JsonConvert.ToString(json);
             }
             else

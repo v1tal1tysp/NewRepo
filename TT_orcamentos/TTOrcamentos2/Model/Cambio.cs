@@ -1,6 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,12 +58,31 @@ namespace TTOrcamentos2.Model {
                 throw new Exception("Erro Inserir Cambio" + e.ToString());
             }
         }
-
-        public static bool Update(Cambio Cambio)
+        public static bool Insert(Cambio cambio)
         {
             try
             {
-                DB.Cambio.ReplaceOne(c => c.Id == Cambio.Id, Cambio);
+                DB.Cambio.InsertOne(cambio);
+
+                return true;
+            }
+            catch (Exception e)
+            {
+
+                throw new Exception("Erro Inserir Cambio" + e.ToString());
+            }
+        }
+
+        public static bool Update(JObject Cambio)
+        {
+            try
+            {
+                ObjectId otalId = ObjectId.Parse( Cambio.GetValue("_id").ToString());
+                Cambio aux = Cambio.ToObject<Cambio>();
+                aux.Id = otalId;
+
+
+                DB.Cambio.ReplaceOne(x => x.Id == aux.Id, aux);
                 return true;
             }
             catch (Exception e)
