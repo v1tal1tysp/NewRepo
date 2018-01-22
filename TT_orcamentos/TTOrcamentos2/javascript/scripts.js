@@ -1370,7 +1370,7 @@ function RefreshAlojTableDias() {
         var cambioAcordo = acordo.cambio;
 
         
-
+        var margem = parseFloat(acordo.margem);
 
 
         var AlojCambioName = $("#AlojamentoMoedaCompra option:selected").text();
@@ -1398,6 +1398,8 @@ function RefreshAlojTableDias() {
             var NomeTipo = tipologias[i].value;
             var cap = tipologiVal[i].value;
             var totalQuartos = totais[i].innerHTML;
+
+
             if (i == 0) {
                 $("#AlojamentoRecords tr:last").after('<tr class="' + fornecedorId + '">' +
                 '<td rowspan="' + tipologias.length + '">' + NomeHotel +
@@ -1408,7 +1410,7 @@ function RefreshAlojTableDias() {
                 '</td>' +
                 '<td >' + totalQuartos + '</td>' +
                 '<td>'+tdValor+'</td>' +
-                '<td><input type="number"  class="smNumInput" min="0" step=0.01 value="' + parseFloat(0) + '"></td>' +
+                '<td><input type="number"  class="smNumInput" min="0" step=0.01 value="' + margem + '"></td>' +
                 '<td>' + parseFloat(0) + '</td>' +
                 '<td>' + parseFloat(0) + '</td>' +
                 '<td>' + parseFloat(0) + '</td>' +
@@ -1425,7 +1427,7 @@ function RefreshAlojTableDias() {
                     '</td>' +
                     '<td >' + totalQuartos + '</td>' +
                     '<td>' + tdValor + '</td>' +
-                    '<td><input type="number"  class="smNumInput" min="0" step=0.01 value="' + parseFloat(0) + '"></td>' +
+                    '<td><input type="number"  class="smNumInput" min="0" step=0.01 value="' + margem + '"></td>' +
                     '<td>' + parseFloat(0) + '</td>' +
                     '<td>' + parseFloat(0) + '</td>' +
                     '<td>' + parseFloat(0) + '</td>' +
@@ -1442,7 +1444,7 @@ function RefreshAlojTableDias() {
                     '<td>' + totalQuartos +
                     '</td>' +
                     '<td>' + tdValor + '</td>' +
-                    '<td><input type="number"  class="smNumInput" min="0" step=0.01 value="' + parseFloat(0) + '"></td>' +
+                    '<td><input type="number"  class="smNumInput" min="0" step=0.01 value="' + margem + '"></td>' +
                     '<td>' + parseFloat(0) + '</td>' +
                     '<td>' + parseFloat(0) + '</td>' +
                     '<td>' + parseFloat(0) + '</td>' +
@@ -1457,7 +1459,7 @@ function RefreshAlojTableDias() {
                     '</td>' +
                     '<td>' + totalQuartos + '</td>' +
                     '<td>' + tdValor + '</td>' +
-                    '<td><input type="number"  class="smNumInput" min="0" step=0.01 value="' + parseFloat(0) + '"></td>' +
+                    '<td><input type="number"  class="smNumInput" min="0" step=0.01 value="' + margem + '"></td>' +
                     '<td>' + parseFloat(0) + '</td>' +
                     '<td>' + parseFloat(0) + '</td>' +
                     '<td>' + parseFloat(0) + '</td>' +
@@ -2021,20 +2023,39 @@ function updateValues(FiredTable) {
             if (tds.length === 10) {
 
                 capc = parseInt($(tds[1]).find(".HiddenRecordQuartoIdv").val());
+                var unitCost =parseFloat( $(tds[3]).find(".smNumInput").val());
+                var td3text = tds[3].innerText.split('/')[1];
+
+                var SeraEuros = td3text.indexOf("\n");
 
 
                 var unitNights = parseInt(tds[2].innerHTML, 10);
-                var units = parseInt($(tds[4]).find("input").val(), 10);
-                var margem = parseFloat($(tds[5]).find("input").val());
+                var margem = parseInt($(tds[4]).find("input").val(), 10);
 
                 var TotalLucro = parseInt(tds[8].innerHTML, 10);
                 var TotalLucroPax = parseInt(tds[9].innerHTML, 10);
-                var unitCost = tds[3].innerHTML;
+                //var unitCost = tds[3].innerHTML;
 
+                if (SeraEuros === -1) {// Nao encontra ou seja é Euros
+                    
+                    /*Total*/
+                    $(tds[5]).html((unitCost * unitNights).formatMoney(2, '.', ','));
+                    //$(tds[7]).html(((unitCost * unitNights) * units).formatMoney(2, '.', ','));
+                    /*TotalPAX*/
+                    $(tds[6]).html(((unitCost * unitNights) / (capc * unitNights)).formatMoney(2, '.', ','));
+                    /*TotalVenda*/
+                    $(tds[7]).html(((((unitCost * unitNights) / capc) / 100) * margem + (unitCost * unitNights) / capc).formatMoney(2, '.', ','));
+                    //$(tds[7]).html((((unitCost *  unitNights) / 100) * margem + ( unitNights)).formatMoney(2, '.', ','));
+                    /*TotalVendaPAX*/
+                    $(tds[8]).html((((((unitCost * unitNights) / capc) / 100) * margem + (unitCost * unitNights) / capc) / (capc * unitNights)).formatMoney(2, '.', ','));
+                   // $(tds[8]).html(((((unitCost * unitNights) / capc) / 100) * margem + (unitCost * unitNights) / capc).formatMoney(2, '.', ','));
+                    
+                    /*TotalLucro*/
+                    $(tds[9]).html(((((unitCost * unitNights) / 100) * margem + (unitCost *  unitNights)) - (unitCost *  unitNights)).formatMoney(2, '.', ','));
 
-
-
-                if (unitCost.indexOf("<br>") >= 0) {
+                    //var unitCost = tds[3].innerHTML.spli('/')[1];
+                }
+                else {// Se nao encontra é porque != Euros
                     var t = unitCost.split('<br>');
                     var MoedaCompra = t[0].split('/');
 
@@ -2042,89 +2063,93 @@ function updateValues(FiredTable) {
                     var VEuro = parseFloat(t[1]);
 
                     /*Total*/
-                    $(tds[6]).html(
+                    $(tds[5]).html(
                         ((Vcompra * unitNights) * units).formatMoney(2, '.', ',') + '/' + MoedaCompra[1] + '</br>' +
                         ((VEuro * unitNights) * units).formatMoney(2, '.', ',')
                     );
                     /*TotalPAX*/
-                    $(tds[7]).html(
-                        ((Vcompra * unitNights) / capc).formatMoney(2, '.', ',') + '' + MoedaCompra[1] + '</br>' +
-                        ((VEuro * unitNights) / capc).formatMoney(2, '.', ',')
-                    );
-                    /*TotalVenda*/
-                    $(tds[8]).html((((VEuro * units * unitNights) / 100) * margem + (VEuro * units * unitNights)).formatMoney(2, '.', ','));
-                    /*TotalVendaPAX*/
-                    $(tds[9]).html(((((VEuro * unitNights) / capc) / 100) * margem + (VEuro * unitNights) / capc).formatMoney(2, '.', ','));
-                    /*TotalLucro*/
-                    $(tds[10]).html(((((VEuro * units * unitNights) / 100) * margem + (VEuro * units * unitNights)) - (VEuro * units * unitNights)).formatMoney(2, '.', ','));
-
-                }
-                else {
-                    unitCost = parseFloat(tds[2].innerHTML);
-
-                    /*Total*/
-                    $(tds[7]).html(((unitCost * unitNights) * units).formatMoney(2, '.', ','));
-                    /*TotalPAX*/
-                    $(tds[8]).html(((unitCost * unitNights) / capc).formatMoney(2, '.', ','));
-                    /*TotalVenda*/
-                    $(tds[9]).html((((unitCost * units * unitNights) / 100) * margem + (unitCost * units * unitNights)).formatMoney(2, '.', ','));
-                    /*TotalVendaPAX*/
-                    $(tds[10]).html(((((unitCost * unitNights) / capc) / 100) * margem + (unitCost * unitNights) / capc).formatMoney(2, '.', ','));
-                    /*TotalLucro*/
-                    $(tds[11]).html(((((unitCost * units * unitNights) / 100) * margem + (unitCost * units * unitNights)) - (unitCost * units * unitNights)).formatMoney(2, '.', ','));
-
-
-                }
-            }
-            else {
-                capc = parseInt($(tds[0]).find(".HiddenRecordQuartoIdv").val());
-                var unitNights = parseInt(tds[2].innerHTML, 10);
-                var units = parseInt($(tds[3]).find("input").val(), 10);
-                var margem = parseFloat($(tds[4]).find("input").val());
-
-                var TotalLucro = parseInt(tds[7].innerHTML, 10);
-                var TotalLucroPax = parseInt(tds[8].innerHTML, 10);
-                var unitCost = tds[1].innerHTML;
-
-                if (unitCost.indexOf("<br>") >= 0) {
-                    var t = unitCost.split('<br>');
-                    var MoedaCompra = t[0].split('/');
-
-                    var Vcompra = parseFloat(t[0]);
-                    var VEuro = parseFloat(t[1]);
-
-                    /*Total*/
                     $(tds[6]).html(
-                        ((Vcompra * unitNights) * units).formatMoney(2, '.', ',') + '/' + MoedaCompra[1] + '</br>' +
-                        ((VEuro * unitNights) * units).formatMoney(2, '.', ',')
-                    );
-                    /*TotalPAX*/
-                    $(tds[7]).html(
                         ((Vcompra * unitNights) / capc).formatMoney(2, '.', ',') + '' + MoedaCompra[1] + '</br>' +
                         ((VEuro * unitNights) / capc).formatMoney(2, '.', ',')
                     );
                     /*TotalVenda*/
-                    $(tds[8]).html((((VEuro * units * unitNights) / 100) * margem + (VEuro * units * unitNights)).formatMoney(2, '.', ','));
+                    $(tds[7]).html((((VEuro * units * unitNights) / 100) * margem + (VEuro * units * unitNights)).formatMoney(2, '.', ','));
                     /*TotalVendaPAX*/
                     $(tds[8]).html(((((VEuro * unitNights) / capc) / 100) * margem + (VEuro * unitNights) / capc).formatMoney(2, '.', ','));
                     /*TotalLucro*/
-                    $(tds[10]).html(((((VEuro * units * unitNights) / 100) * margem + (VEuro * units * unitNights)) - (VEuro * units * unitNights)).formatMoney(2, '.', ','));
+                    $(tds[9]).html(((((VEuro * units * unitNights) / 100) * margem + (VEuro * units * unitNights)) - (VEuro * units * unitNights)).formatMoney(2, '.', ','));
 
                 }
+
+            }
+            else {
+
+                capc = parseInt($(tds[0]).find(".HiddenRecordQuartoIdv").val());
+                var unitCost = parseFloat($(tds[2]).find(".smNumInput").val());
+                var SeraEuros;
+                var td3text = tds[2].innerText;
+                td3text = tds[2].innerText.split('/')[1];
+
+                if (td3text.indexOf("\n") === -1) {
+                     //td3text = tds[2].innerText.split('/')[1];
+                    //SeraEuros = td3text.indexOf("\n");
+                    SeraEuros = -1;
+                }
                 else {
-                    unitCost = parseFloat(tds[1].innerHTML);
+                     SeraEuros = -1;
+                }
+
+
+
+                var unitNights = parseInt(tds[1].innerHTML, 10);
+                var margem = parseInt($(tds[3]).find("input").val(), 10);
+                
+
+                //var TotalLucro = parseInt(tds[8].innerHTML, 10);
+                //var TotalLucroPax = parseInt(tds[9].innerHTML, 10);
+                //var unitCost = tds[3].innerHTML;
+
+                if (SeraEuros === -1) {// Nao encontra ou seja é Euros
 
                     /*Total*/
-                    $(tds[6]).html(((unitCost * unitNights) * units).formatMoney(2, '.', ','));
+                    $(tds[4]).html((unitCost * unitNights).formatMoney(2, '.', ','));
+                    //$(tds[7]).html(((unitCost * unitNights) * units).formatMoney(2, '.', ','));
                     /*TotalPAX*/
-                    $(tds[7]).html(((unitCost * unitNights) / capc).formatMoney(2, '.', ','));
+                    $(tds[5]).html(((unitCost * unitNights) / (capc * unitNights)).formatMoney(2, '.', ','));
                     /*TotalVenda*/
-                    $(tds[8]).html((((unitCost * units * unitNights) / 100) * margem + (unitCost * units * unitNights)).formatMoney(2, '.', ','));
+                    $(tds[6]).html(((((unitCost * unitNights) / capc) / 100) * margem + (unitCost * unitNights) / capc).formatMoney(2, '.', ','));
                     /*TotalVendaPAX*/
-                    $(tds[9]).html(((((unitCost * unitNights) / capc) / 100) * margem + (unitCost * unitNights) / capc).formatMoney(2, '.', ','));
-                    /*TotalLucro*/
-                    $(tds[10]).html(((((unitCost * units * unitNights) / 100) * margem + (unitCost * units * unitNights)) - (unitCost * units * unitNights)).formatMoney(2, '.', ','));
+                    $(tds[7]).html((((((unitCost * unitNights) / (capc * unitNights)) / 100) * margem) + ((unitCost * unitNights) / (capc * unitNights))).formatMoney(2, '.', ','));
+                    // $(tds[8]).html(((((unitCost * unitNights) / capc) / 100) * margem + (unitCost * unitNights) / capc).formatMoney(2, '.', ','));
 
+                    /*TotalLucro*/
+                    $(tds[8]).html(((((unitCost * unitNights) / 100) * margem + (unitCost * unitNights)) - (unitCost * unitNights)).formatMoney(2, '.', ','));
+
+                    //var unitCost = tds[3].innerHTML.spli('/')[1];
+                }
+                else {// Se nao encontra é porque != Euros
+                    var t = unitCost.split('<br>');
+                    var MoedaCompra = t[0].split('/');
+
+                    var Vcompra = parseFloat(t[0]);
+                    var VEuro = parseFloat(t[1]);
+
+                    /*Total*/
+                    $(tds[4]).html(
+                        ((Vcompra * unitNights) * units).formatMoney(2, '.', ',') + '/' + MoedaCompra[1] + '</br>' +
+                        ((VEuro * unitNights) * units).formatMoney(2, '.', ',')
+                    );
+                    /*TotalPAX*/
+                    $(tds[5]).html(
+                        ((Vcompra * unitNights) / capc).formatMoney(2, '.', ',') + '' + MoedaCompra[1] + '</br>' +
+                        ((VEuro * unitNights) / capc).formatMoney(2, '.', ',')
+                    );
+                    /*TotalVenda*/
+                    $(tds[6]).html((((VEuro * units * unitNights) / 100) * margem + (VEuro * units * unitNights)).formatMoney(2, '.', ','));
+                    /*TotalVendaPAX*/
+                    $(tds[7]).html(((((VEuro * unitNights) / capc) / 100) * margem + (VEuro * unitNights) / capc).formatMoney(2, '.', ','));
+                    /*TotalLucro*/
+                    $(tds[8]).html(((((VEuro * units * unitNights) / 100) * margem + (VEuro * units * unitNights)) - (VEuro * units * unitNights)).formatMoney(2, '.', ','));
 
                 }
             }
