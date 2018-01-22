@@ -2117,7 +2117,7 @@ function updateValues(FiredTable) {
                     /*TotalPAX*/
                     $(tds[5]).html(((unitCost * unitNights) / (capc * unitNights)).formatMoney(2, '.', ','));
                     /*TotalVenda*/
-                    $(tds[6]).html(((((unitCost * unitNights) / capc) / 100) * margem + (unitCost * unitNights) / capc).formatMoney(2, '.', ','));
+                    $(tds[6]).html(((((unitCost * unitNights)) / 100) * margem + (unitCost * unitNights) ).formatMoney(2, '.', ','));
                     /*TotalVendaPAX*/
                     $(tds[7]).html((((((unitCost * unitNights) / (capc * unitNights)) / 100) * margem) + ((unitCost * unitNights) / (capc * unitNights))).formatMoney(2, '.', ','));
                     // $(tds[8]).html(((((unitCost * unitNights) / capc) / 100) * margem + (unitCost * unitNights) / capc).formatMoney(2, '.', ','));
