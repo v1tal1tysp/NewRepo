@@ -40,7 +40,14 @@ background-color: #e7e7e7;
   min-height: 100%;
 }
 
-
+.Currency{
+font-size: 10px;
+    color: limegreen;
+}
+.CurrencyRed{
+    font-size: 10px;
+    color: red;
+}
 .Login{
     position: fixed;
     top: 0;
