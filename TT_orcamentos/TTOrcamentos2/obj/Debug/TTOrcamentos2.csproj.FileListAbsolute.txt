@@ -200,6 +200,7 @@ D:\Projectos\NewRepo\TT_orcamentos\TTOrcamentos2\bin\TTOrcamentos2.pdb
 D:\Projectos\NewRepo\TT_orcamentos\TTOrcamentos2\bin\Antlr3.Runtime.dll
 D:\Projectos\NewRepo\TT_orcamentos\TTOrcamentos2\bin\AspNet.ScriptManager.bootstrap.dll
 D:\Projectos\NewRepo\TT_orcamentos\TTOrcamentos2\bin\AspNet.ScriptManager.jQuery.dll
+D:\Projectos\NewRepo\TT_orcamentos\TTOrcamentos2\bin\DnsClient.dll
 D:\Projectos\NewRepo\TT_orcamentos\TTOrcamentos2\bin\Microsoft.AI.Agent.Intercept.dll
 D:\Projectos\NewRepo\TT_orcamentos\TTOrcamentos2\bin\Microsoft.AI.DependencyCollector.dll
 D:\Projectos\NewRepo\TT_orcamentos\TTOrcamentos2\bin\Microsoft.AI.PerfCounterCollector.dll
@@ -217,12 +218,14 @@ D:\Projectos\NewRepo\TT_orcamentos\TTOrcamentos2\bin\MongoDB.Bson.dll
 D:\Projectos\NewRepo\TT_orcamentos\TTOrcamentos2\bin\MongoDB.Driver.Core.dll
 D:\Projectos\NewRepo\TT_orcamentos\TTOrcamentos2\bin\MongoDB.Driver.dll
 D:\Projectos\NewRepo\TT_orcamentos\TTOrcamentos2\bin\Newtonsoft.Json.dll
+D:\Projectos\NewRepo\TT_orcamentos\TTOrcamentos2\bin\System.Buffers.dll
 D:\Projectos\NewRepo\TT_orcamentos\TTOrcamentos2\bin\System.Net.Http.Formatting.dll
 D:\Projectos\NewRepo\TT_orcamentos\TTOrcamentos2\bin\System.Runtime.InteropServices.RuntimeInformation.dll
 D:\Projectos\NewRepo\TT_orcamentos\TTOrcamentos2\bin\System.Web.Http.dll
 D:\Projectos\NewRepo\TT_orcamentos\TTOrcamentos2\bin\System.Web.Http.WebHost.dll
 D:\Projectos\NewRepo\TT_orcamentos\TTOrcamentos2\bin\System.Web.Optimization.dll
 D:\Projectos\NewRepo\TT_orcamentos\TTOrcamentos2\bin\WebGrease.dll
+D:\Projectos\NewRepo\TT_orcamentos\TTOrcamentos2\bin\DnsClient.xml
 D:\Projectos\NewRepo\TT_orcamentos\TTOrcamentos2\bin\Microsoft.AI.DependencyCollector.xml
 D:\Projectos\NewRepo\TT_orcamentos\TTOrcamentos2\bin\Microsoft.AI.ServerTelemetryChannel.xml
 D:\Projectos\NewRepo\TT_orcamentos\TTOrcamentos2\bin\Microsoft.AI.Web.xml
