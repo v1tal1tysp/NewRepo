@@ -2035,7 +2035,7 @@ function updateValues(FiredTable) {
                 var TotalLucro = parseInt(tds[8].innerHTML, 10);
                 var TotalLucroPax = parseInt(tds[9].innerHTML, 10);
                 //var unitCost = tds[3].innerHTML;
-
+                 
                 if (SeraEuros === -1) {// Nao encontra ou seja é Euros
                     
                     /*Total*/
