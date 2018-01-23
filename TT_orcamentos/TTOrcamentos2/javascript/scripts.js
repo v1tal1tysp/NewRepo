@@ -1387,10 +1387,10 @@ function RefreshAlojTableDias() {
 
         var tdValor = "";
         if (cambioAcordo.name === "EUR") {
-            tdValor = '<input type="number" class="smNumInput" value="' + parseInt(0) + '">' + '<input type="hidden" class="HiddenCambioValue" value="' + cambioAcordo.value + '">' + '/' + cambioAcordo.name;
+            tdValor = '<input type="number" class="smNumInput" value="' + parseInt(0) + '">' + '<input type="hidden" class="HiddenCambioValue" value="' + cambioAcordo.value + '">' + '/<span class="Currency">EUR</span>';
         }
         else {
-            tdValor = '<input type="number" class="smNumInput" value="' + parseInt(0) + '">' + '<input type="hidden" class="HiddenCambioValue" value="' + cambioAcordo.value + '">' + '/' + cambioAcordo.name + '</br>' + (0 / cambioAcordo.value).formatMoney(2, '.', ',') + '/' + 'EUR';;
+            tdValor = '<input type="number" class="smNumInput" value="' + parseInt(0) + '">' + '<input type="hidden" class="HiddenCambioValue" value="' + cambioAcordo.value + '">' + '/<span class="CurrencyRed">' + cambioAcordo.name + '</span>' + '</br>' + (0 / cambioAcordo.value).formatMoney(2, '.', ',') + '/' + 'EUR';;
 
         }
 
@@ -1401,7 +1401,7 @@ function RefreshAlojTableDias() {
 
 
             if (i == 0) {
-                $("#AlojamentoRecords tr:last").after('<tr class="' + fornecedorId + '">' +
+                $("#AlojamentoRecords tr:last").after('<tr class="' + fornecedorId +" " + NomeTipo+ '">' +
                 '<td rowspan="' + tipologias.length + '">' + NomeHotel +
                     '<input type="hidden" class="HiddenRecordId" value="' + fornecedorId + "." + NomeTipo + '">' +
                     '<input type="hidden" class="HiddenRecordIdFornecedor" value="' + 0 + '">' +
@@ -1418,7 +1418,7 @@ function RefreshAlojTableDias() {
                 '<td>' + 0 + '</td>' +
                 '</tr>');
 
-                $("#AlojamentoVerRecords tr:last").after('<tr class="' + fornecedorId + '">' +
+                $("#AlojamentoVerRecords tr:last").after('<tr class="' + fornecedorId + " " + NomeTipo + '">' +
                     '<td rowspan="' + tipologias.length + '">' + NomeHotel +
                         '<input type="hidden" class="HiddenRecordId" value="' + fornecedorId + "." + NomeTipo + '">' +
                         '<input type="hidden" class="HiddenRecordIdFornecedor" value="' + 0 + '">' +
@@ -1436,7 +1436,7 @@ function RefreshAlojTableDias() {
                     '</tr>');
             }
             else {
-                $("#AlojamentoRecords tr:last").after('<tr class="' + fornecedorId + '">' +
+                $("#AlojamentoRecords tr:last").after('<tr class="' + fornecedorId + " " + NomeTipo + '">' +
                     '<td>' + NomeTipo + 
                         '<input type="hidden" class="HiddenRecordId" value="' + fornecedorId + "." + NomeTipo + '">' +
                         '<input type="hidden" class="HiddenRecordQuartoIdv" value="' + cap + '">' +
@@ -1452,7 +1452,7 @@ function RefreshAlojTableDias() {
                     '<td>' + 0 + '</td>' +
                     '</tr>');
 
-                $("#AlojamentoVerRecords tr:last").after('<tr class="' + fornecedorId + '">' +
+                $("#AlojamentoVerRecords tr:last").after('<tr class="' + fornecedorId + " " + NomeTipo + '">' +
                     '<td>' + NomeTipo +
                         '<input type="hidden" class="HiddenRecordId" value="' + fornecedorId + "." + NomeTipo + '">' +
                         '<input type="hidden" class="HiddenRecordQuartoIdv" value="' + cap + '">' +
@@ -1510,11 +1510,28 @@ $('.AlojamentoHoteis').on('click', '.rmvAlojType', function () {
 
     var table = $(this).parent().parent().parent().parent();
     var tipo = $(this).parent().index();
+    var tipoMesmo = $(this).parent().find(".AlojTableType").val();
+    var fornecedor = $(this).parent().parent().parent().parent().parent().find(".AlojamentoFornecedorID").val();
+    //removeOneTrFromAlojamento(tipoMesmo, fornecedor);
+
     $(table).find('tr').each(function () {
         this.removeChild(this.cells[tipo]);
     });
+
+
+
     RefreshAlojTableDias();
 });
+
+function removeOneTrFromAlojamento(t,forn) {
+    var tr = $("#AlojamentoRecords tr." + forn + "." + t);
+    tr.remove();
+    var tr = $("#AlojamentoVerRecords tr." + forn + "." + t);
+    tr.remove();
+
+
+
+}
 
 $('body').on('change', '#txtUploadFile', function () {
 
@@ -2039,51 +2056,56 @@ function updateValues(FiredTable) {
                 if (SeraEuros === -1) {// Nao encontra ou seja é Euros
                     
                     /*Total*/
-                    $(tds[5]).html((unitCost * unitNights).formatMoney(2, '.', ','));
+                    $(tds[5]).html((unitCost * unitNights).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>');
                     //$(tds[7]).html(((unitCost * unitNights) * units).formatMoney(2, '.', ','));
                     /*TotalPAX*/
-                    $(tds[6]).html(((unitCost * unitNights) / (capc * unitNights)).formatMoney(2, '.', ','));
+                    $(tds[6]).html(((unitCost * unitNights) / (capc * unitNights)).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>');
                     /*TotalVenda*/
-                    $(tds[7]).html(((((unitCost * unitNights) / capc) / 100) * margem + (unitCost * unitNights) / capc).formatMoney(2, '.', ','));
+                    $(tds[7]).html(((((unitCost * unitNights) / capc) / 100) * margem + (unitCost * unitNights) / capc).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>');
                     //$(tds[7]).html((((unitCost *  unitNights) / 100) * margem + ( unitNights)).formatMoney(2, '.', ','));
                     /*TotalVendaPAX*/
-                    $(tds[8]).html((((((unitCost * unitNights) / capc) / 100) * margem + (unitCost * unitNights) / capc) / (capc * unitNights)).formatMoney(2, '.', ','));
+                    $(tds[8]).html((((((unitCost * unitNights) / capc) / 100) * margem + (unitCost * unitNights) / capc) / (capc * unitNights)).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>');
                    // $(tds[8]).html(((((unitCost * unitNights) / capc) / 100) * margem + (unitCost * unitNights) / capc).formatMoney(2, '.', ','));
                     
                     /*TotalLucro*/
-                    $(tds[9]).html(((((unitCost * unitNights) / 100) * margem + (unitCost *  unitNights)) - (unitCost *  unitNights)).formatMoney(2, '.', ','));
+                    $(tds[9]).html(((((unitCost * unitNights) / 100) * margem + (unitCost * unitNights)) - (unitCost * unitNights)).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>');
 
                     //var unitCost = tds[3].innerHTML.spli('/')[1];
                 }
                 else {// Se nao encontra é porque != Euros
-
-
-
                     var t = unitCost;
-
                     var MoedaCompra = td3text.split("\n")[0];
-
-                    parseFloat($(tds[3]).find(".HiddenCambioValue").val());
-
-                    var Vcompra = unitCost;
                     var VEuro = parseFloat($(tds[3]).find(".HiddenCambioValue").val());
+                    var Vcompra = (unitCost / VEuro).formatMoney(2, '.', ',');
+                    var innerHtmNotChange = tds[3].innerHTML.split("<br>")[0];
+                    var innerHtm = tds[3].innerHTML.split("<br>")[1];
+                    var auxinput = '<input type="number" class="smNumInput" value="' + unitCost + '">';
+                    var hiddenaux = '<input type="hidden" class="HiddenCambioValue" value="' + VEuro + '">';
+
+                    var valortoupdate = innerHtm.split("/")[0];
+                    $(tds[3]).html(
+                        auxinput + hiddenaux + '/<span class="CurrencyRed">' + MoedaCompra + '</span>' + '</br>' +
+                        Vcompra + '/<span class="Currency">EUR</span>'
+                    );
+                   
+                    
 
                     /*Total*/
                     $(tds[5]).html(
-                        ((Vcompra * unitNights) * units).formatMoney(2, '.', ',') + '/' + MoedaCompra[1] + '</br>' +
-                        ((VEuro * unitNights) * units).formatMoney(2, '.', ',')
+                        ((unitCost * unitNights)).formatMoney(2, '.', ',') + '/<span class="CurrencyRed">' + MoedaCompra + '</span>' + '</br>' +
+                        ((Vcompra * unitNights)).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>'
                     );
                     /*TotalPAX*/
                     $(tds[6]).html(
-                        ((Vcompra * unitNights) / capc).formatMoney(2, '.', ',') + '' + MoedaCompra[1] + '</br>' +
-                        ((VEuro * unitNights) / capc).formatMoney(2, '.', ',')
+                        ((unitCost * unitNights) / (capc * unitNights)).formatMoney(2, '.', ',') + '/<span class="CurrencyRed">' + MoedaCompra + '</span>' + '</br>' +
+                        ((Vcompra * unitNights) / (capc * unitNights)).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>'
                     );
                     /*TotalVenda*/
-                    $(tds[7]).html((((VEuro * units * unitNights) / 100) * margem + (VEuro * units * unitNights)).formatMoney(2, '.', ','));
+                    $(tds[7]).html((((Vcompra * unitNights) / 100) * margem + (Vcompra * unitNights)).formatMoney(2, '.', ',') + '<span class="Currency">/EUR</span>');
                     /*TotalVendaPAX*/
-                    $(tds[8]).html(((((VEuro * unitNights) / capc) / 100) * margem + (VEuro * unitNights) / capc).formatMoney(2, '.', ','));
+                    $(tds[8]).html(((((Vcompra * unitNights) / 100) * margem + (Vcompra * unitNights)) / (capc * unitNights)).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>');
                     /*TotalLucro*/
-                    $(tds[9]).html(((((VEuro * units * unitNights) / 100) * margem + (VEuro * units * unitNights)) - (VEuro * units * unitNights)).formatMoney(2, '.', ','));
+                    $(tds[9]).html(((((Vcompra * unitNights) / 100) * margem + (Vcompra * unitNights)) - (Vcompra * unitNights)).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>');
 
                 }
 
@@ -2102,7 +2124,7 @@ function updateValues(FiredTable) {
                     SeraEuros = -1;
                 }
                 else {
-                     SeraEuros = -1;
+                    SeraEuros = td3text.indexOf("\n");
                 }
 
 
@@ -2118,44 +2140,57 @@ function updateValues(FiredTable) {
                 if (SeraEuros === -1) {// Nao encontra ou seja é Euros
 
                     /*Total*/
-                    $(tds[4]).html((unitCost * unitNights).formatMoney(2, '.', ','));
-                    //$(tds[7]).html(((unitCost * unitNights) * units).formatMoney(2, '.', ','));
+                    $(tds[4]).html((unitCost * unitNights).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>');
+
                     /*TotalPAX*/
-                    $(tds[5]).html(((unitCost * unitNights) / (capc * unitNights)).formatMoney(2, '.', ','));
+                    $(tds[5]).html(((unitCost * unitNights) / (capc * unitNights)).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>');
                     /*TotalVenda*/
-                    $(tds[6]).html(((((unitCost * unitNights)) / 100) * margem + (unitCost * unitNights) ).formatMoney(2, '.', ','));
+                    $(tds[6]).html(((((unitCost * unitNights)) / 100) * margem + (unitCost * unitNights)).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>');
                     /*TotalVendaPAX*/
-                    $(tds[7]).html((((((unitCost * unitNights) / (capc * unitNights)) / 100) * margem) + ((unitCost * unitNights) / (capc * unitNights))).formatMoney(2, '.', ','));
-                    // $(tds[8]).html(((((unitCost * unitNights) / capc) / 100) * margem + (unitCost * unitNights) / capc).formatMoney(2, '.', ','));
+                    $(tds[7]).html((((((unitCost * unitNights) / (capc * unitNights)) / 100) * margem) + ((unitCost * unitNights) / (capc * unitNights))).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>');
 
                     /*TotalLucro*/
-                    $(tds[8]).html(((((unitCost * unitNights) / 100) * margem + (unitCost * unitNights)) - (unitCost * unitNights)).formatMoney(2, '.', ','));
+                    $(tds[8]).html(((((unitCost * unitNights) / 100) * margem + (unitCost * unitNights)) - (unitCost * unitNights)).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>');
 
                     //var unitCost = tds[3].innerHTML.spli('/')[1];
                 }
                 else {// Se nao encontra é porque != Euros
-                    var t = unitCost.split('<br>');
-                    var MoedaCompra = t[0].split('/');
 
-                    var Vcompra = parseFloat(t[0]);
-                    var VEuro = parseFloat(t[1]);
+                    var t = unitCost;
+
+                    var MoedaCompra = td3text.split("\n")[0];
+
+
+                    var VEuro = parseFloat($(tds[2]).find(".HiddenCambioValue").val());
+                    var Vcompra = (unitCost / VEuro).formatMoney(2, '.', ',');
+                    var innerHtmNotChange = tds[2].innerHTML.split("<br>")[0];
+                    var innerHtm = tds[2].innerHTML.split("<br>")[1];
+                    var auxinput = '<input type="number" class="smNumInput" value="' + unitCost + '">';
+                    var hiddenaux = '<input type="hidden" class="HiddenCambioValue" value="' + VEuro + '">';
+
+
+                    var valortoupdate = innerHtm.split("/")[0];
+                    $(tds[2]).html(
+                        auxinput + hiddenaux + '/<span class="CurrencyRed">' + MoedaCompra + '</span>' + '</br>' +
+                        Vcompra + '/<span class="Currency">EUR</span>'
+                    );
 
                     /*Total*/
                     $(tds[4]).html(
-                        ((Vcompra * unitNights) * units).formatMoney(2, '.', ',') + '/' + MoedaCompra[1] + '</br>' +
-                        ((VEuro * unitNights) * units).formatMoney(2, '.', ',')
+                        ((unitCost * unitNights)).formatMoney(2, '.', ',') + '/<span class="CurrencyRed">' + MoedaCompra + '</span>' + '</br>' +
+                        ((Vcompra * unitNights)).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>'
                     );
                     /*TotalPAX*/
                     $(tds[5]).html(
-                        ((Vcompra * unitNights) / capc).formatMoney(2, '.', ',') + '' + MoedaCompra[1] + '</br>' +
-                        ((VEuro * unitNights) / capc).formatMoney(2, '.', ',')
+                        ((unitCost * unitNights) / (capc * unitNights)).formatMoney(2, '.', ',') + '/<span class="CurrencyRed">' + MoedaCompra + '</span>' + '</br>' +
+                        ((Vcompra * unitNights) / (capc * unitNights)).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>'
                     );
                     /*TotalVenda*/
-                    $(tds[6]).html((((VEuro * units * unitNights) / 100) * margem + (VEuro * units * unitNights)).formatMoney(2, '.', ','));
+                    $(tds[6]).html((((Vcompra * unitNights) / 100) * margem + (Vcompra * unitNights)).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>');
                     /*TotalVendaPAX*/
-                    $(tds[7]).html(((((VEuro * unitNights) / capc) / 100) * margem + (VEuro * unitNights) / capc).formatMoney(2, '.', ','));
+                    $(tds[7]).html(((((Vcompra * unitNights) / 100) * margem + (Vcompra * unitNights)) / (capc * unitNights)).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>');
                     /*TotalLucro*/
-                    $(tds[8]).html(((((VEuro * units * unitNights) / 100) * margem + (VEuro * units * unitNights)) - (VEuro * units * unitNights)).formatMoney(2, '.', ','));
+                    $(tds[8]).html(((((Vcompra * unitNights) / 100) * margem + (Vcompra * unitNights)) - (Vcompra * unitNights)).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>');
 
                 }
             }
