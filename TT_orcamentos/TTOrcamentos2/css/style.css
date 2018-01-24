@@ -31,7 +31,9 @@
   height: 100%;
 background-color: #e7e7e7;
 }
-
+.boneco{
+    width:25px;
+}
 #bg {
   position: fixed; 
   top: 0; 
@@ -283,10 +285,17 @@ div.tab button.active {
     padding-bottom: 50px
 }
 
+
+
+
+
+
+
 .AlojTableType, .AlojNPax{
     width: 100% !important;
     max-width: 120px;
     float: left;
+    cursor: default !important;
 }
 
 .AlojTableNumberIn
@@ -478,7 +487,7 @@ div.tab button.active {
     float:left;
     width:30%;
 }
-.AddOrcamentoBtn, .SaveOrcamentoBtn,.AddAlojamento,.AddVoo,.AddDiaria,.AddFornecedor,.AddServicos,.GuardarOrcamentoAlojamento, .addSaveBtn{
+.AddOrcamentoBtn, .SaveOrcamentoBtn,.AddAlojamento,.AddVoo,.AddDiaria,.AddFornecedor,.AddServicos,.GuardarTipologiaAlojamento,.GuardarOrcamentoAlojamento, .addSaveBtn{
     font-size: 16px;
     margin-top: 20px;
     margin-bottom: 10px;

@@ -12,6 +12,7 @@ var url5 = "img/add_btn.png";
 var url6 = "img/setting.png";
 var url7 = "img/icon-hotelbill.png";
 var url8 = "img/arrow_down.png";
+var url9 = "img/man-512.png";
 
 var res = encodeURI(url);
 var res2 = encodeURI(url2);
@@ -21,7 +22,7 @@ var res5 = encodeURI(url5);
 var res6 = encodeURI(url6);
 var res7 = encodeURI(url7);
 var res8 = encodeURI(url8);
-
+var res9 = encodeURI(url9);
 var InputClick;
 var InputId;
 
@@ -962,7 +963,7 @@ function preencherTabelaAlojamentoLoading(data) {
         var table = "<table class='AlojamentoOverview " + i + 1 + "'><tr><td class='alojName'>" + Tabela.Hotelname + "</td>";
         /*<TD>  QUARTOS*/
         $.each(Tabela.quartos, function (index, obj) {
-            table += "<td class='QuartoDev'><img class='rmvAlojType " + (index + 1) + "' src='img/remove.png' alt='remover'><input type='text' value='" + obj.nome + "' class='form-control AlojTableType'><input type='hidden' value='" + obj.capacidade + "' class='form-control AlojNPax'></td>";
+            table += "<td class='QuartoDev'><img class='rmvAlojType " + (index + 1) + "' src='img/remove.png' alt='remover'><input disabled type='text' value='" + obj.nome + "' class='form-control AlojTableType'><input type='hidden' value='" + obj.capacidade + "' class='form-control AlojNPax'></td>";
         });
         /*<TD>  AddIcon*/
         table += "<td>" + btnApplyToAllItemsBtn + "<img class='AddIcon AlojamentoTipos " + i + "' src='" + res5 + "' alt='Guardar'></td></tr>";
@@ -978,12 +979,12 @@ function preencherTabelaAlojamentoLoading(data) {
             });
 
             /*ROW END*/
-            tr += "<td><span class='AlojTotaisPax " + 0 + "'>0</span>% / <span class='AlojTotaisPaxN " + 0 + "'>0</span>pax</td></tr>";
+            tr += "<td><span class='AlojTotaisPax " + 0 + "'>0</span>% / <span class='AlojTotaisPaxN " + 0 + "'>0</span><img class='boneco' src='" + res9 + "' alt='pax'></td></tr>";
             table += tr;
         });
 
         /*TABLE - Last ROW*/
-        var lastTr = "<tr><td><img class='AddIcon AlojamentoDias' src='" + res5 + "' alt='Guardar'></td>";
+        var lastTr = "<tr><td></td>";
         /*TABLE SOMATORIOS*/
         $.each(Tabela.quartos, function (index, obj) {
             lastTr += "<td><span class='AlojTotais " + obj.capacidade + "'>0</span></td>";
@@ -1188,7 +1189,7 @@ function InsertTableAlojamentoHotel(hotelname, valueID) {
     $.each(quartosArr, function (index, obj) {
         if (obj.predefenido == true) {
 
-            table += "<td class='QuartoDev'><img class='rmvAlojType " + (index + 1) + "' src='img/remove.png' alt='remover'><input type='text' value='" + obj.name + "' class='form-control AlojTableType'><input type='hidden' value='" + obj.capacidade + "' class='form-control AlojNPax " + obj.inId + "'></td>";
+            table += "<td class='QuartoDev'><img class='rmvAlojType " + (index + 1) + "' src='img/remove.png' alt='remover'><input disabled type='text' value='" + obj.name + "' class='form-control AlojTableType'><input type='hidden' value='" + obj.capacidade + "' class='form-control AlojNPax " + obj.inId + "'></td>";
         }
     });
 
@@ -1214,12 +1215,12 @@ function InsertTableAlojamentoHotel(hotelname, valueID) {
         });
 
         /*ROW END*/
-        tr += "<td><span class='AlojTotaisPax " + 0 + "'>0</span>% / <span class='AlojTotaisPaxN " + 0 + "'>0</span>pax</td></tr>";
+        tr += "<td><span class='AlojTotaisPax " + 0 + "'>0</span>% / <span class='AlojTotaisPaxN " + 0 + "'>0</span><img class='boneco' src='" + res9 + "' alt='pax'></td></tr>";
         table += tr;
     }
 
     /*TABLE - Last ROW*/
-    var lastTr = "<tr><td><img class='AddIcon AlojamentoDias' src='" + res5 + "' alt='Guardar'></td>";
+    var lastTr = "<tr><td></td>";
 
     $.each(quartosArr, function (index, obj) {
         if (obj.predefenido == true) {
@@ -1486,28 +1487,39 @@ function RefreshAlojTableDias() {
         aloj = JSON.parse(todosAloj);
 
         var trs = $("#AlojamentoRecords tr:gt(0)");
-    /*    $(aloj).each(function (i, aloj) {
+        $(aloj).each(function (i, aloj) {
             var rec = aloj.Records;
             $(rec).each(function (id, info) {
 
                 var filter = this.classnameTr.replace(" ", ".");
                 var tds = $("#AlojamentoRecords tr." + filter).children();
+                var tds2 = $("#AlojamentoVerRecords tr." + filter).children();
+
                 if (tds.length === 10) {
-                    tds[3].find(".smNumInput").val(info.valor);
-                    tds[4].find(".smNumInput").val(info.margem);
+
+                    $(tds2[3]).find(".smNumInput").val(info.valor);
+                    $(tds2[4]).find(".smNumInput").val(info.margem);
+
+                    $(tds[3]).find(".smNumInput").val(info.valor);
+                    $(tds[4]).find(".smNumInput").val(info.margem);
 
                 }
                 else {
-                    tds[2].find(".smNumInput").val(info.valor);
-                    tds[3].find(".smNumInput").val(info.margem);
+
+                    $(tds2[2]).find(".smNumInput").val(info.valor);
+                    $(tds2[3]).find(".smNumInput").val(info.margem);
+
+
+                    $(tds[2]).find(".smNumInput").val(info.valor);
+                    $(tds[3]).find(".smNumInput").val(info.margem);
                 }
 
             });
 
-        });*/
-       // iterar pelos alojamentos, ir direto ao records, onde vou ter class, e terei que popular
+        });
+        
     }
-
+    activator();
 
 }
 $('#tabs').on('change', '.AlojTableNumberIn', function () {
@@ -3465,7 +3477,7 @@ $(document).ready(function () {
 
 
             if (linha == 0) {
-                $(ArrayTd[posColuna - 1]).after("<td><input type='text' class='form-control AlojTableType' value='" + NomeTipo + "' ><input type='hidden' class='AlojTableNumber' value='" + Capatipo + "'  ><img class='rmvAlojType " + posColuna + "' src='img/remove.png' alt='remover'></td>");
+                $(ArrayTd[posColuna - 1]).after("<td><input type='text' disabled class='form-control AlojTableType' value='" + NomeTipo + "' ><input type='hidden' class='AlojNPax " + Capatipo + " ' value='" + Capatipo + "'  ><img class='rmvAlojType " + posColuna + "' src='img/remove.png' alt='remover'></td>");
             }
             else if (linha > 0 && linha < cnt - 1) {
                 $(ArrayTd[posColuna - 1]).after("<td> <input type='number' min-value=0 value='0'  class='AlojTableNumberIn " + Capatipo + "' ></td>");
@@ -3483,45 +3495,12 @@ $(document).ready(function () {
         $('#PopUpTipologia').modal('show');
     }
 
-
-
-
-    function AddAlojamentoDias(idtable) {
-        var tabelas = $(".AlojamentoOverview");
-
-
-        var cntTDs = $(idtable).children().children().first().children().length - 1;
-        var test = $(idtable).children().children().last().before("<tr></tr>");
-
-        // $(".AlojamentoOverview tr:last-child").before("<tr></tr>");
-
-
-        var cnt = $(idtable).children().children().length - 1;
-        var arraRows = $(idtable).children().children();
-
-        for (var idx = 0; idx < cntTDs; idx++) {
-
-            if (idx === 0) {
-                $(arraRows[cnt - 1]).append("<td> <input type='date' class='form-control' class='AlojamentoDateAddVar' > </td>");
-            }
-            else {
-                $(arraRows[cnt - 1]).append("<td> <input type='number' class='form-control' min-value=0 value='0' class='AlojTableNumberIn' > </td>");
-
-            }
-
-        }
-    }
-
-
-
-
-
     $('body').on('click', '.AddIcon', function () {
         var callClass = this.className.toString();
         var Ptable = $(this).parent();
         if (callClass.split(" ")[1] == "AlojamentoDias") {
             var idtable = this.closest("table");
-            AddAlojamentoDias(idtable);
+            //AddAlojamentoDias(idtable);
         } else
             if (callClass.split(" ")[1] == "AlojamentoTipos") {
                 var idtable = this.closest("table").className.toString();

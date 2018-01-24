@@ -1160,7 +1160,7 @@
                             </div>
                             <div class="row">                                     
                                 <div class="col-lg-6">
-                                    <button class="GuardarOrcamentoAlojamento" type="button" id="GuardarOrcamentoAlojamento">Guardar Acordo</button>
+                                    <button class="GuardarTipologiaAlojamento" type="button" id="GuardarOrcamentoAlojamento">Guardar Acordo</button>
                                 </div>
                             </div>
                         </div>
@@ -1185,7 +1185,7 @@
                             </div>
                             <div class="row">                                     
                                 <div class="col-lg-6">
-                                    <button class="GuardarOrcamentoAlojamento" type="button" id="InserirTipologiaBTN">Inserir Tipologia</button>
+                                    <button class="GuardarTipologiaAlojamento" type="button" id="InserirTipologiaBTN">Inserir Tipologia</button>
                                 </div>
                             </div>
                         </div>
