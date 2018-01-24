@@ -1099,20 +1099,21 @@ function ReadAlojamento() {
         $.each(trs, function (index, d) {
             var childslen = $(d).children().length;
             var childs = $(d).children();
+            var className = d.className;
+
+            var RecordToAppend = new Object();
             if (childslen === 10) {
-                var tipo = childs[1].innerHTML;
-                var roomnights = parseInt(childs[2].innerHTML);
 
-                var valor = parseFloat($(childs[3]).find(".smNumInput").val());
-                var margem = parseFloat($(childs[4]).find(".smNumInput").val());
-                var totalCusto = parseFloat(childs[5].innerHTML);
-                var totalPaxCusto = parseFloat(childs[6].innerHTML);
-                var totalVenda = parseFloat(childs[7].innerHTML);
-                var totalVendaPax = parseFloat(childs[8].innerHTML);
-                var lucro = parseFloat(childs[9].innerHTML);
+                RecordToAppend.classnameTr = className;
+                RecordToAppend.valor = parseFloat($(childs[3]).find(".smNumInput").val());
+                RecordToAppend.margem = parseFloat($(childs[4]).find(".smNumInput").val());
+                records.push(RecordToAppend);
+            } else {
+                RecordToAppend.classnameTr = className;
+                RecordToAppend.valor = parseFloat($(childs[2]).find(".smNumInput").val());
+                RecordToAppend.margem = parseFloat($(childs[3]).find(".smNumInput").val());
+                records.push(RecordToAppend);
             }
-
-
 
         });
 
@@ -1144,10 +1145,10 @@ function ReadAlojamento() {
     var d = [];
     $.each(result, function (index, item) {
         var objeto = {
-            "hotel": "",
+            "hotel": item._id,
             "Objeto": item
         }
-        //sendAlojamento(objeto, true)
+        sendAlojamento(objeto, true)
     });
 
 
@@ -1359,6 +1360,7 @@ function RefreshAlojTableDias() {
         var acordojson = $(o).parent().find(".hiddenAlojamentoAcordo").val();
 
 
+
         var acordo = "";
         if (acordojson === "") {
             return;
@@ -1389,7 +1391,7 @@ function RefreshAlojTableDias() {
             tdValor = '<input type="number" class="smNumInput" value="' + parseInt(0) + '">' + '<input type="hidden" class="HiddenCambioValue" value="' + cambioAcordo.value + '">' + '/<span class="Currency">EUR</span>';
         }
         else {
-            tdValor = '<input type="number" class="smNumInput" value="' + parseInt(0) + '">' + '<input type="hidden" class="HiddenCambioValue" value="' + cambioAcordo.value + '">' + '/<span class="CurrencyRed">' + cambioAcordo.name + '</span>' + '</br>' + (0 / cambioAcordo.value).formatMoney(2, '.', ',') + '/' + 'EUR';;
+            tdValor = '<input type="number" class="smNumInput" value="' + parseInt(0) + '">' + '<input type="hidden" class="HiddenCambioValue" value="' + cambioAcordo.value + '">' + '/<span class="CurrencyRed">' + cambioAcordo.name + '</span>' + '</br>' + (0 / cambioAcordo.value).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>';;
 
         }
 
@@ -1400,7 +1402,7 @@ function RefreshAlojTableDias() {
 
 
             if (i == 0) {
-                $("#AlojamentoRecords tr:last").after('<tr class="' + fornecedorId + '">' +
+                $("#AlojamentoRecords tr:last").after('<tr class="' + fornecedorId + " " + NomeTipo + '">' +
                 '<td rowspan="' + tipologias.length + '">' + NomeHotel +
                     '<input type="hidden" class="HiddenRecordId" value="' + fornecedorId + "." + NomeTipo + '">' +
                     '<input type="hidden" class="HiddenRecordIdFornecedor" value="' + 0 + '">' +
@@ -1417,7 +1419,7 @@ function RefreshAlojTableDias() {
                 '<td>' + 0 + '</td>' +
                 '</tr>');
 
-                $("#AlojamentoVerRecords tr:last").after('<tr class="' + fornecedorId + '">' +
+                $("#AlojamentoVerRecords tr:last").after('<tr class="' + fornecedorId + " " + NomeTipo + '">' +
                     '<td rowspan="' + tipologias.length + '">' + NomeHotel +
                         '<input type="hidden" class="HiddenRecordId" value="' + fornecedorId + "." + NomeTipo + '">' +
                         '<input type="hidden" class="HiddenRecordIdFornecedor" value="' + 0 + '">' +
@@ -1435,7 +1437,7 @@ function RefreshAlojTableDias() {
                     '</tr>');
             }
             else {
-                $("#AlojamentoRecords tr:last").after('<tr class="' + fornecedorId + '">' +
+                $("#AlojamentoRecords tr:last").after('<tr class="' + fornecedorId + " " + NomeTipo + '">' +
                     '<td>' + NomeTipo +
                         '<input type="hidden" class="HiddenRecordId" value="' + fornecedorId + "." + NomeTipo + '">' +
                         '<input type="hidden" class="HiddenRecordQuartoIdv" value="' + cap + '">' +
@@ -1451,7 +1453,7 @@ function RefreshAlojTableDias() {
                     '<td>' + 0 + '</td>' +
                     '</tr>');
 
-                $("#AlojamentoVerRecords tr:last").after('<tr class="' + fornecedorId + '">' +
+                $("#AlojamentoVerRecords tr:last").after('<tr class="' + fornecedorId + " " + NomeTipo + '">' +
                     '<td>' + NomeTipo +
                         '<input type="hidden" class="HiddenRecordId" value="' + fornecedorId + "." + NomeTipo + '">' +
                         '<input type="hidden" class="HiddenRecordQuartoIdv" value="' + cap + '">' +
@@ -1472,7 +1474,40 @@ function RefreshAlojTableDias() {
 
 
 
-    })
+    });
+
+
+    var todosAloj = $("#HiddenAlojamento").val();
+    var aloj;
+    if (todosAloj === "") {
+        return;
+    }
+    else {
+        aloj = JSON.parse(todosAloj);
+
+        var trs = $("#AlojamentoRecords tr:gt(0)");
+    /*    $(aloj).each(function (i, aloj) {
+            var rec = aloj.Records;
+            $(rec).each(function (id, info) {
+
+                var filter = this.classnameTr.replace(" ", ".");
+                var tds = $("#AlojamentoRecords tr." + filter).children();
+                if (tds.length === 10) {
+                    tds[3].find(".smNumInput").val(info.valor);
+                    tds[4].find(".smNumInput").val(info.margem);
+
+                }
+                else {
+                    tds[2].find(".smNumInput").val(info.valor);
+                    tds[3].find(".smNumInput").val(info.margem);
+                }
+
+            });
+
+        });*/
+       // iterar pelos alojamentos, ir direto ao records, onde vou ter class, e terei que popular
+    }
+
 
 }
 $('#tabs').on('change', '.AlojTableNumberIn', function () {

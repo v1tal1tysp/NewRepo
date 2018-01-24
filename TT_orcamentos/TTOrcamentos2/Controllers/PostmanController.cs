@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using MongoDB.Bson;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -491,12 +492,22 @@ namespace TTOrcamentos2.Controllers
         [Route("api/Postman/InsertAlojamento")]
         public string InsertAlojamento(JObject Obj)
         {
-
+            var id = Obj.GetValue("hotel").ToString();
             var Orcamento = Obj.GetValue("Objeto");
+
             Alojamento aloj = Orcamento.ToObject<Alojamento>();
+            if (id == "")
+            {
+                Alojamento.Insert(aloj);
+            }
+            else
+            {
+                ObjectId pantObj = new ObjectId(id);
+                aloj.Id = pantObj;
+                Alojamento.Update(aloj);
 
+            }
 
-            Alojamento.Insert(aloj);
 
 
             /*

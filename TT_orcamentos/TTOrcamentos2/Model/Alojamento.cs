@@ -115,15 +115,33 @@ namespace TTOrcamentos2.Model {
     }
 
     public class Acordo {
-        public Cambio cambio { get; set; }
+        public CambioAloj cambio { get; set; }
         public bool AlmocoIncluido { get; set; }
-        public Ivas Iva { get; set; }
+        public IvasAloj Iva { get; set; }
         public double markup { get; set; }
         public double net { get; set; }
         public double margem { get; set; }
         public double Comissao { get; set; }
-        public Tipo_Iva TipoIva { get; set; }
+        public Tipo_IvaAloj TipoIva { get; set; }
         public string Observacoes { get; set; }
+    }
+    public class IvasAloj
+    {
+        public string name { get; set; }
+        public int inId { get; set; }
+    }
+    public class Tipo_IvaAloj
+    {
+
+        public int inId { get; set; }
+        public string name { get; set; }
+    }
+
+    public class CambioAloj
+    {
+        public int inId { get; set; }
+        public string name { get; set; }
+        public double value { get; set; }
     }
 
     public class Dias {
@@ -143,17 +161,9 @@ namespace TTOrcamentos2.Model {
     }
 
     public class ResultRecords {
-        public string tipo { get; set; }
-        public int roomnights { get; set; }
+        public string classnameTr { get; set; }
         public double valor { get; set; }
-        public Cambio cambio { get; set; }
         public double margem { get; set; }
-        public double totalCusto { get; set; }
-        public double totalPaxCusto { get; set; }
-        public double totalVenda { get; set; }
-        public double totalVendaPax { get; set; }
-        public double lucro { get; set; }
-
 
     }
 }
