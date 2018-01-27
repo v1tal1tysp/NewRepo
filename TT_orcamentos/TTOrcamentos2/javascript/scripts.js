@@ -139,15 +139,8 @@ $("#SaveNewOrcamento").click(function () {
     var strDate = d.getFullYear() + "/" + (d.getMonth() + 1) + "/" + d.getDate() + "-v" + ver.toString();
     $("#OrcamentoNome").val(strDate);
 
-
     savecurrentProject();
-
-
-    /*
-        add novo orcamento,
-        e criar copy a todos records,
-        mas com orcamento novo.
-    */
+    
 
 });
 
@@ -276,6 +269,308 @@ function savecurrentProject() {
 
 }
 
+function SaveAllRecords( novorcamento) {
+    ReadAlojamento();
+
+
+    /*VOOS */
+   var listaVoos = $("#VoosRecords tr");
+    var myarrVooRecs = [];
+
+    for (var i = 1; i < listaVoos.length; i++){
+        
+        var rec = $(listaVoos[i]).children();
+
+        var idv = $(rec[0]).find(".HiddenRecordId").val();
+        var fornecedoridv = $(rec[0]).find(".HiddenRecordIdFornecedor").val();
+        var cambioidv = $(rec[0]).find(".HiddenRecordCambioIdv").val();
+        var Ivaidv = $(rec[0]).find(".HiddenRecordIvaIdv").val();
+        var tipocustoidv = $(rec[0]).find(".HiddenRecordTipocustoidv").val();
+        var net = parseFloat($(rec[0]).find(".HiddenRecordNet").val());
+        var Markup = parseFloat($(rec[0]).find(".HiddenRecordMarkup").val());
+        var APagameto = $(rec[0]).find(".HiddenRecordAPagamento").val();
+        var ADataPagameto = ConvertDateForSend($(rec[0]).find(".HiddenRecordADATAPagamento").val());
+        var valorCambio = parseFloat($(rec[0]).find(".HiddenRecordValorCambio").val());
+        var TAXAA = parseFloat($(rec[0]).find(".HiddenRecordTAXAA").val());
+        var TAXAB = parseFloat($(rec[0]).find(".HiddenRecordTAXAB").val());
+        var DISPONIBILIDADE = parseInt($(rec[0]).find(".HiddenRecordDISPONIBILIDADE").val());
+        var NomeVoo = $(rec[0]).find(".HiddenRecordNomeVoo").val();
+        var nomevooarr = NomeVoo.split("<br>");
+        var Nnoites = parseInt($(rec[3]).text());
+        var Unidades = parseInt($(rec[4]).find(".smNumInput").val());
+        var NomeDirecao = $(rec[1]).text();
+        var nomeArr = NomeDirecao.split("-");
+        var partida = nomeArr[0];
+        var destino = nomeArr[1];
+        var margem = parseFloat($(rec[5]).find(".smNumInput").val());
+        var commisao = parseFloat( $(rec[0]).find(".HiddenRecordCOMISSAO").val());
+        var totalCusto = parseFloat($(rec[6]).text().replace(',', ''));
+        var totalCustoPax =parseFloat($(rec[7]).text().replace(',', ''));
+        var TotalVenda =parseFloat($(rec[8]).text().replace(',', ''));
+        var TotalPax = parseFloat($(rec[9]).text().replace(',', ''));
+        var Lucro = parseFloat($(rec[10]).text().replace(',', ''));
+        var ht = $(rec[2]).html();
+        var valorEur;
+        var valorExterno;
+        if(ht.indexOf("</br>")<0)
+        {
+            valorEur = parseFloat($(rec[2]).text().replace(',', ''));
+            valorExterno = valorEur;
+        }
+        else{
+            var strs = ht.split("</br>");
+            valorEur = parseFloat($(strs[1]).text().replace(',', ''));
+            valorExterno = parseFloat($(strs[0]).text().replace(',', ''));
+        }
+
+
+
+        var vooRec = {"vooidv":idv,
+            "orcamentoidv":OrcamentoID,
+            "fornecedoridv":fornecedoridv,
+            "cambioidv":cambioidv,
+            "ivaidv":Ivaidv,
+            "tipocustoidv":tipocustoidv,
+            "v_partida":partida,
+            "v_destino":destino,
+            "v_nomevoo":NomeVoo,
+            "v_preco":valorExterno,
+            "v_comissao":commisao,
+            "v_net":net,
+            "v_valorcambio":valorCambio,
+            "v_valoreuros":TotalVenda,
+            "v_margemvenda":margem,
+            "v_markup":Markup,
+            "v_taxaA":TAXAA,
+            "v_taxaB":TAXAB,
+            "v_numeropessoas":Unidades,
+            "v_disponibilidade":DISPONIBILIDADE,
+            "v_valortotalpvp":totalCusto,
+            "v_valorporpessoapvp":totalCustoPax,
+            "v_pagamento":APagameto,
+            "v_datapagamento":ADataPagameto
+        }
+
+        var data = {
+            "_id": "",
+            "orcamentoidv": OrcamentoID,
+            "fornecedoridv": VoosFornecedorID,
+            "VoosFornecedor": VoosFornecedor,
+            "cambioidv": { "_id": VoosCambioidv, "name": VoosCambioName, "value": VoosMoedaValor },
+            "ivaidv": { "_id": VoosIva, "name": VoosCambioName },
+            "tipocustoidv": { "_id": VoosTipoIva, "name": VoosTipoIvaName },
+            "v_partida": VoosPartida,
+            "v_destino": VoosDestino,
+            "v_nomevoo": VoosNomeVoo,
+            "v_preco": VoosValor,
+            "v_comissao": VoosCommisao,
+            "v_net": VoosNet,
+            "v_valorcambio": VoosMoedaValor,
+            "v_valoreuros": 0,
+            "v_margemvenda": VoosMargemVenda,
+            "v_markup": VoosMarkup,
+            "v_taxaA": VoosTaxaA,
+            "v_taxaB": VoosTaxaB,
+            "v_numeropessoas": 0,
+            "v_disponibilidade": 1,
+            "v_valortotalpvp": 0,
+            "v_valorporpessoapvp": VoosValor
+        };
+
+
+
+        sendVoo(data, false);
+
+        
+
+
+    }
+
+
+
+    /*DIARIAS */
+
+    var dataDiariaArr = [];
+
+    var listaDiarias = $("#DiariaVerRecords tr");
+    for (var i = 1; i < listaDiarias.length; i++){
+
+        var rec = $(listaDiarias[i]).children();
+        
+        var DiariaIdv= $(rec[0]).find(".HiddenRecordId").val();
+        var DiariaCambioidv= $(rec[0]).find(".HiddenRecordCambioIdv").val();
+        var DiariaFornecedorID = $(rec[0]).find(".HiddenRecordIdFornecedor").val();
+        var ServicosTipoServicoID = $(rec[0]).find(".HiddenRecordtipoServicoIdv").val();
+        var DiariaComisao = parseFloat($(rec[0]).find(".HiddenRecordDiariaComisao").val());
+        var DiariaCambioValor = parseFloat($(rec[0]).find(".HiddenRecordCambioValor").val());
+        var DiariaMarkup = parseFloat($(rec[0]).find(".HiddenRecordMarkup").val());
+        
+        var ht = $(rec[2]).html();
+        var valorEur;
+        var valorExterno;
+        if(ht.indexOf("</br>")<0)
+        {
+            valorEur = parseFloat($(rec[2]).text().replace(',', ''));
+            valorExterno = valorEur;
+        }
+        else{
+            var strs = ht.split("</br>");
+            valorEur = parseFloat($(strs[1]).text().replace(',', ''));
+            valorExterno = parseFloat($(strs[0]).text().replace(',', ''));
+        }
+        
+        
+        var DiariaNet = $(rec[0]).find(".HiddenRecordNet").val();
+        var DiariaMargem = parseFloat($(rec[5]).find(".smNumInput").val());
+        var DiariaIva = parseFloat($(rec[0]).find(".HiddenRecordIvaIdv").val());
+        var DiariaObservaçoes = $(rec[11]).text();
+        var DiariaNomeServico = $(rec[1]).text();
+        var DiariaQuantidade = parseInt($(rec[3]).text());
+        var DiariaPagamento = $(rec[0]).find(".HiddenRecordAPagamento").val();
+        var DiariaPagamentoData = ConvertDateForSend($(rec[0]).find(".HiddenRecordADATAPagamento").val());
+            
+        var Str = $(rec[0]).text();
+        var strarr = Str.split("-");
+        var StrDt = strarr[1];
+        var DiariaData = ConvertDateForSend(new Date.parse(StrDt));
+        
+        
+        var TotalVendaPax = parseFloat($(rec[9]).text().replace(',', ''));
+        var totalCusto = parseFloat($(rec[6]).text().replace(',', ''));
+        var totalCustoPax =parseFloat($(rec[7]).text().replace(',', ''));
+        var TotalVenda =parseFloat($(rec[8]).text().replace(',', ''));
+            
+            
+        var Unidades = parseInt($(rec[4]).find(".smNumInput").val());
+        
+        
+        
+        dataDiaria = {"diariaidv": DiariaIdv,
+            "orcamentoidv": OrcamentoID,
+            "fornecedoridv": DiariaFornecedorID,
+            "ivaidv": DiariaIva,
+            "tipocustoidv": "4",
+            "cambioidv": DiariaCambioidv,
+            "d_nomeservico": DiariaNomeServico,
+            "d_data": DiariaData,
+            "d_preco": valorExterno,
+            "d_comissao": DiariaComisao,
+            "d_net": DiariaNet,
+            "d_valorcambio": DiariaCambioValor,
+            "d_valoreuros": valorEur,
+            "d_quantidade": DiariaQuantidade,
+            "d_unidades": Unidades,
+            "d_margemvenda": DiariaMargem,
+            "d_markup": DiariaMarkup,
+            "d_pagamento": DiariaPagamento,
+            "d_datapagamento": DiariaPagamentoData,
+            "d_numeropessoas": Unidades,
+            "d_valortotalpvp": totalCusto,
+            "d_valorporpessoapvp": totalCustoPax,
+            "d_observacoes": DiariaObservaçoes,
+        }
+        
+
+        $.post('http://www.touchgroup.com/sgtt/cfc/main.cfc?method=insertDiaria', dataDiaria,
+            function (returnedData) {
+                var obj = returnedData;
+                obj = null;
+            }).fail(function () {
+                console.log("error");
+            });
+    }
+   
+
+
+
+
+    /*SERVICOS */
+    var listServicos = $("#ServicosRecords tr");
+    var listEnvioServicos = [];
+    for(var x = 1; x< listServicos.length ; x++){
+
+        var rec = $(listServicos[x]).children();
+
+        var ServicosCambioidv= $(rec[0]).find(".HiddenRecordCambioIdv").val();
+        var ServicosIdv= $(rec[0]).find(".HiddenRecordId").val();
+        var ServicosFornecedorID = $(rec[0]).find(".HiddenRecordIdFornecedor").val();
+        var ServicosTipoServicoID = $(rec[0]).find(".HiddenRecordtipoServicoIdv").val();
+        var ServicosComisao = parseFloat($(rec[0]).find(".HiddenRecordServicosComisao").val());
+        var CambioValor = parseFloat($(rec[0]).find(".HiddenRecordCambioValor").val());
+        var ServicosMarkup = parseFloat($(rec[0]).find(".HiddenRecordMarkup").val());
+
+        var ht = $(rec[2]).html();
+        var valorEur;
+        var valorExterno;
+        if(ht.indexOf("</br>")<0)
+        {
+            valorEur = parseFloat($(rec[2]).text().replace(',', ''));
+            valorExterno = valorEur;
+        }
+        else{
+            var strs = ht.split("</br>");
+            valorEur = parseFloat($(strs[1]).text().replace(',', ''));
+            valorExterno = parseFloat($(strs[0]).text().replace(',', ''));
+        }
+
+        
+        var ServicosNet = $(rec[0]).find(".HiddenRecordNet").val();
+        var ServicosMargem = parseFloat($(rec[5]).find(".smNumInput").val());
+        var ServicosIva = parseFloat($(rec[0]).find(".HiddenRecordIvaIdv").val());
+        var ServicosObservacoes = $(rec[11]).text();
+        var ServicosTipoServico = $(rec[1]).text();
+        var ServicosQuantidade = parseInt($(rec[3]).text());
+        var ServicoPagamento = $(rec[0]).find(".HiddenRecordAPagamento").val();
+        var ServicosData = ConvertDateForSend($(rec[0]).find(".HiddenRecordADATAPagamento").val());
+        var TotalVendaPax = parseFloat($(rec[9]).text().replace(',', ''));
+        var totalCusto = parseFloat($(rec[6]).text().replace(',', ''));
+        var totalCustoPax =parseFloat($(rec[7]).text().replace(',', ''));
+        var TotalVenda =parseFloat($(rec[8]).text().replace(',', ''));
+
+
+        var Unidades = $(rec[4]).find(".smNumInput").val();
+
+
+
+        dataServicos = {
+            "servicoidv": ServicosIdv,
+            "orcamentoidv": OrcamentoID,
+            "fornecedoridv": ServicosFornecedorID,
+            "ivaidv": ServicosIva,
+            "tipocustoidv": "6",
+            "cambioidv": ServicosCambioidv,
+            "servicottidv": ServicosTipoServicoID,
+            "s_nomeservico": ServicosTipoServico,
+            "s_preco": valorExterno,
+            "s_comissao": ServicosComisao,
+            "s_net": ServicosNet,
+            "s_valorcambio": CambioValor,
+            "s_valoreuros": valorEur,
+            "s_quantidade": ServicosQuantidade,
+            "s_unidades": Unidades,
+            "s_margemvenda": ServicosMargem,
+            "s_markup": ServicosMarkup,
+            "s_pagamento": ServicoPagamento,
+            "s_datapagamento": ServicosData,
+            "s_numeropessoas": Unidades,
+            "s_valortotalpvp": totalCusto,
+            "s_valorporpessoapvp": totalCustoPax,
+            "s_observacoes":ServicosObservacoes 
+        }
+
+
+        $.post('http://www.touchgroup.com/sgtt/cfc/main.cfc?method=insertServico', dataServicos,
+            function (returnedData) {
+                var obj = returnedData;
+                obj = null;
+            }).fail(function () {
+                console.log("error");
+            });
+
+    }
+    
+
+}
 
 function LoadingProjecto(id, IdOrc) {
 
@@ -604,10 +899,11 @@ function preencherTabelaServicosLoading(data) {
         var str = "";
 
         if (ServicosMoedaName === "EUR") {
-            str = ServicosValor + '/' + ServicosMoedaName;
+            str = ServicosValor + '/<span class="Currency">EUR</span>';
         }
         else {
-            str = ServicosValor + '/' + ServicosMoedaName + '</br>' + (ServicosValor / ServicosMoedaName).formatMoney(2, '.', ',') + '/' + 'EUR';
+            
+            str = ServicosValor + '/<span class="CurrencyRed">' + ServicosMoedaName + '</span>' + '</br>' + (ServicosValor / ServicosMoedaCompra).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>';
         }
 
         //insertTabelaFornecedores(ServicosFornecedorID,ServicosFornecedor, a_pagamento, a_datapagamento, ValorTotal);
@@ -682,28 +978,11 @@ function preencherTabelaServicosLoading(data) {
 function preencherTabelaDiariasLoading(data) {
     $.each(data, function (index, el) {
 
-
-        /*  
-          data.DATA["D_NUMEROPESSOAS"][index];
-          data.DATA["I_TAXA"][index];
-          data.DATA["TC_NOME"][index];
-  
-          /*Verificar o dia e inserir conforme a data
-          
-          se dia for igual ao do orcamento Data Inicio
-           -e primeiro dia
-  
-          */
-
-
-
         var DataDoRecord = el.d_data;
 
 
         var DataBase = $("#OrcamentoDataInicio").val()
         var dataInput2 = ConvertDateForInput(DataDoRecord);
-
-
 
         var numdias = parseInt($("#OrcamentoDias").val());
         var DiariaAuxDia = 1;
@@ -737,7 +1016,7 @@ function preencherTabelaDiariasLoading(data) {
         var DiariaTotalPvp = parseFloat(el.d_valortotalpvp);
         var DiariaTotalPAXPvp = parseFloat(el.d_valorporpessoapvp);
         var cambioidv = el.cambioidv.Id;
-        var DiariaCambioValor = parseFloat(el.v_valorcambio);
+        var DiariaCambioValor = parseFloat(el.cambioidv.value);
         var DiariaMoedaName = el.cambioidv.name;
         var DiariaMarkup = parseFloat(el.d_markup);
         var DiariaNomeServico = el.d_nomeservico;
@@ -752,10 +1031,10 @@ function preencherTabelaDiariasLoading(data) {
         var str = "";
 
         if (DiariaMoedaName === "EUR") {
-            str = DiariaValor + '/' + DiariaMoedaName;
+            str = DiariaValor + '/<span class="Currency">EUR</span>';
         }
         else {
-            str = DiariaValor + '/' + DiariaMoedaName + '</br>' + (DiariaValor / DiariaCambioValor).formatMoney(2, '.', ',') + '/' + 'EUR';
+            str = DiariaValor + '/<span class="CurrencyRed">' + DiariaMoedaName + '</span>' + '</br>' + (DiariaValor / DiariaCambioValor).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>';
         }
         insertTabelaFornecedores(fornecedoridv, DiariaFornecedor, a_pagamento, a_datapagamento, ValorTotal);
 
@@ -829,9 +1108,7 @@ function preencherTabelaVoosLoading(data) {
         var TAXAB = el.v_taxaB;
         var DISPONIBILIDADE = el.v_disponibilidade;
         var COMISSAO = el.v_comissao;
-        /*
-        var TAXA  =data.DATA["I_TAXA"][index];
-        var NOME  =data.DATA["TC_NOME"][index];*/
+
 
         var id = el.vooidv;
         var VoosPartida = el.v_partida;
@@ -854,10 +1131,10 @@ function preencherTabelaVoosLoading(data) {
         var str = "";
 
         if (VoosMoedaName === "EUR") {
-            str = VoosValor + '/' + VoosMoedaName;
+            str = VoosValor + '/<span class="Currency">EUR</span>';
         }
         else {
-            str = VoosValor + '/' + VoosMoedaName + '</br>' + (VoosValor / VMoeda).formatMoney(2, '.', ',') + '/' + 'EUR';
+            str = VoosValor + '/<span class="CurrencyRed">' + VoosMoedaName + '</span>' + '</br>' + (VoosValor / VMoeda).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>';
         }
         insertTabelaFornecedores(fornecedoridv, VoosFornecedor, a_pagamento, a_datapagamento, valorTotal);
 
@@ -1007,9 +1284,7 @@ function preencherTabelaAlojamentoLoading(data) {
 }
 
 
-$('body').on('click', '.addSaveBtn', function () {
-    ReadAlojamento();
-});
+
 function ReadAlojamento() {
     //Lista tabelas
 
@@ -1702,7 +1977,7 @@ function sendAlojamento(objectToSend, save) {
 
 
 function InsertProjectoInicial(objectToSend, orcamento) {
-    if (objectToSend.projecto._id == "") {
+    if (objectToSend.projecto._id == "") {//Sem Projecto, ou seja é novo
         $.post('api/Postman/insertProjectoTT', objectToSend,
             function (returnedData) {
 
@@ -1714,12 +1989,14 @@ function InsertProjectoInicial(objectToSend, orcamento) {
                 alert("Erro ao criar o projecto!");
             });
     }
-    else {
+    else {// com projecto, ou seja, guarda toda info
         $.post('api/Postman/UpdateProjectoTT', objectToSend,
             function (returnedData) {
 
                 orcamento.Orcamento.projectoidv = objectToSend.projecto._id;
                 InsertOrcamentoInicial(orcamento);
+
+                
 
             }).fail(function () {
                 alert("Erro ao criar o projecto!");
@@ -1732,8 +2009,10 @@ function InsertOrcamentoInicial(objectToSend) {
     $.post('api/Postman/insertOrcamento', objectToSend,
         function (returnedData) {
 
+            
             OrcamentoID = returnedData;
 
+            SaveAllRecords(OrcamentoID);
             var page = 'NewProject?ID=' + projectID;
             var page2 = page + "&IDorc=" + OrcamentoID;
 
@@ -2245,46 +2524,46 @@ function updateValues(FiredTable) {
             var TotalLucro = parseInt(tds[8].innerHTML, 10);
             var TotalLucroPax = parseInt(tds[9].innerHTML, 10);
             var unitCost = tds[2].innerHTML;
-
+            var MoedaCompra = $(tds[2]).find(".CurrencyRed").text();
 
             if (unitCost.indexOf("<br>") >= 0) {
                 var t = unitCost.split('<br>');
-                var MoedaCompra = t[0].split('/');
+                
 
                 var Vcompra = parseFloat(t[0]);
                 var VEuro = parseFloat(t[1]);
 
                 /*Total GASTO*/
                 $(tds[6]).html(
-                    (Vcompra * units).formatMoney(2, '.', ',') + '/' + MoedaCompra[1] + '</br>' +
-                    (VEuro * units).formatMoney(2, '.', ',')
+                    (Vcompra * units).formatMoney(2, '.', ',') + '/<span class="CurrencyRed">' + MoedaCompra + '</span>' + '</br>' +
+                    (VEuro * units).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>'
                 );
                 /*Total GASTO PAX*/
                 $(tds[7]).html(
-                    (Vcompra).formatMoney(2, '.', ',') + '' + MoedaCompra[1] + '</br>' +
-                    (VEuro).formatMoney(2, '.', ',')
+                    (Vcompra).formatMoney(2, '.', ',') + '/<span class="CurrencyRed">' + MoedaCompra + '</span>' + '</br>' +
+                    (VEuro).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>'
                 );
                 /*TotalVenda*/
-                $(tds[8]).html((((VEuro * units) / 100) * margem + (VEuro * units)).formatMoney(2, '.', ','));
+                $(tds[8]).html((((VEuro * units) / 100) * margem + (VEuro * units)).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>');
                 /*TotalVendaPAX*/
-                $(tds[9]).html((((VEuro / 100) * margem) + VEuro).formatMoney(2, '.', ','));
+                $(tds[9]).html((((VEuro / 100) * margem) + VEuro).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>');
                 /*TotalLucro*/
-                $(tds[10]).html((((VEuro * units) / 100) * margem + (VEuro * units) - (VEuro * units)).formatMoney(2, '.', ','));
+                $(tds[10]).html((((VEuro * units) / 100) * margem + (VEuro * units) - (VEuro * units)).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>');
 
             }
             else {
                 unitCost = parseFloat(tds[2].innerHTML);
 
                 /*Total*/
-                $(tds[6]).html((unitCost * units).formatMoney(2, '.', ','));
+                $(tds[6]).html((unitCost * units).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>');
                 /*TotalPAX*/
                 $(tds[7]).html((unitCost).formatMoney(2, '.', ','));
                 /*TotalVenda*/
-                $(tds[8]).html((((unitCost * units) / 100) * margem + (unitCost * units)).formatMoney(2, '.', ','));
+                $(tds[8]).html((((unitCost * units) / 100) * margem + (unitCost * units)).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>');
                 /*TotalVendaPAX*/
-                $(tds[9]).html((((unitCost) / 100) * margem + unitCost).formatMoney(2, '.', ','));
+                $(tds[9]).html((((unitCost) / 100) * margem + unitCost).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>');
                 /*TotalLucro*/
-                $(tds[10]).html((((unitCost * units) / 100) * margem + (unitCost * units) - (unitCost * units)).formatMoney(2, '.', ','));
+                $(tds[10]).html((((unitCost * units) / 100) * margem + (unitCost * units) - (unitCost * units)).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>');
 
 
             }
@@ -2306,45 +2585,45 @@ function updateValues(FiredTable) {
             var TotalLucroPax = parseInt(tds[9].innerHTML, 10);
             var unitCost = tds[2].innerHTML;
 
-
+            var MoedaCompra = $(tds[2]).find(".CurrencyRed").text();
             if (unitCost.indexOf("<br>") >= 0) {
                 var t = unitCost.split('<br>');
-                var MoedaCompra = t[0].split('/');
+                //var MoedaCompra = t[0].split('/');
 
                 var Vcompra = parseFloat(t[0]);
                 var VEuro = parseFloat(t[1]);
 
                 /*Total GASTO*/
                 $(tds[6]).html(
-                    (Vcompra * units).formatMoney(2, '.', ',') + '/' + MoedaCompra[1] + '</br>' +
-                    (VEuro * units).formatMoney(2, '.', ',')
+                    (Vcompra * units).formatMoney(2, '.', ',') + '/<span class="CurrencyRed">' + MoedaCompra + '</span>' + '</br>' +
+                    (VEuro * units).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>'
                 );
                 /*Total GASTO PAX*/
                 $(tds[7]).html(
-                    (Vcompra / qnt).formatMoney(2, '.', ',') + '' + MoedaCompra[1] + '</br>' +
-                    (VEuro / qnt).formatMoney(2, '.', ',')
+                    (Vcompra / qnt).formatMoney(2, '.', ',') + '/<span class="CurrencyRed">' + MoedaCompra + '</span>' + '</br>' +
+                    (VEuro / qnt).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>'
                 );
                 /*TotalVenda*/
-                $(tds[8]).html((((VEuro * units) / 100) * margem + (VEuro * units)).formatMoney(2, '.', ','));
+                $(tds[8]).html((((VEuro * units) / 100) * margem + (VEuro * units)).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>');
                 /*TotalVendaPAX*/
-                $(tds[9]).html(((((VEuro / qnt) / 100) * margem) + VEuro).formatMoney(2, '.', ','));
+                $(tds[9]).html(((((VEuro / qnt) / 100) * margem) + VEuro).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>');
                 /*TotalLucro*/
-                $(tds[10]).html((((VEuro * units) / 100) * margem + (VEuro * units) - (VEuro * units)).formatMoney(2, '.', ','));
+                $(tds[10]).html((((VEuro * units) / 100) * margem + (VEuro * units) - (VEuro * units)).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>');
 
             }
             else {
                 unitCost = parseFloat(tds[2].innerHTML);
 
                 /*Total*/
-                $(tds[6]).html((unitCost * units).formatMoney(2, '.', ','));
+                $(tds[6]).html((unitCost * units).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>');
                 /*TotalPAX*/
-                $(tds[7]).html((unitCost / qnt).formatMoney(2, '.', ','));
+                $(tds[7]).html((unitCost / qnt).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>');
                 /*TotalVenda*/
-                $(tds[8]).html((((unitCost * units) / 100) * margem + (unitCost * units)).formatMoney(2, '.', ','));
+                $(tds[8]).html((((unitCost * units) / 100) * margem + (unitCost * units)).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>');
                 /*TotalVendaPAX*/
-                $(tds[9]).html(((((unitCost * units) / 100) * margem + (unitCost * units)) / qnt).formatMoney(2, '.', ','));
+                $(tds[9]).html(((((unitCost * units) / 100) * margem + (unitCost * units)) / qnt).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>');
                 /*TotalLucro*/
-                $(tds[10]).html((((unitCost * units) / 100) * margem + (unitCost * units) - (unitCost * units)).formatMoney(2, '.', ','));
+                $(tds[10]).html((((unitCost * units) / 100) * margem + (unitCost * units) - (unitCost * units)).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>');
 
 
             }
@@ -2367,46 +2646,46 @@ function updateValues(FiredTable) {
             var TotalLucro = parseInt(tds[8].innerHTML, 10);
             var TotalLucroPax = parseInt(tds[9].innerHTML, 10);
             var unitCost = tds[2].innerHTML;
-
+            var MoedaCompra = $(tds[2]).find(".CurrencyRed").text();
 
             if (unitCost.indexOf("<br>") >= 0) {
                 var t = unitCost.split('<br>');
-                var MoedaCompra = t[0].split('/');
+                
 
                 var Vcompra = parseFloat(t[0]);
                 var VEuro = parseFloat(t[1]);
 
                 /*Total GASTO*/
                 $(tds[6]).html(
-                    (Vcompra * units).formatMoney(2, '.', ',') + '/' + MoedaCompra[1] + '</br>' +
-                    (VEuro * units).formatMoney(2, '.', ',')
+                    (Vcompra * units).formatMoney(2, '.', ',') + '/<span class="CurrencyRed">' + MoedaCompra + '</span>' + '</br>' +
+                    (VEuro * units).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>'
                 );
                 /*Total GASTO PAX*/
                 $(tds[7]).html(
-                    (Vcompra).formatMoney(2, '.', ',') + '' + MoedaCompra[1] + '</br>' +
-                    (VEuro).formatMoney(2, '.', ',')
+                    (Vcompra).formatMoney(2, '.', ',') + '/<span class="CurrencyRed">' + MoedaCompra + '</span>' + '</br>' +
+                    (VEuro).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>'
                 );
                 /*TotalVenda*/
-                $(tds[8]).html((((VEuro * units) / 100) * margem + (VEuro * units)).formatMoney(2, '.', ','));
+                $(tds[8]).html((((VEuro * units) / 100) * margem + (VEuro * units)).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>');
                 /*TotalVendaPAX*/
-                $(tds[9]).html((((VEuro / 100) * margem) + VEuro).formatMoney(2, '.', ','));
+                $(tds[9]).html((((VEuro / 100) * margem) + VEuro).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>');
                 /*TotalLucro*/
-                $(tds[10]).html((((VEuro * units) / 100) * margem + (VEuro * units) - (VEuro * units)).formatMoney(2, '.', ','));
+                $(tds[10]).html((((VEuro * units) / 100) * margem + (VEuro * units) - (VEuro * units)).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>');
 
             }
             else {
                 unitCost = parseFloat(tds[2].innerHTML);
 
                 /*Total*/
-                $(tds[6]).html((unitCost * units).formatMoney(2, '.', ','));
+                $(tds[6]).html((unitCost * units).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>');
                 /*TotalPAX*/
-                $(tds[7]).html((unitCost).formatMoney(2, '.', ','));
+                $(tds[7]).html((unitCost).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>');
                 /*TotalVenda*/
-                $(tds[8]).html((((unitCost * units) / 100) * margem + (unitCost * units)).formatMoney(2, '.', ','));
+                $(tds[8]).html((((unitCost * units) / 100) * margem + (unitCost * units)).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>');
                 /*TotalVendaPAX*/
-                $(tds[9]).html((((unitCost) / 100) * margem + unitCost).formatMoney(2, '.', ','));
+                $(tds[9]).html((((unitCost) / 100) * margem + unitCost).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>');
                 /*TotalLucro*/
-                $(tds[10]).html((((unitCost * units) / 100) * margem + (unitCost * units) - (unitCost * units)).formatMoney(2, '.', ','));
+                $(tds[10]).html((((unitCost * units) / 100) * margem + (unitCost * units) - (unitCost * units)).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>');
 
 
             }

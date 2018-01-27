@@ -311,9 +311,6 @@
                                 <div class="col-lg-2">
                                     <button type="button"  class="AddBtnFornecedor" style="padding: 0px"><img class="AddIcon 2" src="img\add_btn.png" alt="Guardar"></button>
                                 </div>
-                                <div class="col-lg-2">
-                                    <button type="button"  class="addSaveBtn" style="padding: 0px">Guardar</button>
-                                </div>
 
                             </div>
                             <div class="row" style="display: flex;width: 100%;">
