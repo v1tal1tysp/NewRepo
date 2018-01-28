@@ -122,11 +122,17 @@ namespace TT_orcamentos
                 else
                 {
                     ObjectId parrentObj = new ObjectId(parrent);
-
-                    var filter2 = Builders<Orcamentos>.Filter.Where(x => x.Id == parrentObj || x.parrentorcamentoidv == parrent);
+                    var filter1 = Builders<Orcamentos>.Filter.Where(x =>  x.parrentorcamentoidv == parrent);
+                    var filter2 = Builders<Orcamentos>.Filter.Where(x => x.Id == parrentObj);
                     var orcamentoList = DB.Orcamentos.Find(filter2).ToList();
-
+                    var orcamentoList2 = DB.Orcamentos.Find(filter1).ToList();
                     foreach (var item in orcamentoList)
+                    {
+
+                        nlista.Add(item);
+
+                    }
+                    foreach (var item in orcamentoList2)
                     {
 
                         nlista.Add(item);

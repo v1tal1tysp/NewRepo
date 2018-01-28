@@ -25,11 +25,11 @@ var res8 = encodeURI(url8);
 var res9 = encodeURI(url9);
 var InputClick;
 var InputId;
+var saverecords = false;
 
 var form_modified = false;
 
 var ListafornecedoresGBL = [];
-
 
 $(".AddOrcamentoPe").click(function () {
 
@@ -62,7 +62,7 @@ $(".AddOrcamentoPe").click(function () {
     var d = new Date();
 
 
-    var strDate = d.getFullYear() + "/" + (d.getMonth() + 1) + "/" + d.getDate() + "-v1";
+    var strDate = d.getFullYear() + "/" + (d.getMonth() + 1) + "/" + d.getDate() + "-v.1";
     var o_nome = strDate;
 
     var dataCriacao = new Date();
@@ -118,25 +118,41 @@ $(".AddOrcamentoPe").click(function () {
 });
 
 $("#SaveNewOrcamento").click(function () {
+    
     var cty = $("#ListaOrcamentos").find("tr");
     var cnt = cty.length - 1;
     if (ParrentOrcamentoID === "0") {
         ParrentOrcamentoID = OrcamentoID;
+        saverecords = true;
     }
 
     OrcamentoID = "";
 
     var d = new Date();
 
-    if (cnt === 0) {
-        cnt = 1;
+
+   // var Slink = $("#ListaOrcamentos tr.Selected a")[0];
+   // var vr = Alink[i].innerHTML;
+
+
+    var Alink = $("#ListaOrcamentos tr a");
+    var maxver = 0;
+
+    for (var i = 0; i < Alink.length; i++) {
+        var vr = Alink[i].innerHTML;
+        var vt = parseInt(vr.split(".")[1]);
+
+        if (maxver >= vt) {
+            continue;
+        }
+        else{
+            maxver = vt
+        }
     }
+    maxver++;
 
-
-    var ver = parseInt($("#VersaoActual").val());
-    ver++;
-    $("#VersaoActual").val(ver.toString());
-    var strDate = d.getFullYear() + "/" + (d.getMonth() + 1) + "/" + d.getDate() + "-v" + ver.toString();
+    $("#VersaoActual").val(maxver.toString());
+    var strDate = d.getFullYear() + "/" + (d.getMonth() + 1) + "/" + d.getDate() + "-v." + maxver.toString();
     $("#OrcamentoNome").val(strDate);
 
     savecurrentProject();
@@ -144,12 +160,14 @@ $("#SaveNewOrcamento").click(function () {
 
 });
 
+
 function savecurrentProject() {
 
     /*PROJETO*/
     var Projetoestadoidv = $("#ProjectEstado option:selected").val();
     var ProjetoestadoName = $("#ProjectEstado option:selected").text();
 
+ 
     var Projetosigavidv = $("#ProjectoSigav").val();
     var Projetop_nome = $("#ProjectName").val();
     var Projetop_descricao = $("#ProjectDescription").val();
@@ -170,11 +188,9 @@ function savecurrentProject() {
     var projectoidv = projectID; /*Este é hidden*/
     var fornecedoridv = $("#ProjectoFornecedorID").val();/*Este é hidden*/
 
-
-
-
     var estadoidv = $("#OrcamentoEstado option:selected").val();
     var estadonome = $("#OrcamentoEstado option:selected").text();
+
     var tipoivaidv = $("#OrcamentoTipoIva option:selected").val();
     var tipoivanome = $("#OrcamentoTipoIva option:selected").text();
     var ivaidv = $("#OrcamentoIva option:selected").val();
@@ -182,15 +198,12 @@ function savecurrentProject() {
     var OrcamentoCambioTXT = $("#OrcamentoMoedaCompra option:selected").val();
     var OrcamentoCambioTXTNome = $("#OrcamentoMoedaCompra option:selected").text();
 
-
-
     var datadeiniciar = ConvertDateForSend($("#OrcamentoDataInicio").val());
     var o_datainicio = datadeiniciar;
     var o_numeronoites = parseInt($("#OrcamentoNoites").val());
     var o_numerodias = parseInt($("#OrcamentoDias").val());
     var o_numeropessoas = parseInt($("#OrcamentoNumeroDePessoas").val());
     var Versao = parseInt($("#VersaoActual").val());
-
 
     var CambioArr = OrcamentoCambioTXT.split("-");
     var cambioidv = CambioArr[0];
@@ -205,8 +218,6 @@ function savecurrentProject() {
     /*ver o numero de orcamentos*/
     var conta = $("#ListaOrcamentos tr");
     var o_ordem = conta.length;
-
-
 
     var DataUpdate2 = new Date().toISOString();
     var DataUpdate = DataUpdate2;
@@ -268,309 +279,92 @@ function savecurrentProject() {
 
 
 }
-
-function SaveAllRecords( novorcamento) {
-    ReadAlojamento();
-
-
-    /*VOOS */
-   var listaVoos = $("#VoosRecords tr");
-    var myarrVooRecs = [];
-
-    for (var i = 1; i < listaVoos.length; i++){
-        
-        var rec = $(listaVoos[i]).children();
-
-        var idv = $(rec[0]).find(".HiddenRecordId").val();
-        var fornecedoridv = $(rec[0]).find(".HiddenRecordIdFornecedor").val();
-        var cambioidv = $(rec[0]).find(".HiddenRecordCambioIdv").val();
-        var Ivaidv = $(rec[0]).find(".HiddenRecordIvaIdv").val();
-        var tipocustoidv = $(rec[0]).find(".HiddenRecordTipocustoidv").val();
-        var net = parseFloat($(rec[0]).find(".HiddenRecordNet").val());
-        var Markup = parseFloat($(rec[0]).find(".HiddenRecordMarkup").val());
-        var APagameto = $(rec[0]).find(".HiddenRecordAPagamento").val();
-        var ADataPagameto = ConvertDateForSend($(rec[0]).find(".HiddenRecordADATAPagamento").val());
-        var valorCambio = parseFloat($(rec[0]).find(".HiddenRecordValorCambio").val());
-        var TAXAA = parseFloat($(rec[0]).find(".HiddenRecordTAXAA").val());
-        var TAXAB = parseFloat($(rec[0]).find(".HiddenRecordTAXAB").val());
-        var DISPONIBILIDADE = parseInt($(rec[0]).find(".HiddenRecordDISPONIBILIDADE").val());
-        var NomeVoo = $(rec[0]).find(".HiddenRecordNomeVoo").val();
-        var nomevooarr = NomeVoo.split("<br>");
-        var Nnoites = parseInt($(rec[3]).text());
-        var Unidades = parseInt($(rec[4]).find(".smNumInput").val());
-        var NomeDirecao = $(rec[1]).text();
-        var nomeArr = NomeDirecao.split("-");
-        var partida = nomeArr[0];
-        var destino = nomeArr[1];
-        var margem = parseFloat($(rec[5]).find(".smNumInput").val());
-        var commisao = parseFloat( $(rec[0]).find(".HiddenRecordCOMISSAO").val());
-        var totalCusto = parseFloat($(rec[6]).text().replace(',', ''));
-        var totalCustoPax =parseFloat($(rec[7]).text().replace(',', ''));
-        var TotalVenda =parseFloat($(rec[8]).text().replace(',', ''));
-        var TotalPax = parseFloat($(rec[9]).text().replace(',', ''));
-        var Lucro = parseFloat($(rec[10]).text().replace(',', ''));
-        var ht = $(rec[2]).html();
-        var valorEur;
-        var valorExterno;
-        if(ht.indexOf("</br>")<0)
-        {
-            valorEur = parseFloat($(rec[2]).text().replace(',', ''));
-            valorExterno = valorEur;
-        }
-        else{
-            var strs = ht.split("</br>");
-            valorEur = parseFloat($(strs[1]).text().replace(',', ''));
-            valorExterno = parseFloat($(strs[0]).text().replace(',', ''));
-        }
-
-
-
-        var vooRec = {"vooidv":idv,
-            "orcamentoidv":OrcamentoID,
-            "fornecedoridv":fornecedoridv,
-            "cambioidv":cambioidv,
-            "ivaidv":Ivaidv,
-            "tipocustoidv":tipocustoidv,
-            "v_partida":partida,
-            "v_destino":destino,
-            "v_nomevoo":NomeVoo,
-            "v_preco":valorExterno,
-            "v_comissao":commisao,
-            "v_net":net,
-            "v_valorcambio":valorCambio,
-            "v_valoreuros":TotalVenda,
-            "v_margemvenda":margem,
-            "v_markup":Markup,
-            "v_taxaA":TAXAA,
-            "v_taxaB":TAXAB,
-            "v_numeropessoas":Unidades,
-            "v_disponibilidade":DISPONIBILIDADE,
-            "v_valortotalpvp":totalCusto,
-            "v_valorporpessoapvp":totalCustoPax,
-            "v_pagamento":APagameto,
-            "v_datapagamento":ADataPagameto
-        }
-
-        var data = {
-            "_id": "",
-            "orcamentoidv": OrcamentoID,
-            "fornecedoridv": VoosFornecedorID,
-            "VoosFornecedor": VoosFornecedor,
-            "cambioidv": { "_id": VoosCambioidv, "name": VoosCambioName, "value": VoosMoedaValor },
-            "ivaidv": { "_id": VoosIva, "name": VoosCambioName },
-            "tipocustoidv": { "_id": VoosTipoIva, "name": VoosTipoIvaName },
-            "v_partida": VoosPartida,
-            "v_destino": VoosDestino,
-            "v_nomevoo": VoosNomeVoo,
-            "v_preco": VoosValor,
-            "v_comissao": VoosCommisao,
-            "v_net": VoosNet,
-            "v_valorcambio": VoosMoedaValor,
-            "v_valoreuros": 0,
-            "v_margemvenda": VoosMargemVenda,
-            "v_markup": VoosMarkup,
-            "v_taxaA": VoosTaxaA,
-            "v_taxaB": VoosTaxaB,
-            "v_numeropessoas": 0,
-            "v_disponibilidade": 1,
-            "v_valortotalpvp": 0,
-            "v_valorporpessoapvp": VoosValor
-        };
-
-
-
-        sendVoo(data, false);
-
-        
-
-
-    }
-
-
-
-    /*DIARIAS */
-
-    var dataDiariaArr = [];
-
-    var listaDiarias = $("#DiariaVerRecords tr");
-    for (var i = 1; i < listaDiarias.length; i++){
-
-        var rec = $(listaDiarias[i]).children();
-        
-        var DiariaIdv= $(rec[0]).find(".HiddenRecordId").val();
-        var DiariaCambioidv= $(rec[0]).find(".HiddenRecordCambioIdv").val();
-        var DiariaFornecedorID = $(rec[0]).find(".HiddenRecordIdFornecedor").val();
-        var ServicosTipoServicoID = $(rec[0]).find(".HiddenRecordtipoServicoIdv").val();
-        var DiariaComisao = parseFloat($(rec[0]).find(".HiddenRecordDiariaComisao").val());
-        var DiariaCambioValor = parseFloat($(rec[0]).find(".HiddenRecordCambioValor").val());
-        var DiariaMarkup = parseFloat($(rec[0]).find(".HiddenRecordMarkup").val());
-        
-        var ht = $(rec[2]).html();
-        var valorEur;
-        var valorExterno;
-        if(ht.indexOf("</br>")<0)
-        {
-            valorEur = parseFloat($(rec[2]).text().replace(',', ''));
-            valorExterno = valorEur;
-        }
-        else{
-            var strs = ht.split("</br>");
-            valorEur = parseFloat($(strs[1]).text().replace(',', ''));
-            valorExterno = parseFloat($(strs[0]).text().replace(',', ''));
-        }
-        
-        
-        var DiariaNet = $(rec[0]).find(".HiddenRecordNet").val();
-        var DiariaMargem = parseFloat($(rec[5]).find(".smNumInput").val());
-        var DiariaIva = parseFloat($(rec[0]).find(".HiddenRecordIvaIdv").val());
-        var DiariaObservaçoes = $(rec[11]).text();
-        var DiariaNomeServico = $(rec[1]).text();
-        var DiariaQuantidade = parseInt($(rec[3]).text());
-        var DiariaPagamento = $(rec[0]).find(".HiddenRecordAPagamento").val();
-        var DiariaPagamentoData = ConvertDateForSend($(rec[0]).find(".HiddenRecordADATAPagamento").val());
-            
-        var Str = $(rec[0]).text();
-        var strarr = Str.split("-");
-        var StrDt = strarr[1];
-        var DiariaData = ConvertDateForSend(new Date.parse(StrDt));
-        
-        
-        var TotalVendaPax = parseFloat($(rec[9]).text().replace(',', ''));
-        var totalCusto = parseFloat($(rec[6]).text().replace(',', ''));
-        var totalCustoPax =parseFloat($(rec[7]).text().replace(',', ''));
-        var TotalVenda =parseFloat($(rec[8]).text().replace(',', ''));
-            
-            
-        var Unidades = parseInt($(rec[4]).find(".smNumInput").val());
-        
-        
-        
-        dataDiaria = {"diariaidv": DiariaIdv,
-            "orcamentoidv": OrcamentoID,
-            "fornecedoridv": DiariaFornecedorID,
-            "ivaidv": DiariaIva,
-            "tipocustoidv": "4",
-            "cambioidv": DiariaCambioidv,
-            "d_nomeservico": DiariaNomeServico,
-            "d_data": DiariaData,
-            "d_preco": valorExterno,
-            "d_comissao": DiariaComisao,
-            "d_net": DiariaNet,
-            "d_valorcambio": DiariaCambioValor,
-            "d_valoreuros": valorEur,
-            "d_quantidade": DiariaQuantidade,
-            "d_unidades": Unidades,
-            "d_margemvenda": DiariaMargem,
-            "d_markup": DiariaMarkup,
-            "d_pagamento": DiariaPagamento,
-            "d_datapagamento": DiariaPagamentoData,
-            "d_numeropessoas": Unidades,
-            "d_valortotalpvp": totalCusto,
-            "d_valorporpessoapvp": totalCustoPax,
-            "d_observacoes": DiariaObservaçoes,
-        }
-        
-
-        $.post('http://www.touchgroup.com/sgtt/cfc/main.cfc?method=insertDiaria', dataDiaria,
+function InsertProjectoInicial(objectToSend, orcamento) {
+    if (objectToSend.projecto._id === "") {//Sem Projecto, ou seja é novo
+        $.post('api/Postman/insertProjectoTT', objectToSend,
             function (returnedData) {
-                var obj = returnedData;
-                obj = null;
+
+                orcamento.Orcamento.projectoidv = returnedData;
+                projectID = returnedData;
+                InsertOrcamentoInicial(orcamento);
+               
             }).fail(function () {
-                console.log("error");
+                alert("Erro ao criar o projecto!");
             });
     }
-   
-
-
-
-
-    /*SERVICOS */
-    var listServicos = $("#ServicosRecords tr");
-    var listEnvioServicos = [];
-    for(var x = 1; x< listServicos.length ; x++){
-
-        var rec = $(listServicos[x]).children();
-
-        var ServicosCambioidv= $(rec[0]).find(".HiddenRecordCambioIdv").val();
-        var ServicosIdv= $(rec[0]).find(".HiddenRecordId").val();
-        var ServicosFornecedorID = $(rec[0]).find(".HiddenRecordIdFornecedor").val();
-        var ServicosTipoServicoID = $(rec[0]).find(".HiddenRecordtipoServicoIdv").val();
-        var ServicosComisao = parseFloat($(rec[0]).find(".HiddenRecordServicosComisao").val());
-        var CambioValor = parseFloat($(rec[0]).find(".HiddenRecordCambioValor").val());
-        var ServicosMarkup = parseFloat($(rec[0]).find(".HiddenRecordMarkup").val());
-
-        var ht = $(rec[2]).html();
-        var valorEur;
-        var valorExterno;
-        if(ht.indexOf("</br>")<0)
-        {
-            valorEur = parseFloat($(rec[2]).text().replace(',', ''));
-            valorExterno = valorEur;
-        }
-        else{
-            var strs = ht.split("</br>");
-            valorEur = parseFloat($(strs[1]).text().replace(',', ''));
-            valorExterno = parseFloat($(strs[0]).text().replace(',', ''));
-        }
-
-        
-        var ServicosNet = $(rec[0]).find(".HiddenRecordNet").val();
-        var ServicosMargem = parseFloat($(rec[5]).find(".smNumInput").val());
-        var ServicosIva = parseFloat($(rec[0]).find(".HiddenRecordIvaIdv").val());
-        var ServicosObservacoes = $(rec[11]).text();
-        var ServicosTipoServico = $(rec[1]).text();
-        var ServicosQuantidade = parseInt($(rec[3]).text());
-        var ServicoPagamento = $(rec[0]).find(".HiddenRecordAPagamento").val();
-        var ServicosData = ConvertDateForSend($(rec[0]).find(".HiddenRecordADATAPagamento").val());
-        var TotalVendaPax = parseFloat($(rec[9]).text().replace(',', ''));
-        var totalCusto = parseFloat($(rec[6]).text().replace(',', ''));
-        var totalCustoPax =parseFloat($(rec[7]).text().replace(',', ''));
-        var TotalVenda =parseFloat($(rec[8]).text().replace(',', ''));
-
-
-        var Unidades = $(rec[4]).find(".smNumInput").val();
-
-
-
-        dataServicos = {
-            "servicoidv": ServicosIdv,
-            "orcamentoidv": OrcamentoID,
-            "fornecedoridv": ServicosFornecedorID,
-            "ivaidv": ServicosIva,
-            "tipocustoidv": "6",
-            "cambioidv": ServicosCambioidv,
-            "servicottidv": ServicosTipoServicoID,
-            "s_nomeservico": ServicosTipoServico,
-            "s_preco": valorExterno,
-            "s_comissao": ServicosComisao,
-            "s_net": ServicosNet,
-            "s_valorcambio": CambioValor,
-            "s_valoreuros": valorEur,
-            "s_quantidade": ServicosQuantidade,
-            "s_unidades": Unidades,
-            "s_margemvenda": ServicosMargem,
-            "s_markup": ServicosMarkup,
-            "s_pagamento": ServicoPagamento,
-            "s_datapagamento": ServicosData,
-            "s_numeropessoas": Unidades,
-            "s_valortotalpvp": totalCusto,
-            "s_valorporpessoapvp": totalCustoPax,
-            "s_observacoes":ServicosObservacoes 
-        }
-
-
-        $.post('http://www.touchgroup.com/sgtt/cfc/main.cfc?method=insertServico', dataServicos,
+    else {// com projecto, ou seja, guarda toda info
+        $.post('api/Postman/UpdateProjectoTT', objectToSend,
             function (returnedData) {
-                var obj = returnedData;
-                obj = null;
-            }).fail(function () {
-                console.log("error");
-            });
+                saverecords = true;
+                orcamento.Orcamento.projectoidv = objectToSend.projecto._id;
+                InsertOrcamentoInicial(orcamento);
 
+
+
+            }).fail(function () {
+                alert("Erro ao criar o projecto!");
+            });
     }
-    
+}
+function InsertOrcamentoInicial(objectToSend) {
+
+    $.post('api/Postman/insertOrcamento', objectToSend,
+        function (returnedData) {
+
+
+            OrcamentoID = returnedData;
+            print = false;
+            SaveAllRecords(OrcamentoID, print);
+            var page = 'NewProject?ID=' + projectID;
+            var page2 = page + "&IDorc=" + OrcamentoID;
+
+            window.location.href = page2;
+            objectToSend = null;
+
+
+        }).fail(function () {
+            alert("Erro ao criar o Orçamento!");
+
+        });
+}
+function SaveAllRecords(novorcamento, print) {
+    var objectTosend = new Object();
+    if (saverecords) {
+
+        objectTosend.ArrAloj = ReadAlojamento();
+        objectTosend.ArrVoos = ReadVoos();
+        objectTosend.ArrDiarias = ReadDiarias();
+        objectTosend.ArrServicos = ReadServicos();
+
+        sendrecords(objectTosend);
+    }
+    if(print === true){
+        objectTosend.ArrAloj = ReadAlojamento();
+        objectTosend.ArrVoos = ReadVoos();
+        objectTosend.ArrDiarias = ReadDiarias();
+        objectTosend.ArrServicos = ReadServicos();
+
+        return objectTosend;
+    }
 
 }
+
+
+function sendrecords(objectToSend) {
+
+
+    $.post('api/Postman/PrintExcel', objectToSend,
+        function (returnedData) {
+
+            console.log("Ok");
+
+
+        }).fail(function (response) {
+            console.log("error");
+        });
+}
+
+
 
 function LoadingProjecto(id, IdOrc) {
 
@@ -647,7 +441,7 @@ function LoadingOrcamentos(id, IdOrcOut) {
 
     var returnedData = $("#OrcamentosHidden").val();
 
-    if (returnedData != "") {
+    if (returnedData !== "") {
         var Listobj = JSON.parse(returnedData);
         if (Listobj.length === 0) {
             var d = new Date();
@@ -747,34 +541,32 @@ function LoadingOrcamentos(id, IdOrcOut) {
     }
 
 }
-
-
 function LoadRecords(idOrca) {
 
     //Alojamentos
 
     var returnedAlojamentos = $("#HiddenAlojamento").val();
-    if (returnedAlojamentos != "") {
+    if (returnedAlojamentos !== "") {
         var ListobjAlojamentos = JSON.parse(returnedAlojamentos);
         preencherTabelaAlojamentoLoading(ListobjAlojamentos);
     }
 
     //Voos
     var returnedVoos = $("#HiddenVoos").val();
-    if (returnedVoos != "") {
+    if (returnedVoos !== "") {
         var ListobjVoos = JSON.parse(returnedVoos);
         preencherTabelaVoosLoading(ListobjVoos);
     }
 
     //Diarias
     var returnedDiarias = $("#HiddenDiarias").val();
-    if (returnedDiarias != "") {
+    if (returnedDiarias !== "") {
         var ListobjDiarias = JSON.parse(returnedDiarias);
         preencherTabelaDiariasLoading(ListobjDiarias);
     }
     //Servicos
     var returnedServicos = $("#HiddenServicos").val();
-    if (returnedServicos != "") {
+    if (returnedServicos !== "") {
         var ListobjServicos = JSON.parse(returnedServicos);
         preencherTabelaServicosLoading(ListobjServicos);
     }
@@ -786,19 +578,32 @@ function LoadRecords(idOrca) {
 }
 
 
-function insertTabelaFornecedores(fornecedoridv, fname, notas, data, valor) {
+function insertTabelaFornecedores() {
+    var traloj = $("#AlojamentoRecords tr:gt(0)");
 
-    var aux = { "fornecedoridv": fornecedoridv, "fname": fname, "notas": notas, "data": data, "valor": valor };
+    $(traloj).each(function (index, element) {
+        var tds = element.children();
+        
 
-    ListafornecedoresGBL.push(aux);
+    });
+
+
+    /*$("#VoosRecords")
+    $("#DiariaVerRecords")
+    $("#ServicosRecords")*/
 
 
 
-    var uniqueNames = [];
+
+   // ListafornecedoresGBL.push(aux);
+
+   // console.log(JSON.stringify(ListafornecedoresGBL));
+
+ /*   var uniqueNames = [];
     var ListaJson = [];
 
 
-    $.each(ListafornecedoresGBL, function (i, el) {
+  /*  $.each(ListafornecedoresGBL, function (i, el) {
         if ($.inArray(el["fornecedoridv"], uniqueNames) === -1) {
             ListaJson.push({ "Fornecedor": el["fornecedoridv"], "Data": [] })
             uniqueNames.push(el["fornecedoridv"]);
@@ -811,9 +616,9 @@ function insertTabelaFornecedores(fornecedoridv, fname, notas, data, valor) {
 
 
 
-    $("#FornecedoresRecords").find("tr:gt(0)").remove();
+  /*  $("#FornecedoresRecords").find("tr:gt(0)").remove();
 
-    $.each(ListafornecedoresGBL, function (index2) {
+  /*  $.each(ListafornecedoresGBL, function (index2) {
         var obj = ListafornecedoresGBL[index2];
         $.each(ListaJson, function (index) {
 
@@ -832,7 +637,7 @@ function insertTabelaFornecedores(fornecedoridv, fname, notas, data, valor) {
 
 
 
-    $.each(ListaJson, function (index) {
+  /*  $.each(ListaJson, function (index) {
         var lista2 = ListaJson[index]["Data"];
         $.each(lista2, function (index2) {
 
@@ -863,9 +668,90 @@ function insertTabelaFornecedores(fornecedoridv, fname, notas, data, valor) {
     });
 
 
-    updateValues($("#FornecedoresRecords"));
+    updateValues($("#FornecedoresRecords"));*/
 
 
+}
+function InsertTableAlojamentoHotel(hotelname, valueID) {
+    var num_tabs = $("#tabs#tabs ul li").length + 1;
+
+    /*ICONS*/
+    $("#tabs#tabs ul").append("<li><a href='#tab" + num_tabs + "'>" + hotelname + "</a></li>");
+
+
+
+
+    var days = parseInt($("#OrcamentoNoites").val());
+
+
+    var btnApplyToAllItemsBtn = "<button class='ApplyToTableColumn' type='button' style='padding: 0px'><img class='GetIcon 5' src='" + res8 + "' alt='Guardar'></button>";
+
+    var btnBill = "<button class='GetBill' type='button' style='padding: 0px'><img class='GetIcon 5' src='" + res7 + "' alt='Guardar'></button>";
+    var btn = "<button class='GetBtnFornecedor' type='button' style='padding: 0px'><img class='GetIcon 5' src='" + res6 + "' alt='Guardar'></button>";
+    var btnRemove = "<button class='RemoveBtnFornecedor' type='button' style='padding: 0px'><img class='removeFornecedor' src='img/remove.png' alt='remover'></button>";
+    var hiddenIDInterno = "<input type='hidden' class='AlojamentoID' value='none' >";
+    var hidden = "<input type='hidden' class='AlojamentoFornecedorID' value='" + valueID + "' >";
+    var hiddenAcordo = "<input type='hidden' class='hiddenAlojamentoAcordo' >";
+    var cnt = $(".AlojamentoHoteis").children().length + 1;
+    var data = ConvertDateForInput($("#OrcamentoDataInicio").val());
+    var quartosArr = JSON.parse($("#quartos").val());
+
+
+    /*TABLE - FIRST ROW*/
+    var table = "<table class='AlojamentoOverview " + cnt + "'><tr><td class='alojName'>" + hotelname + "</td>";
+
+
+    $.each(quartosArr, function (index, obj) {
+        if (obj.predefenido === true) {
+
+            table += "<td class='QuartoDev'><img class='rmvAlojType " + (index + 1) + "' src='img/remove.png' alt='remover'><input disabled type='text' value='" + obj.name + "' class='form-control AlojTableType'><input type='hidden' value='" + obj.capacidade + "' class='form-control AlojNPax " + obj.inId + "'></td>";
+        }
+    });
+
+
+    /*Inserir aqui*/
+    table += "<td>" + btnApplyToAllItemsBtn + "<img class='AddIcon AlojamentoTipos " + cnt + "' src='" + res5 + "' alt='Guardar'></td></tr>";
+
+
+    /*TABLE - Day Rows*/
+
+    for (var day = 0; day < days; day++) {
+
+        var tomorrow = new Date(data)
+        tomorrow.setDate(tomorrow.getDate() + day);
+        /*ROW HEAD*/
+        var tr = "<tr class='AlojDiasTable'><td> <input type='date' value='" + ConvertDateForInput(tomorrow) + "' class='form-control AlojamentoDateAddVar'></td>";
+
+        /*ROW Numbers*/
+        $.each(quartosArr, function (index, obj) {
+            if (obj.predefenido === true) {
+                tr += "<td> <input type='number'  min-value='0' value='0'  class='AlojTableNumberIn " + obj.inId + "' ></td>";
+            }
+        });
+
+        /*ROW END*/
+        tr += "<td><span class='AlojTotaisPax " + 0 + "'>0</span>% / <span class='AlojTotaisPaxN " + 0 + "'>0</span><img class='boneco' src='" + res9 + "' alt='pax'></td></tr>";
+        table += tr;
+    }
+
+    /*TABLE - Last ROW*/
+    var lastTr = "<tr><td></td>";
+
+    $.each(quartosArr, function (index, obj) {
+        if (obj.predefenido === true) {
+            lastTr += "<td><span class='AlojTotais " + obj.capacidade + "'>0</span></td>";
+        }
+    });
+
+    lastTr += "</tr></table>";
+    table += lastTr;
+
+    $("#tabs#tabs").append("<div id='tab" + num_tabs + "'>" + btnBill + hidden + hiddenAcordo + hiddenIDInterno + btn + btnRemove + table + "</div>");
+
+    $("#tabs#tabs").tabs("refresh");
+    //RefreshAlojTableDias();
+
+    $("#AlojamentoResume").css("display", "block");
 }
 
 
@@ -873,27 +759,27 @@ function preencherTabelaServicosLoading(data) {
     $.each(data, function (index, el) {
 
 
-        var a_pagamento = el.s_pagamento;
+        var a_pagamento = el.pagamento;
         var tipoServicoIdv = el.servicottidv;
-        var a_datapagamento = el.s_datapagamento;
+        var a_datapagamento = el.datapagamento;
         var tipocustoidv = el.tipocustoidv;
         var ivaidv = el.ivaidv;
         var cambioidv = el.cambioidv.Id;
-        var servicoID = el.servicottidv;
+        var servicoID = el.Id;
         var ServicosFornecedor = el.fornecedornome;
         var ServicosFornecedorID = el.fornecedoridv;
-        var ServicosTipoServico = el.s_nomeservico;
-        var ServicosValor = parseFloat(el.s_preco);
-        var ServicosMoedaCompra = parseFloat(el.s_valorcambio);
+        var ServicosTipoServico = el.nomeservico;
+        var ServicosValor = parseFloat(el.preco);
+        var ServicosMoedaCompra = parseFloat(el.valorcambio);
         var ServicosMoedaName = el.cambioidv.name;
-        var ServicosNet = parseFloat(el.s_net);
-        var ServicosComisao = parseFloat(el.s_comissao);
-        var ServicosMargem = parseFloat(el.s_margemvenda);
-        var ServicosMarkup = parseFloat(el.s_markup);
-        var ServicosObservacoes = el.s_observacoes;
-        var ServicosQuantidade = parseInt(el.s_quantidade);
-        var ServicosUnidades = parseInt(el.s_unidades);
-        var ValorTotal = el.s_valoreuros;
+        var ServicosNet = parseFloat(el.net);
+        var ServicosComisao = parseFloat(el.comissao);
+        var ServicosMargem = parseFloat(el.margemvenda);
+        var ServicosMarkup = parseFloat(el.markup);
+        var ServicosObservacoes = el.observacoes;
+        var ServicosQuantidade = parseInt(el.quantidade);
+        var ServicosUnidades = parseInt(el.numeropessoas);
+        var ValorTotal = el.valoreuros;
 
 
         var str = "";
@@ -906,9 +792,9 @@ function preencherTabelaServicosLoading(data) {
             str = ServicosValor + '/<span class="CurrencyRed">' + ServicosMoedaName + '</span>' + '</br>' + (ServicosValor / ServicosMoedaCompra).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>';
         }
 
-        //insertTabelaFornecedores(ServicosFornecedorID,ServicosFornecedor, a_pagamento, a_datapagamento, ValorTotal);
+        //insertTabelaFornecedores(ServicosFornecedorID, ServicosFornecedor, ServicosTipoServico, ValorTotal);
 
-        $("#ServicosRecords tr:last").after('<tr>' +
+        $("#ServicosRecords tr:last").after('<tr class="' + servicoID + '">' +
             '<td>' + ServicosFornecedor + '<input type="hidden" class="HiddenRecordId" value="' + servicoID + '">' +
                         '<input type="hidden" class="HiddenRecordIdFornecedor" value="' + ServicosFornecedorID + '">' +
                         '<input type="hidden" class="HiddenRecordCambioIdv" value="' + cambioidv + '">' +
@@ -942,7 +828,7 @@ function preencherTabelaServicosLoading(data) {
             '</tr>');
 
         updateValues($("#ServicosRecords"));
-        $("#ServicosVerRecords tr:last").after('<tr>' +
+        $("#ServicosVerRecords tr:last").after('<tr class="' + servicoID + '">' +
             '<td>' + ServicosFornecedor + '<input type="hidden" class="HiddenRecordId" value="' + servicoID + '">' +
             '<input type="hidden" class="HiddenRecordIdFornecedor" value="' + ServicosFornecedorID + '">' +
                         '<input type="hidden" class="HiddenRecordCambioIdv" value="' + cambioidv + '">' +
@@ -978,7 +864,7 @@ function preencherTabelaServicosLoading(data) {
 function preencherTabelaDiariasLoading(data) {
     $.each(data, function (index, el) {
 
-        var DataDoRecord = el.d_data;
+        var DataDoRecord = el.data;
 
 
         var DataBase = $("#OrcamentoDataInicio").val()
@@ -1006,26 +892,26 @@ function preencherTabelaDiariasLoading(data) {
         var tipocustoidv = el.tipocustoidv;
         var ivaidv = el.ivaidv;
 
-        var a_pagamento = el.d_pagamento;
-        var a_datapagamento = el.d_datapagamento;
+        var a_pagamento = el.pagamento;
+        var a_datapagamento = el.datapagamento;
 
-        var DiariaID = el.diariaidv;
+        var DiariaID = el.Id;
         var DiariaFornecedor = el.fornecedorname;
-        var DiariaComisao = parseFloat(el.d_comissao);
-        var DiariaValor = parseFloat(el.d_preco);
-        var DiariaTotalPvp = parseFloat(el.d_valortotalpvp);
-        var DiariaTotalPAXPvp = parseFloat(el.d_valorporpessoapvp);
+        var DiariaComisao = parseFloat(el.comissao);
+        var DiariaValor = parseFloat(el.preco);
+        var DiariaTotalPvp = parseFloat(el.valortotalpvp);
+        var DiariaTotalPAXPvp = parseFloat(el.valorporpessoapvp);
         var cambioidv = el.cambioidv.Id;
         var DiariaCambioValor = parseFloat(el.cambioidv.value);
         var DiariaMoedaName = el.cambioidv.name;
-        var DiariaMarkup = parseFloat(el.d_markup);
-        var DiariaNomeServico = el.d_nomeservico;
-        var DiariaMargem = parseFloat(el.d_margemvenda);
-        var DiariaNet = parseFloat(el.d_net);
-        var DiariaObservaçoes = el.d_observacoes;
-        var DiariaQuantidade = parseInt(el.d_quantidade);
-        var DiariaUnidade = parseInt(el.d_unidades);
-        var ValorTotal = el.d_valoreuros;
+        var DiariaMarkup = parseFloat(el.markup);
+        var DiariaNomeServico = el.nomeservico;
+        var DiariaMargem = parseFloat(el.margemvenda);
+        var DiariaNet = parseFloat(el.net);
+        var DiariaObservaçoes = el.observacoes;
+        var DiariaQuantidade = parseInt(el.quantidade);
+        var DiariaUnidade = parseInt(el.numeropessoas);
+        var ValorTotal = el.valoreuros;
 
 
         var str = "";
@@ -1036,10 +922,10 @@ function preencherTabelaDiariasLoading(data) {
         else {
             str = DiariaValor + '/<span class="CurrencyRed">' + DiariaMoedaName + '</span>' + '</br>' + (DiariaValor / DiariaCambioValor).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>';
         }
-        insertTabelaFornecedores(fornecedoridv, DiariaFornecedor, a_pagamento, a_datapagamento, ValorTotal);
+        //insertTabelaFornecedores(fornecedoridv, DiariaFornecedor, DiariaNomeServico, ValorTotal);
 
         RefAux += " tr:last";
-        var htmlRec = '<tr><td>' + DiariaFornecedor + '-' + DiariaAuxDia +
+        var htmlRec = '<tr class="' + DiariaID + '" ><td>' + DiariaFornecedor + '-' + DiariaAuxDia +
              '<input type="hidden" class="HiddenRecordId" value="' + DiariaID + '">' +
              '<input type="hidden" class="HiddenRecordIdFornecedor" value="' + fornecedoridv + '">' +
              '<input type="hidden" class="HiddenRecordCambioIdv" value="' + cambioidv + '">' +
@@ -1097,32 +983,32 @@ function preencherTabelaVoosLoading(data) {
         var cambioidv = el.cambioidv;
         var ivaidv = el.ivaidv;
         var tipocustoidv = el.tipocustoidv;
-        var a_net = el.v_net;
-        var a_markup = el.v_markup;
-        var a_pagamento = el.v_pagamento;
-        var a_datapagamento = el.v_datapagamento;
+        var a_net = el.net;
+        var a_markup = el.markup;
+        var a_pagamento = el.pagamento;
+        var a_datapagamento = el.datapagamento;
 
 
 
-        var TAXAA = el.v_taxaA;
-        var TAXAB = el.v_taxaB;
-        var DISPONIBILIDADE = el.v_disponibilidade;
-        var COMISSAO = el.v_comissao;
+        var TAXAA = el.taxaA;
+        var TAXAB = el.taxaB;
+        var DISPONIBILIDADE = el.disponibilidade;
+        var COMISSAO = el.comissao;
 
 
-        var id = el.vooidv;
-        var VoosPartida = el.v_partida;
-        var VoosDestino = el.v_destino;
-        var VoosNomeVoo = el.v_nomevoo;
-        var VoosValor = el.v_preco;
-        var VoosMargemVenda = el.v_margemvenda;
-        var VoosNLugares = el.v_numeropessoas;
+        var id = el.Id;
+        var VoosPartida = el.partida;
+        var VoosDestino = el.destino;
+        var VoosNomeVoo = el.nomevoo;
+        var VoosValor = el.preco;
+        var VoosMargemVenda = el.margemvenda;
+        var VoosNLugares = el.numeropessoas;
         var VoosMoedaName = el.cambioidv.name;
         var VoosFornecedor = el.VoosFornecedor;
-        var totalpvp = el.v_valortotalpvp;
-        var PessoaPvp = el.v_valorporpessoapvp;
-        var VMoeda = el.v_valorcambio;
-        var valorTotal = el.v_valoreuros;
+        var totalpvp = el.valortotalpvp;
+        var PessoaPvp = el.valorporpessoapvp;
+        var VMoeda = el.valorcambio;
+        var valorTotal = el.valoreuros;
 
 
 
@@ -1136,10 +1022,10 @@ function preencherTabelaVoosLoading(data) {
         else {
             str = VoosValor + '/<span class="CurrencyRed">' + VoosMoedaName + '</span>' + '</br>' + (VoosValor / VMoeda).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>';
         }
-        insertTabelaFornecedores(fornecedoridv, VoosFornecedor, a_pagamento, a_datapagamento, valorTotal);
+        //insertTabelaFornecedores(fornecedoridv, VoosFornecedor, VoosPartida + '-' + VoosDestino, valorTotal);
 
         /*ciclos*/
-        $('#VoosRecords tr:last').after('<tr>' +
+        $('#VoosRecords tr:last').after('<tr class="'+id+'">' +
             '<td>' + VoosNomeVoo + '</br>' + VoosFornecedor + '<input type="hidden" class="HiddenRecordId" value="' + id + '">' +
              '<input type="hidden" class="HiddenRecordIdFornecedor" value="' + fornecedoridv + '">' +
              '<input type="hidden" class="HiddenRecordNomeVoo" value="' + VoosNomeVoo + '">' +
@@ -1175,7 +1061,7 @@ function preencherTabelaVoosLoading(data) {
 
         updateValues($("#VoosRecords"));
 
-        $('#VoosVerRecords tr:last').after('<tr>' +
+        $('#VoosVerRecords tr:last').after('<tr class="'+id+'">' +
             '<td>' + VoosNomeVoo + '<input type="hidden" class="HiddenRecordId" value="' + id + '">' +
              '<input type="hidden" class="HiddenRecordIdFornecedor" value="' + fornecedoridv + '">' +
              '<input type="hidden" class="HiddenRecordNomeVoo" value="' + VoosNomeVoo + '">' +
@@ -1240,6 +1126,7 @@ function preencherTabelaAlojamentoLoading(data) {
         var table = "<table class='AlojamentoOverview " + i + 1 + "'><tr><td class='alojName'>" + Tabela.Hotelname + "</td>";
         /*<TD>  QUARTOS*/
         $.each(Tabela.quartos, function (index, obj) {
+            
             table += "<td class='QuartoDev'><img class='rmvAlojType " + (index + 1) + "' src='img/remove.png' alt='remover'><input disabled type='text' value='" + obj.nome + "' class='form-control AlojTableType'><input type='hidden' value='" + obj.capacidade + "' class='form-control AlojNPax'></td>";
         });
         /*<TD>  AddIcon*/
@@ -1284,7 +1171,185 @@ function preencherTabelaAlojamentoLoading(data) {
 }
 
 
+function preencherTabelaAlojamento(data) {
 
+
+    $("#AlojamentoRecords").find("tr:gt(0)").remove();
+    $("#AlojamentoVerRecords").find("tr:gt(0)").remove();
+
+    $.post('api/Postman/GetListAlojamento', data,
+        function (returnedData) {
+
+            preencherTabelaAlojamentoLoading(returnedData);
+            obj = null;
+        }).fail(function () {
+            console.log("Erro ao fazer ao carregar os alojamentos!");
+        });
+
+
+}
+function preencherTabelaVoos(data) {
+
+
+    $("#VoosRecords").find("tr:gt(0)").remove();
+    $("#VoosVerRecords").find("tr:gt(0)").remove();
+
+    $.post('api/Postman/getVoos', data,
+        function (returnedData) {
+
+            preencherTabelaVoosLoading(returnedData);
+            obj = null;
+        }).fail(function () {
+            console.log("Erro ao fazer ao carregar os alojamentos!");
+        });
+
+}
+function preencherTabelaServicosTT(data) {
+
+
+
+    $("#ServicosRecords").find("tr:gt(0)").remove();
+    $("#ServicosVerRecords").find("tr:gt(0)").remove();
+
+    $.post('api/Postman/getAllServicos', data,
+        function (returnedData) {
+
+
+            preencherTabelaServicosLoading(returnedData);
+            obj = null;
+        }).fail(function () {
+            console.log("Erro ao fazer ao carregar os alojamentos!");
+        });
+
+}
+function preencherTabelaDiarias(data) {
+
+    $(".DiariaTables").find("tr:gt(0)").remove();
+    $("#DiariaVerRecords").find("tr:gt(0)").remove();
+
+    $.post('api/Postman/getAllDiarias', data,
+        function (returnedData) {
+
+            preencherTabelaDiariasLoading(returnedData);
+            obj = null;
+        }).fail(function () {
+            console.log("Erro ao fazer ao carregar os alojamentos!");
+        });
+
+
+}
+
+
+
+
+function ReadServicos() {
+
+    if ($("#HiddenServicos").val() !== "") {
+        var Voosrecords = JSON.parse($("#HiddenServicos").val());
+        var RetrunArr = new Array();
+        $.each(Voosrecords, function (index, obj) {
+
+            var Row = $("#ServicosRecords tr." + obj.Id);
+            if (Row.length !== 0) {
+                var tds = $(Row).children();
+
+
+                var valortotalpvp = tds[6].innerHTML.split('/')[0].replace(",", "").replace(".", ",");
+                obj.valortotalpvp = parseFloat(valortotalpvp);
+                var valorporpessoapvp = tds[7].innerHTML.split('/')[0].replace(",", "").replace(".", ",");
+                obj.valorporpessoapvp = parseFloat(valorporpessoapvp);
+
+                obj.Id = obj._id;
+                delete obj.Id;
+                obj._id = "";
+                obj.orcamentoidv = OrcamentoID;
+                obj.margemvenda = parseFloat($(tds[5]).find(".smNumInput").val());
+                obj.numeropessoas = parseInt($(tds[4]).find(".smNumInput").val());
+                RetrunArr.push(obj);
+            }
+            //sendServicoTT(obj, true);
+        });
+        return RetrunArr;
+    }
+}
+function ReadDiarias() {
+    if ($("#HiddenDiarias").val() !== "") {
+        var Voosrecords = JSON.parse($("#HiddenDiarias").val());
+        var RetrunArr = new Array();
+        $.each(Voosrecords, function (index, obj) {
+
+            var Row = $(".projectDia tr." + obj.Id);
+            if (Row.length !== 0) {
+                var tds = $(Row).children();
+
+
+                var valortotalpvp = tds[6].innerHTML.split('/')[0].replace(",", "").replace(".", ",");
+                obj.valortotalpvp = parseFloat(valortotalpvp);
+                var valorporpessoapvp = tds[7].innerHTML.split('/')[0].replace(",", "").replace(".", ",");
+                obj.valorporpessoapvp = parseFloat(valorporpessoapvp);
+
+                obj.Id = obj._id;
+                delete obj.Id;
+                obj._id = "";
+                obj.orcamentoidv = OrcamentoID;
+                obj.margemvenda = parseFloat($(tds[5]).find(".smNumInput").val());
+                obj.numeropessoas = parseInt($(tds[4]).find(".smNumInput").val());
+                RetrunArr.push(obj);
+            }
+            //sendDiaria(obj, true);
+        });
+        return RetrunArr;
+    }
+}
+function ReadVoos() {
+
+    if($("#HiddenVoos").val()!== ""){
+
+    
+        var Voosrecords = JSON.parse($("#HiddenVoos").val());
+
+        var RetrunArr = new Array();
+        $.each(Voosrecords, function (index, obj) {
+
+            var Row = $("#VoosRecords tr." + obj.Id);
+
+            if (Row.length !== 0) {
+                var tds = $(Row).children();
+
+                if (obj.cambioidv.name === "EUR") {
+                    var valortotalpvp = tds[6].innerHTML.split('/')[0].replace(",", "").replace(".", ",");
+                    obj.valortotalpvp = parseFloat(valortotalpvp);
+                    var valorporpessoapvp = tds[7].innerHTML.split('/')[0].replace(",", "").replace(".", ",");
+                    obj.valorporpessoapvp = parseFloat(valorporpessoapvp);
+                }
+                else {
+
+                    var valortotalpvp = tds[6].innerHTML.split('/')[0].replace(",", "").replace(".", ",");
+                    obj.valortotalpvp = parseFloat(valortotalpvp);
+                    var valorporpessoapvp = tds[7].innerHTML.split('/')[0].replace(",", "").replace(".", ",");
+                    obj.valorporpessoapvp = parseFloat(valorporpessoapvp);
+                }
+                var valor = tds[2].innerHTML;
+
+
+                //obj.Id. = obj._id;
+                //delete a.Prop1;
+
+                obj.Id = obj._id;
+                delete obj.Id;
+                obj._id = "";
+                obj.orcamentoidv = OrcamentoID;
+                obj.margemvenda = parseFloat($(tds[5]).find(".smNumInput").val());
+                obj.numeropessoas = parseInt($(tds[4]).find(".smNumInput").val());
+
+                RetrunArr.push(obj);
+            }
+            //sendVoo(obj, true);
+        });
+        return RetrunArr;
+    }
+
+}
 function ReadAlojamento() {
     //Lista tabelas
 
@@ -1417,101 +1482,22 @@ function ReadAlojamento() {
         result.push(hotel);
     });
 
-
+    var RetrunArr = new Array();
     var d = [];
     $.each(result, function (index, item) {
         var objeto = {
             "hotel": item._id,
             "Objeto": item
         }
-        sendAlojamento(objeto, true)
+
+
+        RetrunArr.push(item);
+        //sendAlojamento(objeto, true)
     });
-
-
-    //    send hotel
-
-}
-
-function InsertTableAlojamentoHotel(hotelname, valueID) {
-    var num_tabs = $("#tabs#tabs ul li").length + 1;
-
-    /*ICONS*/
-    $("#tabs#tabs ul").append("<li><a href='#tab" + num_tabs + "'>" + hotelname + "</a></li>");
+    return RetrunArr;
 
 
 
-
-    var days = parseInt($("#OrcamentoNoites").val());
-
-
-    var btnApplyToAllItemsBtn = "<button class='ApplyToTableColumn' type='button' style='padding: 0px'><img class='GetIcon 5' src='" + res8 + "' alt='Guardar'></button>";
-
-    var btnBill = "<button class='GetBill' type='button' style='padding: 0px'><img class='GetIcon 5' src='" + res7 + "' alt='Guardar'></button>";
-    var btn = "<button class='GetBtnFornecedor' type='button' style='padding: 0px'><img class='GetIcon 5' src='" + res6 + "' alt='Guardar'></button>";
-    var btnRemove = "<button class='RemoveBtnFornecedor' type='button' style='padding: 0px'><img class='removeFornecedor' src='img/remove.png' alt='remover'></button>";
-    var hiddenIDInterno = "<input type='hidden' class='AlojamentoID' value='none' >";
-    var hidden = "<input type='hidden' class='AlojamentoFornecedorID' value='" + valueID + "' >";
-    var hiddenAcordo = "<input type='hidden' class='hiddenAlojamentoAcordo' >";
-    var cnt = $(".AlojamentoHoteis").children().length + 1;
-    var data = ConvertDateForInput($("#OrcamentoDataInicio").val());
-    var quartosArr = JSON.parse($("#quartos").val());
-
-
-    /*TABLE - FIRST ROW*/
-    var table = "<table class='AlojamentoOverview " + cnt + "'><tr><td class='alojName'>" + hotelname + "</td>";
-
-
-    $.each(quartosArr, function (index, obj) {
-        if (obj.predefenido == true) {
-
-            table += "<td class='QuartoDev'><img class='rmvAlojType " + (index + 1) + "' src='img/remove.png' alt='remover'><input disabled type='text' value='" + obj.name + "' class='form-control AlojTableType'><input type='hidden' value='" + obj.capacidade + "' class='form-control AlojNPax " + obj.inId + "'></td>";
-        }
-    });
-
-
-    /*Inserir aqui*/
-    table += "<td>" + btnApplyToAllItemsBtn + "<img class='AddIcon AlojamentoTipos " + cnt + "' src='" + res5 + "' alt='Guardar'></td></tr>";
-
-
-    /*TABLE - Day Rows*/
-
-    for (var day = 0; day < days; day++) {
-
-        var tomorrow = new Date(data)
-        tomorrow.setDate(tomorrow.getDate() + day);
-        /*ROW HEAD*/
-        var tr = "<tr class='AlojDiasTable'><td> <input type='date' value='" + ConvertDateForInput(tomorrow) + "' class='form-control AlojamentoDateAddVar'></td>";
-
-        /*ROW Numbers*/
-        $.each(quartosArr, function (index, obj) {
-            if (obj.predefenido == true) {
-                tr += "<td> <input type='number'  min-value='0' value='0'  class='AlojTableNumberIn " + obj.inId + "' ></td>";
-            }
-        });
-
-        /*ROW END*/
-        tr += "<td><span class='AlojTotaisPax " + 0 + "'>0</span>% / <span class='AlojTotaisPaxN " + 0 + "'>0</span><img class='boneco' src='" + res9 + "' alt='pax'></td></tr>";
-        table += tr;
-    }
-
-    /*TABLE - Last ROW*/
-    var lastTr = "<tr><td></td>";
-
-    $.each(quartosArr, function (index, obj) {
-        if (obj.predefenido == true) {
-            lastTr += "<td><span class='AlojTotais " + obj.capacidade + "'>0</span></td>";
-        }
-    });
-
-    lastTr += "</tr></table>";
-    table += lastTr;
-
-    $("#tabs#tabs").append("<div id='tab" + num_tabs + "'>" + btnBill + hidden + hiddenAcordo + hiddenIDInterno + btn + btnRemove + table + "</div>");
-
-    $("#tabs#tabs").tabs("refresh");
-    //RefreshAlojTableDias();
-
-    $("#AlojamentoResume").css("display", "block");
 }
 
 function RefreshTabelaresume() {
@@ -1536,7 +1522,7 @@ function RefreshTabelaresume() {
 
             var found = false;
             $(miarr).each(function (i, d) {
-                if (d.index == myObject.index) {
+                if (d.index === myObject.index) {
                     d.cnt += myObject.cnt;
                     found = true;
                 }
@@ -1571,8 +1557,6 @@ function RefreshTabelaresume() {
 
 
 }
-
-
 function RefreshAlojamento() {
     var tabelas = $(".AlojamentoOverview");
     var capacidadeTotalPax = parseInt($("#OrcamentoNumeroDePessoas").val());
@@ -1677,18 +1661,18 @@ function RefreshAlojTableDias() {
             var totalQuartos = totais[i].innerHTML;
 
 
-            if (i == 0) {
+            if (i === 0) {
                 $("#AlojamentoRecords tr:last").after('<tr class="' + fornecedorId + " " + NomeTipo + '">' +
                 '<td rowspan="' + tipologias.length + '">' + NomeHotel +
                     '<input type="hidden" class="HiddenRecordId" value="' + fornecedorId + "." + NomeTipo + '">' +
                     '<input type="hidden" class="HiddenRecordIdFornecedor" value="' + 0 + '">' +
-                '<td>' + NomeTipo +
+                '<td class="nameservico">' + NomeTipo +
                     '<input type="hidden" class="HiddenRecordQuartoIdv" value="' + cap + '">' +
                 '</td>' +
-                '<td >' + totalQuartos + '</td>' +
+                '<td class="roomnights">' + totalQuartos + '</td>' +
                 '<td>' + tdValor + '</td>' +
                 '<td><input type="number"  class="smNumInput" min="0" step=0.01 value="' + margem + '"></td>' +
-                '<td>' + parseFloat(0) + '</td>' +
+                '<td class="TotalPvP">' + parseFloat(0) + '</td>' +
                 '<td>' + parseFloat(0) + '</td>' +
                 '<td>' + parseFloat(0) + '</td>' +
                 '<td>' + parseFloat(0) + '</td>' +
@@ -1797,12 +1781,12 @@ function RefreshAlojTableDias() {
     activator();
 
 }
+
+
+
 $('#tabs').on('change', '.AlojTableNumberIn', function () {
     RefreshAlojamento();
 });
-
-
-
 $('.AlojamentoHoteis').on('click', '.ApplyToTableColumn', function () {
 
     var table = $(this).parent().parent().parent().parent();
@@ -1824,7 +1808,6 @@ $('.AlojamentoHoteis').on('click', '.ApplyToTableColumn', function () {
     RefreshAlojamento()
 
 });
-
 $('.AlojamentoHoteis').on('click', '.rmvAlojType', function () {
 
 
@@ -1836,7 +1819,6 @@ $('.AlojamentoHoteis').on('click', '.rmvAlojType', function () {
     });
     RefreshAlojTableDias();
 });
-
 $('body').on('change', '#txtUploadFile', function () {
 
     var data = new FormData();
@@ -1874,7 +1856,7 @@ $('body').on('change', '#txtUploadFile', function () {
         },
         error: function (xhr, status, p3, p4) {
             var err = "Error " + " " + status + " " + p3 + " " + p4;
-            if (xhr.responseText && xhr.responseText[0] == "{")
+            if (xhr.responseText && xhr.responseText[0] === "{")
                 err = JSON.parse(xhr.responseText).Message;
             console.log(err);
         }
@@ -1882,8 +1864,6 @@ $('body').on('change', '#txtUploadFile', function () {
 
 
 });
-
-
 $('body').on('change', '.PagamentoAnexo', function () {
 
     var data = new FormData();
@@ -1922,7 +1902,7 @@ $('body').on('change', '.PagamentoAnexo', function () {
         },
         error: function (xhr, status, p3, p4) {
             var err = "Error " + " " + status + " " + p3 + " " + p4;
-            if (xhr.responseText && xhr.responseText[0] == "{")
+            if (xhr.responseText && xhr.responseText[0] === "{")
                 err = JSON.parse(xhr.responseText).Message;
             console.log(err);
         }
@@ -1974,58 +1954,6 @@ function sendAlojamento(objectToSend, save) {
             console.log("error");
         });
 }
-
-
-function InsertProjectoInicial(objectToSend, orcamento) {
-    if (objectToSend.projecto._id == "") {//Sem Projecto, ou seja é novo
-        $.post('api/Postman/insertProjectoTT', objectToSend,
-            function (returnedData) {
-
-                orcamento.Orcamento.projectoidv = returnedData;
-                projectID = returnedData;
-                InsertOrcamentoInicial(orcamento);
-
-            }).fail(function () {
-                alert("Erro ao criar o projecto!");
-            });
-    }
-    else {// com projecto, ou seja, guarda toda info
-        $.post('api/Postman/UpdateProjectoTT', objectToSend,
-            function (returnedData) {
-
-                orcamento.Orcamento.projectoidv = objectToSend.projecto._id;
-                InsertOrcamentoInicial(orcamento);
-
-                
-
-            }).fail(function () {
-                alert("Erro ao criar o projecto!");
-            });
-    }
-}
-
-function InsertOrcamentoInicial(objectToSend) {
-
-    $.post('api/Postman/insertOrcamento', objectToSend,
-        function (returnedData) {
-
-            
-            OrcamentoID = returnedData;
-
-            SaveAllRecords(OrcamentoID);
-            var page = 'NewProject?ID=' + projectID;
-            var page2 = page + "&IDorc=" + OrcamentoID;
-
-            window.location.href = page2;
-            objectToSend = null;
-
-
-        }).fail(function () {
-            alert("Erro ao criar o Orçamento!");
-
-        });
-}
-
 function sendOrcamento(objectToSend) {
 
     $.post('http://www.touchgroup.com/sgtt/cfc/main.cfc?method=insertOrcamento', objectToSend,
@@ -2048,7 +1976,20 @@ function sendServicoTT(objectToSend, save) {
 
             }
             else if (save === false) {
-                preencherTabelaServicosTT(returnedData);
+
+                var backoup = JSON.parse($("#HiddenServicos").val());
+
+                var teste = returnedData;
+
+                backoup.push(teste);
+
+                $("#ServicosRecords").find("tr:gt(0)").remove();
+                $("#ServicosVerRecords").find("tr:gt(0)").remove();
+
+                preencherTabelaServicosLoading(backoup);
+                $("#HiddenServicos").val(JSON.stringify(backoup));
+
+             
             }
 
 
@@ -2067,7 +2008,18 @@ function sendDiaria(objectToSend, save) {
 
             }
             else if (save === false) {
-                preencherTabelaDiarias(returnedData);
+                var backoup = JSON.parse($("#HiddenDiarias").val());
+
+                var teste = returnedData;
+
+                backoup.push(teste);
+
+                $(".DiariaTables").find("tr:gt(0)").remove();
+                $("#DiariaVerRecords").find("tr:gt(0)").remove();
+
+                preencherTabelaDiariasLoading(backoup);
+                $("#HiddenDiarias").val(JSON.stringify(backoup));
+
             }
             obj = null;
             objectToSend = null;
@@ -2084,7 +2036,20 @@ function sendVoo(objectToSend, save) {
 
             }
             else if (save === false) {
-                preencherTabelaVoos(returnedData);
+                var backoup = JSON.parse( $("#HiddenVoos").val());
+
+                var teste = returnedData;
+
+                backoup.push(teste);
+
+
+
+                $("#VoosRecords").find("tr:gt(0)").remove();
+                $("#VoosVerRecords").find("tr:gt(0)").remove();
+                
+
+                preencherTabelaVoosLoading(backoup);
+                $("#HiddenVoos").val(JSON.stringify(backoup));
             }
             obj = null;
             objectToSend = null;
@@ -2099,7 +2064,7 @@ function sendFornecedor(objectToSend, idTab) {
     $.post('api/Postman/insertFornecedor', objectToSend,
         function (id) {
 
-            if (id != "") {
+            if (id !== "") {
                 $(".FornecedorCheck").css("display", "block");
 
                 var nome = $("#FornecedorNome").val();
@@ -2142,6 +2107,8 @@ function sendFornecedor(objectToSend, idTab) {
         });
 }
 
+
+
 function GetFornecedor(objectToSend, idTab) {
 
 
@@ -2150,7 +2117,7 @@ function GetFornecedor(objectToSend, idTab) {
         function (returnedData) {
             res = returnedData;
 
-            if (res.Id != null) {
+            if (res.Id !== null) {
 
                 var FORNECEDORIDV = res.Id;
 
@@ -2193,79 +2160,6 @@ function GetFornecedor(objectToSend, idTab) {
             console.log("erro insertFornecedor");
         });
 }
-
-
-function preencherTabelaAlojamento(data) {
-
-
-    $("#AlojamentoRecords").find("tr:gt(0)").remove();
-    $("#AlojamentoVerRecords").find("tr:gt(0)").remove();
-
-    $.post('api/Postman/GetListAlojamento', data,
-        function (returnedData) {
-
-            preencherTabelaAlojamentoLoading(returnedData);
-            obj = null;
-        }).fail(function () {
-            console.log("Erro ao fazer ao carregar os alojamentos!");
-        });
-
-
-}
-function preencherTabelaVoos(data) {
-
-
-    $("#VoosRecords").find("tr:gt(0)").remove();
-    $("#VoosVerRecords").find("tr:gt(0)").remove();
-
-    $.post('api/Postman/getVoos', data,
-        function (returnedData) {
-
-            preencherTabelaVoosLoading(returnedData);
-            obj = null;
-        }).fail(function () {
-            console.log("Erro ao fazer ao carregar os alojamentos!");
-        });
-
-}
-
-function preencherTabelaServicosTT(data) {
-
-
-
-    $("#ServicosRecords").find("tr:gt(0)").remove();
-    $("#ServicosVerRecords").find("tr:gt(0)").remove();
-
-    $.post('api/Postman/getAllServicos', data,
-        function (returnedData) {
-
-
-            preencherTabelaServicosLoading(returnedData);
-            obj = null;
-        }).fail(function () {
-            console.log("Erro ao fazer ao carregar os alojamentos!");
-        });
-
-}
-
-function preencherTabelaDiarias(data) {
-
-    $(".DiariaTables").find("tr:gt(0)").remove();
-    $("#DiariaVerRecords").find("tr:gt(0)").remove();
-
-    $.post('api/Postman/getAllDiarias', data,
-        function (returnedData) {
-
-            preencherTabelaDiariasLoading(returnedData);
-            obj = null;
-        }).fail(function () {
-            console.log("Erro ao fazer ao carregar os alojamentos!");
-        });
-
-
-}
-
-
 function updateTotaisLabels() {
     var listTBs = $(".TotalCompra").parent().parent().parent();
 
@@ -2335,7 +2229,6 @@ function updateTotaisLabels() {
 
 
 }
-
 function updateValues(FiredTable) {
 
     var tableName = "#" + FiredTable.attr("id");
@@ -2380,7 +2273,7 @@ function updateValues(FiredTable) {
 
                     //var unitCost = tds[3].innerHTML.spli('/')[1];
                 }
-                else {// Se nao encontra é porque != Euros
+                else {// Se nao encontra é porque !== Euros
                     var t = unitCost;
                     var MoedaCompra = td3text.split("\n")[0];
                     var VEuro = parseFloat($(tds[3]).find(".HiddenCambioValue").val());
@@ -2462,7 +2355,7 @@ function updateValues(FiredTable) {
 
                     //var unitCost = tds[3].innerHTML.spli('/')[1];
                 }
-                else {// Se nao encontra é porque != Euros
+                else {// Se nao encontra é porque !== Euros
 
                     var t = unitCost;
 
@@ -2557,7 +2450,7 @@ function updateValues(FiredTable) {
                 /*Total*/
                 $(tds[6]).html((unitCost * units).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>');
                 /*TotalPAX*/
-                $(tds[7]).html((unitCost).formatMoney(2, '.', ','));
+                $(tds[7]).html((unitCost).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>');
                 /*TotalVenda*/
                 $(tds[8]).html((((unitCost * units) / 100) * margem + (unitCost * units)).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>');
                 /*TotalVendaPAX*/
@@ -2722,8 +2615,6 @@ function updateValues(FiredTable) {
     updateTotaisLabels();
 
 }
-
-
 function sicronizeTables(Tabela, row, inId) {
     var Mytable = Tabela.attr("id");
     var updatedRecord = $(row);
@@ -2847,8 +2738,11 @@ function sicronizeTables(Tabela, row, inId) {
 
 }
 
+$("#PrintThisExcel").click(function () {
+    var obj = SaveAllRecords("", true);
+   
 
-
+});
 $("#AddServicos").click(function () {
 
     var ServicosCambioName = $("#ServicosMoeda option:selected").text();
@@ -2874,34 +2768,31 @@ $("#AddServicos").click(function () {
 
 
     data = {
-        "_id": "",
         "orcamentoidv": OrcamentoID,
         "fornecedoridv": ServicosFornecedorID,
         "fornecedornome": ServicosFornecedor,
-        "ivaidv": { "_id": ServicosIva, "name": ServicoIvaName },
-        "tipocustoidv": { "_id": "6", "name": "ServiçosTT" },
-        "cambioidv": { "_id": ServicosCambioidv, "name": ServicosCambioName, "value": ServicosCambioValor },
+        "ivaidv": { "inId": ServicosIva, "name": ServicoIvaName },
+        "tipocustoidv": { "inId": "6", "name": "ServiçosTT" },
+        "cambioidv": { "inId": ServicosCambioidv, "name": ServicosCambioName, "value": ServicosCambioValor },
         "servicottidv": ServicosTipoServicoID,
-        "s_nomeservico": ServicosTipoServico,
-        "s_preco": ServicosValor,
-        "s_comissao": ServicosComisao,
-        "s_net": ServicosNet,
-        "s_valorcambio": ServicosCambioValor,
-        "s_valoreuros": ServicosValor,
-        "s_quantidade": ServicosQuantidade,
-        "s_unidades": 0,
-        "s_margemvenda": ServicosMargem,
-        "s_markup": ServicosMarkup,
-        "s_numeropessoas": 0,
-        "s_valortotalpvp": 0,
-        "s_valorporpessoapvp": 0,
-        "s_observacoes": ServicosObservacoes
+        "nomeservico": ServicosTipoServico,
+        "preco": ServicosValor,
+        "comissao": ServicosComisao,
+        "net": ServicosNet,
+        "valorcambio": ServicosCambioValor,
+        "valoreuros": ServicosValor,
+        "quantidade": ServicosQuantidade,
+        "unidades": 0,
+        "margemvenda": ServicosMargem,
+        "markup": ServicosMarkup,
+        "numeropessoas": 0,
+        "valortotalpvp": 0,
+        "valorporpessoapvp": 0,
+        "observacoes": ServicosObservacoes
     }
     sendServicoTT(data, false);
 
 });
-
-
 $("#AddDiaria").click(function () {
 
     var DiariaAuxDia = parseInt($("#DiariaAuxDia").val());
@@ -2942,24 +2833,24 @@ $("#AddDiaria").click(function () {
         "orcamentoidv": OrcamentoID,
         "fornecedoridv": DiariaFornecedorID,
         "fornecedorname": DiariaFornecedor,
-        "ivaidv": { "_id": DiariaIva, "name": DiariaIvaName },
-        "tipocustoidv": { "_id": "", "name": "Diarias" },
-        "cambioidv": { "_id": DiariaCambioidv, "name": DiariasCambioName, "value": DiariaCambioValor },
-        "d_nomeservico": DiariaNomeServico,
-        "d_data": DiariaData,
-        "d_preco": DiariaValor,
-        "d_comissao": DiariaComisao,
-        "d_net": DiariaNet,
-        "d_valorcambio": DiariaCambioValor,
-        "d_valoreuros": DiariaValor,
-        "d_quantidade": DiariaQuantidade,
-        "d_unidades": 0,
-        "d_margemvenda": DiariaMargem,
-        "d_markup": DiariaMarkup,
-        "d_numeropessoas": 0,
-        "d_valortotalpvp": 0,
-        "d_valorporpessoapvp": 0,
-        "d_observacoes": DiariaObservaçoes,
+        "ivaidv": { "inId": DiariaIva, "name": DiariaIvaName },
+        "tipocustoidv": { "inId": 0, "name": "Diarias" },
+        "cambioidv": { "inId": DiariaCambioidv, "name": DiariasCambioName, "value": DiariaCambioValor },
+        "nomeservico": DiariaNomeServico,
+        "data": DiariaData,
+        "preco": DiariaValor,
+        "comissao": DiariaComisao,
+        "net": DiariaNet,
+        "valorcambio": DiariaCambioValor,
+        "valoreuros": DiariaValor,
+        "quantidade": DiariaQuantidade,
+        "unidades": 0,
+        "margemvenda": DiariaMargem,
+        "markup": DiariaMarkup,
+        "numeropessoas": 0,
+        "valortotalpvp": 0,
+        "valorporpessoapvp": 0,
+        "observacoes": DiariaObservaçoes,
         "DiariaAuxDia": DiariaAuxDia
     }
 
@@ -2968,10 +2859,6 @@ $("#AddDiaria").click(function () {
 
 
 });
-
-
-
-
 $("#AddVoo").click(function () {
 
     var VoosFornecedorID = $("#VoosFornecedorID").val();
@@ -3003,29 +2890,28 @@ $("#AddVoo").click(function () {
 
 
     var data = {
-        "_id": "",
         "orcamentoidv": OrcamentoID,
         "fornecedoridv": VoosFornecedorID,
         "VoosFornecedor": VoosFornecedor,
-        "cambioidv": { "_id": VoosCambioidv, "name": VoosCambioName, "value": VoosMoedaValor },
-        "ivaidv": { "_id": VoosIva, "name": VoosCambioName },
-        "tipocustoidv": { "_id": VoosTipoIva, "name": VoosTipoIvaName },
-        "v_partida": VoosPartida,
-        "v_destino": VoosDestino,
-        "v_nomevoo": VoosNomeVoo,
-        "v_preco": VoosValor,
-        "v_comissao": VoosCommisao,
-        "v_net": VoosNet,
-        "v_valorcambio": VoosMoedaValor,
-        "v_valoreuros": 0,
-        "v_margemvenda": VoosMargemVenda,
-        "v_markup": VoosMarkup,
-        "v_taxaA": VoosTaxaA,
-        "v_taxaB": VoosTaxaB,
-        "v_numeropessoas": 0,
-        "v_disponibilidade": 1,
-        "v_valortotalpvp": 0,
-        "v_valorporpessoapvp": VoosValor
+        "cambioidv": {  "inId": VoosIva, "name": VoosCambioName, "value": VoosMoedaValor },
+        "ivaidv": { "inId": VoosIva, "name": VoosIvaName },
+        "tipocustoidv": { "inId": VoosTipoIva, "name": VoosTipoIvaName },
+        "partida": VoosPartida,
+        "destino": VoosDestino,
+        "nomevoo": VoosNomeVoo,
+        "preco": VoosValor,
+        "comissao": VoosCommisao,
+        "net": VoosNet,
+        "valorcambio": VoosMoedaValor,
+        "valoreuros": 0,
+        "margemvenda": VoosMargemVenda,
+        "markup": VoosMarkup,
+        "taxaA": VoosTaxaA,
+        "taxaB": VoosTaxaB,
+        "numeropessoas": 0,
+        "disponibilidade": 1,
+        "valortotalpvp": 0,
+        "valorporpessoapvp": VoosValor
     };
 
 
@@ -3033,8 +2919,6 @@ $("#AddVoo").click(function () {
     sendVoo(data, false);
 
 });
-
-
 $(".AddFornecedor").click(function () {
 
 
@@ -3088,8 +2972,8 @@ $(".AddFornecedor").click(function () {
 
 
 function DeleteRecs(table, id, Tr) {
-
-    if (table === "AlojamentoRecords" || table === "AlojamentoVerRecords") {
+    Tr.remove();
+  /*  if (table === "AlojamentoRecords" || table === "AlojamentoVerRecords") {
         $.post('api/Postman/DeleteAlojamento', { "alojamentoidv": id },
             function (returnedData) {
 
@@ -3103,6 +2987,7 @@ function DeleteRecs(table, id, Tr) {
             });
     }
     if (table === "VoosRecords" || table === "VoosVerRecords") {
+        Tr.remove();
         $.post('api/Postman/DeleteVoos', { "vooidv": id },
             function (returnedData) {
 
@@ -3140,9 +3025,8 @@ function DeleteRecs(table, id, Tr) {
             }).fail(function () {
                 console.log("error");
             });
-    }
+    }*/
 }
-
 function showpopUp(Tr) {
 
     var Observacoes = $(Tr[0]).find(".HiddenRecordObs").val();
@@ -3157,7 +3041,6 @@ function showpopUp(Tr) {
 
 
 }
-
 function SaveRecs(table, id, Tr) {
 
 
@@ -3330,24 +3213,24 @@ function SaveRecs(table, id, Tr) {
             "cambioidv": cambioidv,
             "ivaidv": Ivaidv,
             "tipocustoidv": tipocustoidv,
-            "v_partida": partida,
-            "v_destino": destino,
-            "v_nomevoo": NomeVoo,
-            "v_preco": valorExterno,
-            "v_comissao": commisao,
-            "v_net": net,
-            "v_valorcambio": valorCambio,
-            "v_valoreuros": TotalVenda,
-            "v_margemvenda": margem,
-            "v_markup": Markup,
-            "v_taxaA": TAXAA,
-            "v_taxaB": TAXAB,
-            "v_numeropessoas": Unidades,
-            "v_disponibilidade": DISPONIBILIDADE,
-            "v_valortotalpvp": totalCusto,
-            "v_valorporpessoapvp": totalCustoPax,
-            "v_pagamento": APagameto,
-            "v_datapagamento": ADataPagameto
+            "partida": partida,
+            "destino": destino,
+            "nomevoo": NomeVoo,
+            "preco": valorExterno,
+            "comissao": commisao,
+            "net": net,
+            "valorcambio": valorCambio,
+            "valoreuros": TotalVenda,
+            "margemvenda": margem,
+            "markup": Markup,
+            "taxaA": TAXAA,
+            "taxaB": TAXAB,
+            "numeropessoas": Unidades,
+            "disponibilidade": DISPONIBILIDADE,
+            "valortotalpvp": totalCusto,
+            "valorporpessoapvp": totalCustoPax,
+            "pagamento": APagameto,
+            "datapagamento": ADataPagameto
         }
 
         sendVoo(vooRec, true);
@@ -3412,21 +3295,21 @@ function SaveRecs(table, id, Tr) {
             "ivaidv": DiariaIva,
             "tipocustoidv": "4",
             "cambioidv": DiariaCambioidv,
-            "d_nomeservico": DiariaNomeServico,
-            "d_data": DiariaData,
-            "d_preco": valorExterno,
-            "d_comissao": DiariaComisao,
-            "d_net": DiariaNet,
-            "d_valorcambio": DiariaCambioValor,
-            "d_valoreuros": valorEur,
-            "d_quantidade": DiariaQuantidade,
-            "d_unidades": Unidades,
-            "d_margemvenda": DiariaMargem,
-            "d_markup": DiariaMarkup,
-            "d_numeropessoas": Unidades,
-            "d_valortotalpvp": totalCusto,
-            "d_valorporpessoapvp": totalCustoPax,
-            "d_observacoes": DiariaObservaçoes,
+            "nomeservico": DiariaNomeServico,
+            "data": DiariaData,
+            "preco": valorExterno,
+            "comissao": DiariaComisao,
+            "net": DiariaNet,
+            "valorcambio": DiariaCambioValor,
+            "valoreuros": valorEur,
+            "quantidade": DiariaQuantidade,
+            "unidades": Unidades,
+            "margemvenda": DiariaMargem,
+            "markup": DiariaMarkup,
+            "numeropessoas": Unidades,
+            "valortotalpvp": totalCusto,
+            "valorporpessoapvp": totalCustoPax,
+            "observacoes": DiariaObservaçoes,
         }
 
         sendDiaria(dataDiaria, true);
@@ -3481,33 +3364,32 @@ function SaveRecs(table, id, Tr) {
             "tipocustoidv": "6",
             "cambioidv": ServicosCambioidv,
             "servicottidv": ServicosTipoServicoID,
-            "s_nomeservico": ServicosTipoServico,
-            "s_preco": valorExterno,
-            "s_comissao": ServicosComisao,
-            "s_net": ServicosNet,
-            "s_valorcambio": CambioValor,
-            "s_valoreuros": valorEur,
-            "s_quantidade": ServicosQuantidade,
-            "s_unidades": Unidades,
-            "s_margemvenda": ServicosMargem,
-            "s_markup": ServicosMarkup,
-            "s_numeropessoas": Unidades,
-            "s_valortotalpvp": totalCusto,
-            "s_valorporpessoapvp": totalCustoPax,
-            "s_observacoes": ServicosObservacoes
+            "nomeservico": ServicosTipoServico,
+            "preco": valorExterno,
+            "comissao": ServicosComisao,
+            "net": ServicosNet,
+            "valorcambio": CambioValor,
+            "valoreuros": valorEur,
+            "quantidade": ServicosQuantidade,
+            "unidades": Unidades,
+            "margemvenda": ServicosMargem,
+            "markup": ServicosMarkup,
+            "numeropessoas": Unidades,
+            "valortotalpvp": totalCusto,
+            "valorporpessoapvp": totalCustoPax,
+            "observacoes": ServicosObservacoes
         }
         sendServicoTT(dataServicos, true);
 
     }
 
 }
-
 function activator() {
     var tables = $("table");
 
     for (x = 0 ; x < tables.length; ++x) {
         var nome = tables[x].id;
-        if (nome != "ListaOrcamentos") {
+        if (nome !== "ListaOrcamentos") {
             updateValues($(tables[x]));
         }
 
@@ -3526,14 +3408,6 @@ $(document).ready(function () {
 
 
     var today = new Date();
-
-
-
-    // $("#AlojamentoDateAddVa").val(ConvertDateForInput(today));
-
-
-
-
     projectID = "";
     OrcamentoID = "";
     var qsParm = new Array();
@@ -3541,7 +3415,7 @@ $(document).ready(function () {
     var parms = query.split('&');
     var IdOrc;
     var IDproj;
-    if (parms.length >= 1 && parms[0] != "") {
+    if (parms.length >= 1 && parms[0] !== "") {
         var pos = parms[0].indexOf('=');
         if (parms.length === 2) {
             var pos2 = parms[1].indexOf('=');
@@ -3562,7 +3436,7 @@ $(document).ready(function () {
     else {
 
         var d = new Date();
-        var strDate = d.getFullYear() + "/" + (d.getMonth() + 1) + "/" + d.getDate() + "-v1";
+        var strDate = d.getFullYear() + "/" + (d.getMonth() + 1) + "/" + d.getDate() + "-v.1";
         $("#OrcamentoNome").val(strDate);
     }
     $("#tabs").tabs();
@@ -3598,7 +3472,6 @@ $(document).ready(function () {
         showpopUp(Tr);
 
     });
-
 
     $('body').on('change', '.smNumInput', function () {
 
@@ -3647,7 +3520,15 @@ $(document).ready(function () {
 
     });
 
+    
 
+    $(".RequestExcel").click(function () {
+        $('#ComoImprimir').modal('show');
+    });
+    $(".CloseSaveExcel").click(function () {
+        $('#ComoImprimir').modal('hide');
+
+    });
 
     $(".SaveIcon").click(function () {
         $('#ComoGuardar').modal('show');
@@ -3755,13 +3636,13 @@ $(document).ready(function () {
             var posColuna = ArrayTd.length - 1;
 
 
-            if (linha == 0) {
+            if (linha === 0) {
                 $(ArrayTd[posColuna - 1]).after("<td><input type='text' disabled class='form-control AlojTableType' value='" + NomeTipo + "' ><input type='hidden' class='AlojNPax " + Capatipo + " ' value='" + Capatipo + "'  ><img class='rmvAlojType " + posColuna + "' src='img/remove.png' alt='remover'></td>");
             }
             else if (linha > 0 && linha < cnt - 1) {
                 $(ArrayTd[posColuna - 1]).after("<td> <input type='number' min-value=0 value='0'  class='AlojTableNumberIn " + Capatipo + "' ></td>");
             } else
-                if (linha == cnt - 1) {
+                if (linha === cnt - 1) {
                     $(ArrayTd[posColuna]).after("<td><span class='AlojTotais " + Capatipo + "'>0</span></td>");
                 }
         });
@@ -3777,11 +3658,11 @@ $(document).ready(function () {
     $('body').on('click', '.AddIcon', function () {
         var callClass = this.className.toString();
         var Ptable = $(this).parent();
-        if (callClass.split(" ")[1] == "AlojamentoDias") {
+        if (callClass.split(" ")[1] === "AlojamentoDias") {
             var idtable = this.closest("table");
             //AddAlojamentoDias(idtable);
         } else
-            if (callClass.split(" ")[1] == "AlojamentoTipos") {
+            if (callClass.split(" ")[1] === "AlojamentoTipos") {
                 var idtable = this.closest("table").className.toString();
                 AddAlojamentoTipologia(idtable);
             } else {
@@ -3841,7 +3722,7 @@ $(document).ready(function () {
 
 
         var valueId = $(id).val();
-        if (valueId != "") {
+        if (valueId !== "") {
             GetFornecedor(valueId);
         }
 
@@ -3888,7 +3769,7 @@ $(document).ready(function () {
             var acordo = JSON.parse(jsonacordo);
 
             var valueId = $(id).val();
-            if (valueId != "") {
+            if (valueId !== "") {
                 $(".AuxAcordo").val(valueId);
                 showBill(valueId, acordo);
             }
@@ -3904,10 +3785,6 @@ $(document).ready(function () {
 
     });
 
-
-
-
-
     $("#ProjectoDias").change(function () {
 
         var numdias = parseInt($(this).val(), 10);
@@ -3918,152 +3795,151 @@ $(document).ready(function () {
     });
 
 
-
-    $(".user").autocomplete({
-        source: function (request, response) {
-
-
-            dfg = this.bindings[0].id;
-
-            if (dfg === "ProjectoDesignerName") {
-                InputClick = "#ProjectoDesignerName";
-                InputId = "#ProjectoDesigner";
-            }
-            if (dfg === "ProjectoAccountManagerName") {
-                InputClick = "#ProjectoAccountManagerName";
-                InputId = "#ProjectoAccountManager";
-            }
-
-            var str2 = request["term"].toLowerCase();
-
-            $.post('api/Postman/PesquisaUser', { "PesquisaFornecedor": str2 },
-            function (returnedData) {
-
-                var myarray = [];
-                var intex = 0;
-
-                returnedData.forEach(function (element) {
-
-
-                    myarray.push({ "Nome": element.Nome, "id": element.id });
-
-                    intex++;
-
-                }, this);
-
-                response($.map(myarray, function (item) {
-                    return {
-                        label: item.Nome,
-                        value: item.id
-                    }
-                }));
-                resu = null;
-            }).fail(function () {
-                console.log("erro getAllFornecedores");
-            });
-        },
-        minLength: 1,
-        select: function (event, ui) {
-            $(InputClick).val(ui.item.label);
-            $(InputId).val(ui.item.value);
-            return false;
-
-
-        },
-        open: function () {
-            $(this).removeClass("ui-corner-all").addClass("ui-corner-top");
-        },
-        close: function () {
-            $(this).removeClass("ui-corner-top").addClass("ui-corner-all");
-        }
-    });
-
-
-    $(".fornecedor").autocomplete({
-        source: function (request, response) {
-
-            var teste = this;
-            var dfg = teste.bindings[0].id;
-
-            if (dfg === "ProjectoFornecedor") {
-                InputClick = "#ProjectoFornecedor";
-                InputId = "#ProjectoFornecedorID";
-            }
-            if (dfg === "AlojamentoFornecedor") {
-                InputClick = "#AlojamentoFornecedor";
-                InputId = "#AlojamentoFornecedorID";
-            }
-            if (dfg === "VoosFornecedor") {
-                InputClick = "#VoosFornecedor";
-                InputId = "#VoosFornecedorID";
-            }
-            if (dfg === "DiariaFornecedor") {
-                InputClick = "#DiariaFornecedor";
-                InputId = "#DiariaFornecedorID";
-            }
-            if (dfg === "ServicosFornecedor") {
-                InputClick = "#ServicosFornecedor";
-                InputId = "#ServicosFornecedorID";
-            }
-            var str2 = request["term"].toLowerCase();
-
-            $.post('api/Postman/pesquisaFornecedor', { "PesquisaFornecedor": str2 },
-            function (returnedData) {
-
-                var myarray = [];
-                var intex = 0;
-                returnedData.forEach(function (element) {
-
-
-                    myarray.push({ "nome": element.nome, "id": element.Id });
-
-                    intex++;
-
-                }, this);
-
-                response($.map(myarray, function (item) {
-                    return {
-                        label: item.nome,
-                        value: item.id
-                    }
-                }));
-                resu = null;
-            }).fail(function () {
-                console.log("erro getAllFornecedores");
-            });
-        },
-        minLength: 1,
-        select: function (event, ui) {
-            if (InputClick == "#AlojamentoFornecedor") {
-                $('#AcordoComercial').modal('show');
-                $(".uiitemlabel").val(ui.item.label);
-                $(".uiitemvalue").val(ui.item.value);
-                $(".AuxAcordo").val(ui.item.value);
-                InsertTableAlojamentoHotel(ui.item.label, ui.item.value);
-
-
-
-            }
-            $(InputClick).val(ui.item.label);
-            $(InputId).val(ui.item.value);
-            return false;
-
-
-        },
-        open: function () {
-            $(this).removeClass("ui-corner-all").addClass("ui-corner-top");
-        },
-        close: function () {
-            $(this).removeClass("ui-corner-top").addClass("ui-corner-all");
-        }
-    });
-
     $(".ui-autocomplete").css("z-index", "2147483647");
 
 
 });
 
 
+
+$(".user").autocomplete({
+    source: function (request, response) {
+
+
+        dfg = this.bindings[0].id;
+
+        if (dfg === "ProjectoDesignerName") {
+            InputClick = "#ProjectoDesignerName";
+            InputId = "#ProjectoDesigner";
+        }
+        if (dfg === "ProjectoAccountManagerName") {
+            InputClick = "#ProjectoAccountManagerName";
+            InputId = "#ProjectoAccountManager";
+        }
+
+        var str2 = request["term"].toLowerCase();
+
+        $.post('api/Postman/PesquisaUser', { "PesquisaFornecedor": str2 },
+        function (returnedData) {
+
+            var myarray = [];
+            var intex = 0;
+
+            returnedData.forEach(function (element) {
+
+
+                myarray.push({ "Nome": element.Nome, "id": element.id });
+
+                intex++;
+
+            }, this);
+
+            response($.map(myarray, function (item) {
+                return {
+                    label: item.Nome,
+                    value: item.id
+                }
+            }));
+            resu = null;
+        }).fail(function () {
+            console.log("erro getAllFornecedores");
+        });
+    },
+    minLength: 1,
+    select: function (event, ui) {
+        $(InputClick).val(ui.item.label);
+        $(InputId).val(ui.item.value);
+        return false;
+
+
+    },
+    open: function () {
+        $(this).removeClass("ui-corner-all").addClass("ui-corner-top");
+    },
+    close: function () {
+        $(this).removeClass("ui-corner-top").addClass("ui-corner-all");
+    }
+});
+
+
+$(".fornecedor").autocomplete({
+    source: function (request, response) {
+
+        var teste = this;
+        var dfg = teste.bindings[0].id;
+
+        if (dfg === "ProjectoFornecedor") {
+            InputClick = "#ProjectoFornecedor";
+            InputId = "#ProjectoFornecedorID";
+        }
+        if (dfg === "AlojamentoFornecedor") {
+            InputClick = "#AlojamentoFornecedor";
+            InputId = "#AlojamentoFornecedorID";
+        }
+        if (dfg === "VoosFornecedor") {
+            InputClick = "#VoosFornecedor";
+            InputId = "#VoosFornecedorID";
+        }
+        if (dfg === "DiariaFornecedor") {
+            InputClick = "#DiariaFornecedor";
+            InputId = "#DiariaFornecedorID";
+        }
+        if (dfg === "ServicosFornecedor") {
+            InputClick = "#ServicosFornecedor";
+            InputId = "#ServicosFornecedorID";
+        }
+        var str2 = request["term"].toLowerCase();
+
+        $.post('api/Postman/pesquisaFornecedor', { "PesquisaFornecedor": str2 },
+        function (returnedData) {
+
+            var myarray = [];
+            var intex = 0;
+            returnedData.forEach(function (element) {
+
+
+                myarray.push({ "nome": element.nome, "id": element.Id });
+
+                intex++;
+
+            }, this);
+
+            response($.map(myarray, function (item) {
+                return {
+                    label: item.nome,
+                    value: item.id
+                }
+            }));
+            resu = null;
+        }).fail(function () {
+            console.log("erro getAllFornecedores");
+        });
+    },
+    minLength: 1,
+    select: function (event, ui) {
+        if (InputClick === "#AlojamentoFornecedor") {
+            $('#AcordoComercial').modal('show');
+            $(".uiitemlabel").val(ui.item.label);
+            $(".uiitemvalue").val(ui.item.value);
+            $(".AuxAcordo").val(ui.item.value);
+            InsertTableAlojamentoHotel(ui.item.label, ui.item.value);
+
+
+
+        }
+        $(InputClick).val(ui.item.label);
+        $(InputId).val(ui.item.value);
+        return false;
+
+
+    },
+    open: function () {
+        $(this).removeClass("ui-corner-all").addClass("ui-corner-top");
+    },
+    close: function () {
+        $(this).removeClass("ui-corner-top").addClass("ui-corner-all");
+    }
+});
 
 
 

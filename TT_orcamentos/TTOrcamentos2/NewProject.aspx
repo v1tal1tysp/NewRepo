@@ -78,9 +78,9 @@
                     <button type="button" class="tablinks" onclick="openTab(event, 'History')">Historico</button>
                 </div>
                 <div class="ProjectMenu">
-                    <button  type="button" style="padding: 0px;"><img class="SaveIcon" src="img\pdf.ico" alt="Guardar"></button>
-                    <button type="button" style="padding: 0px;"><img class="SaveIcon" src="img\Excell.ico" alt="Guardar"></button>
-                    <button type="button" style="padding: 0px;"><img class="SaveIcon" src="img\SaveIcn.png" alt="Guardar"></button>
+                    <button  type="button" style="padding: 0px;"><img class="SaveIcon" src="img\pdf.ico" alt="Guardar"/></button>
+                    <button type="button" style="padding: 0px;"><img class="RequestExcel" src="img\Excell.ico" alt="Guardar"/></button>
+                    <button type="button" style="padding: 0px;"><img class="SaveIcon" src="img\SaveIcn.png" alt="Guardar"/></button>
                 </div>
             </div>
 <!-- Container-->
@@ -1089,10 +1089,24 @@
                                         <div class="col-lg-6">
                                             <button class="GuardarNovo" type="button" id="SaveNewOrcamento">Guardar Novo Orçamento</button>
                                         </div>
-                                        
+                                       
+                                    </div>
+                                </div>
+                            </div>
+                </div>
+
+                <div id="ComoImprimir" class="modal">
+                            <div  class="modal-contentGuardar">
+                                <!-- Modal content -->
+                                <span class="close CloseSaveExcel">&times;</span>
+                                <div class="panel-body">
+                                    <div class="TitleTabela">Como imprimir?</div>
+                                    <div class="row">
+
                                         <div class="col-lg-6">
-                                            <button class="ApenasGuardar" type="button" id="SaveOrcamento">Guardar Orçamento</button>
+                                            <button class="GuardarNovo" type="button" id="PrintThisExcel">Apenas este Orçamento</button>
                                         </div>
+                                       
                                     </div>
                                 </div>
                             </div>

@@ -508,24 +508,6 @@ namespace TTOrcamentos2.Controllers
 
             }
 
-
-
-            /*
-
-            var Orcamento = orca.GetValue("Orcamento");
-            Orcamentos Orcamentos = Orcamento.ToObject<Orcamentos>();
-
-            if (Orcamentos.parrentorcamentoidv != "0")
-            {
-                Orcamentos.UpdateActivity(Orcamentos.parrentorcamentoidv);
-
-            }
-            string id = string.Empty;
-            if (Orcamentos.Insert(Orcamentos, out id))
-            {
-                return id;
-            }*/
-
             return "";
 
 
@@ -533,12 +515,132 @@ namespace TTOrcamentos2.Controllers
      
         }
 
+
+
+        [HttpPost]
+        [Route("api/Postman/PrintExcel")]
+        public string PrintExcel(JObject container)
+        {
+            if (container != null)
+            {
+                try
+                {
+                    SaveRecordsModel Projecto = container.ToObject<SaveRecordsModel>();
+                    if (Projecto != null)
+                    {
+                        if (Projecto.ArrAloj != null)
+                        {
+                            foreach (var item in Projecto.ArrAloj)
+                            {
+                                //Alojamento.Insert(item);
+                            }
+                        }
+                        if (Projecto.ArrVoos != null)
+                        {
+                            foreach (var item in Projecto.ArrVoos)
+                            {
+                                //Voos.Insert(item);
+                            }
+                        }
+                        if (Projecto.ArrDiarias != null)
+                        {
+                            foreach (var item in Projecto.ArrDiarias)
+                            {
+                                //Diarias.Insert(item);
+                            }
+                        }
+                        if (Projecto.ArrServicos != null)
+                        {
+                            foreach (var item in Projecto.ArrServicos)
+                            {
+                                //ServicoTT.Insert(item);
+                            }
+                        }
+                    }
+
+                    return "Ok";
+                }
+                catch (Exception ex)
+                {
+
+                    return ex.InnerException.ToString();
+                }
+            }
+            else
+            {
+                return "no_magic";
+            }
+
+        }
+
+
+        [HttpPost]
+        [Route("api/Postman/SaveRecords")]
+        public string SaveRecords(JObject container)
+        {
+            if (container != null)
+            {
+                try
+                {
+                    SaveRecordsModel Projecto = container.ToObject<SaveRecordsModel>();
+                    if (Projecto != null)
+                    {
+                        if (Projecto.ArrAloj != null)
+                        {
+                            foreach (var item in Projecto.ArrAloj)
+                            {
+                                Alojamento.Insert(item);
+                            }
+                        }
+                        if (Projecto.ArrVoos != null)
+                        {
+                            foreach (var item in Projecto.ArrVoos)
+                            {
+                                Voos.Insert(item);
+                            }
+                        }
+                        if (Projecto.ArrDiarias != null)
+                        {
+                            foreach (var item in Projecto.ArrDiarias)
+                            {
+                                Diarias.Insert(item);
+                            }
+                        }
+                        if (Projecto.ArrServicos != null)
+                        {
+                            foreach (var item in Projecto.ArrServicos)
+                            {
+                                ServicoTT.Insert(item);
+                            }
+                        }
+                    }
+
+                    return "Ok";
+                }
+                catch (Exception ex)
+                {
+
+                    return ex.InnerException.ToString();
+                }
+            }
+            else
+            {
+                return "no_magic";
+            }
+
+        }
+
+
+
+
+
+
         [HttpPost]
         [Route("api/Postman/InsertVoos")]
         public Voos InsertVoos(JObject voo)
         {
             
-            var projecto = voo.GetValue("_id");
+            var projecto = voo.GetValue("Id");
             Voos Projecto = voo.ToObject<Voos>();
 
             if (Voos.Insert(Projecto))

@@ -356,6 +356,11 @@ div.tab button.active {
     margin-right: 15px;
     margin-top: 6px;
 }
+.RequestExcel{
+    max-width: 35px;
+    margin-right: 15px;
+    margin-top: 6px;
+}
 
 .modal-content2{
       position: relative;
@@ -377,6 +382,24 @@ div.tab button.active {
 }
 .modal-content3{
     position: relative;
+
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #999;
+    border: 1px solid rgba(0,0,0,.2);
+    border-radius: 6px;
+    outline: 0;
+    -webkit-box-shadow: 0 3px 9px rgba(0,0,0,.5);
+    box-shadow: 0 3px 9px rgba(0,0,0,.5);
+        background-color: #fefefe;
+    margin: 8% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 40%;
+    height: auto;
+}
+.modal-contentGuardar{
+        position: relative;
 
     -webkit-background-clip: padding-box;
     background-clip: padding-box;
