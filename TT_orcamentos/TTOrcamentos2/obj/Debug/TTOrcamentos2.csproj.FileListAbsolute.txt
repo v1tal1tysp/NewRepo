@@ -309,3 +309,11 @@ F:\projects\TT_orcamentos\NewRepo\TT_orcamentos\TTOrcamentos2\bin\System.Web.Htt
 F:\projects\TT_orcamentos\NewRepo\TT_orcamentos\TTOrcamentos2\obj\Debug\TTOrcamentos2.csprojResolveAssemblyReference.cache
 F:\projects\TT_orcamentos\NewRepo\TT_orcamentos\TTOrcamentos2\obj\Debug\TTOrcamentos2.dll
 F:\projects\TT_orcamentos\NewRepo\TT_orcamentos\TTOrcamentos2\obj\Debug\TTOrcamentos2.pdb
+D:\Projectos\NewRepo\TT_orcamentos\TTOrcamentos2\bin\ClosedXML.dll
+D:\Projectos\NewRepo\TT_orcamentos\TTOrcamentos2\bin\DocumentFormat.OpenXml.dll
+D:\Projectos\NewRepo\TT_orcamentos\TTOrcamentos2\bin\FastMember.Signed.dll
+D:\Projectos\NewRepo\TT_orcamentos\TTOrcamentos2\bin\System.IO.FileSystem.Primitives.dll
+D:\Projectos\NewRepo\TT_orcamentos\TTOrcamentos2\bin\System.IO.Packaging.dll
+D:\Projectos\NewRepo\TT_orcamentos\TTOrcamentos2\bin\ClosedXML.pdb
+D:\Projectos\NewRepo\TT_orcamentos\TTOrcamentos2\bin\ClosedXML.xml
+D:\Projectos\NewRepo\TT_orcamentos\TTOrcamentos2\bin\DocumentFormat.OpenXml.xml

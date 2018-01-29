@@ -344,7 +344,7 @@ function SaveAllRecords(novorcamento, print) {
         objectTosend.ArrDiarias = ReadDiarias();
         objectTosend.ArrServicos = ReadServicos();
 
-        return objectTosend;
+        sendToExcell( objectTosend);
     }
 
 }
@@ -353,9 +353,25 @@ function SaveAllRecords(novorcamento, print) {
 function sendrecords(objectToSend) {
 
 
+    $.post('api/Postman/SaveRecords', objectToSend,
+        function (returnedData) {
+
+            
+            console.log("Ok");
+
+
+        }).fail(function (response) {
+            console.log("error");
+        });
+}
+
+function sendToExcell(objectToSend) {
+
+
     $.post('api/Postman/PrintExcel', objectToSend,
         function (returnedData) {
 
+            var tadasd = returnedData;
             console.log("Ok");
 
 
@@ -1782,7 +1798,24 @@ function RefreshAlojTableDias() {
 
 }
 
+$("#FicheirosList").on('click', 'a', function () {
+    var t = $(this).parent();
+    var atr = $(this).attr('href');
+    var fa = $(t).find(".HiddenRecordId").val();
+    var name = $(this).text();
 
+    $.post('api/Postman/DownloadFile', { "id": fa, "filepath": atr, "name": name },
+        function (returnedData) {
+
+
+        }).fail(function (response) {
+            console.log("error");
+        });
+
+
+
+
+});
 
 $('#tabs').on('change', '.AlojTableNumberIn', function () {
     RefreshAlojamento();
@@ -1845,8 +1878,8 @@ $('body').on('change', '#txtUploadFile', function () {
 
 
                 $("#FicheirosList tr:last").after("<tr>" +
-                    '<td><a href="' + "#" + '">' + d.Namefile + '</a>' +
-                    '<input type="hidden" class="HiddenRecordId" value="' + d.ID + '">' +
+                    '<td><a target="_blank", href="' + d.Filepath + '" download>' + d.Namefile + '</a>' +
+                    '<input type="hidden" class="HiddenRecordId" value="' + d.Id + '">' +
                     ' </td>' +
                     '<td>' + ConvertDateForOrcamentosTable(d.DataCriacao) + '</td>' +
                     '</tr>');
@@ -1891,8 +1924,8 @@ $('body').on('change', '.PagamentoAnexo', function () {
 
 
                 $("#FicheirosList tr:last").after("<tr>" +
-                    '<td><a href="' + "#" + '">' + d.Namefile + '</a>' +
-                    '<input type="hidden" class="HiddenRecordId" value="' + d.ID + '">' +
+                    '<td><a href="' + d.Filepath + '" download>' + d.Namefile + '</a>' +
+                    '<input type="hidden" class="HiddenRecordId" value="' + d.Id + '">' +
                     ' </td>' +
                     '<td>' + ConvertDateForOrcamentosTable(d.DataCriacao) + '</td>' +
                     '</tr>');
@@ -1921,8 +1954,8 @@ function GetProjectoFiles(id) {
 
 
                 $("#FicheirosList tr:last").after("<tr>" +
-                    '<td><a href="' + "#" + '">' + d.Namefile + '</a>' +
-                    '<input type="hidden" class="HiddenRecordId" value="' + d.ID + '">' +
+                    '<td><a href="' + d.Filepath + '" download>' + d.Namefile + '</a>' +
+                    '<input type="hidden" class="HiddenRecordId" value="' + d.Id + '">' +
                     ' </td>' +
                     '<td>' + ConvertDateForOrcamentosTable(d.DataCriacao) + '</td>' +
                     '</tr>');

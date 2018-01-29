@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using ClosedXML.Excel;
+using MongoDB.Bson;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -111,55 +112,22 @@ namespace TTOrcamentos2.Controllers
 
         [HttpPost]
         [Route("api/Postman/getProjectoFiles")]
-        public List<dynamic> getProjectoFiles(string id)
+        public List<Ficheiros> getProjectoFiles(string id)
         {
-            List<dynamic> ObjList = new List<dynamic>();
+            List<Ficheiros> Lista = new List<Ficheiros>();
             try
             {
-                using (var conn = new SqlConnection(TTOrcamentos2.Properties.Settings.Default.ConnectionString))
-                using (var command = new SqlCommand("getProjectoFiles", conn)
-                {
-                    CommandType = CommandType.StoredProcedure
-                })
-                {
-                    command.Parameters.Add("@projectoid", SqlDbType.VarChar).Value = id;
-                    conn.Open();
-                    SqlDataReader reader = command.ExecuteReader();
-
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            dynamic obj = new ExpandoObject();
-
-                            obj.ID = reader.GetInt32(0);
-                            obj.Namefile = reader.GetString(1);
-                            obj.Filepath = reader.GetString(2);
-                            obj.DataCriacao = reader.GetDateTime(3);
-                            obj.projectoID = reader.GetString(4);
-                            obj.orcamentoID = reader.GetString(5);
-                            obj.TipoFicheiro = reader.GetInt32(6);
-
-                            ObjList.Add(obj);
-
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("No rows found.");
-                    }
-                    reader.Close();
-                    conn.Close();
-
-                }
-                return ObjList;
+                Lista = Ficheiros.GetAll(id);
+                return Lista;
             }
             catch (Exception ex)
             {
+
                 Console.WriteLine(ex.Message);
+                return Lista;
             }
 
-            return ObjList;
+
         }
 
 
@@ -460,15 +428,9 @@ namespace TTOrcamentos2.Controllers
                         {
                             Directory.CreateDirectory(Properties.Settings.Default.PastaDocumentos + id);
                         }
-
                         var fileSavePath = Properties.Settings.Default.PastaDocumentos + id + "\\" + httpPostedFile.FileName;
                         httpPostedFile.SaveAs(fileSavePath);
-
-                        /*Insert na db*/
-
-
                         Ficheiros.Insert(httpPostedFile.FileName, fileSavePath, DateTime.Now, id, orcamentoid, tipo);
-
 
                         Lista = Ficheiros.GetAll(id);
 
@@ -486,6 +448,71 @@ namespace TTOrcamentos2.Controllers
 
             
         }
+        [HttpPost]
+        [Route("api/Postman/DownloadFile")]
+        public HttpResponseMessage DownloadFile(JObject obj)
+        {
+            try
+            {
+                var id = obj.GetValue("id");
+                var filepath = obj.GetValue("filepath").ToString();
+                var name = obj.GetValue("name").ToString();
+                //filepath = filepath.Replace("\\", @"\");
+
+                
+                Stream fileStream = File.Open(filepath, FileMode.Open, FileAccess.Read);
+                
+               // var stream = new FileStream(FilePath, FileMode.Open);
+                HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+                response.Content = new StreamContent(fileStream);
+                response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+                response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+                {
+                    FileName = name
+                };
+                return response;
+            }
+            catch(Exception ex)
+            {
+                
+                return new HttpResponseMessage(HttpStatusCode.NoContent);
+            }
+        }
+
+      /*  [HttpPost]
+        [Route("api/Postman/DownloadFile")]
+        public HttpResponseMessage DownloadFile( JObject obj)
+        {
+            var id = obj.GetValue("id");
+            var filepath = obj.GetValue("filepath").ToString();
+            var name = obj.GetValue("name").ToString();
+            HttpResponseMessage t = new HttpResponseMessage();
+            try
+            {
+                MemoryStream responseStream = new MemoryStream();
+                Stream fileStream = File.Open(filepath, FileMode.Open);
+                bool fullContent = true;
+ 
+
+                fileStream.CopyTo(responseStream);
+                
+                fileStream.Close();
+                responseStream.Position = 0;
+
+                HttpResponseMessage response = new HttpResponseMessage();
+                response.StatusCode = fullContent ? HttpStatusCode.OK : HttpStatusCode.PartialContent;
+                response.Content = new StreamContent(responseStream);
+                return response;
+            }
+            catch (IOException)
+            {
+                return t;
+            }
+     
+            
+        }*/
+
+
 
 
         [HttpPost]
@@ -516,11 +543,18 @@ namespace TTOrcamentos2.Controllers
         }
 
 
-
+        public Stream GetStream(XLWorkbook excelWorkbook)
+        {
+            Stream fs = new MemoryStream();
+            excelWorkbook.SaveAs(fs);
+            fs.Position = 0;
+            return fs;
+        }
         [HttpPost]
         [Route("api/Postman/PrintExcel")]
-        public string PrintExcel(JObject container)
+        public Stream PrintExcel(JObject container)
         {
+            Stream strm  = new MemoryStream();
             if (container != null)
             {
                 try
@@ -528,10 +562,22 @@ namespace TTOrcamentos2.Controllers
                     SaveRecordsModel Projecto = container.ToObject<SaveRecordsModel>();
                     if (Projecto != null)
                     {
-                        if (Projecto.ArrAloj != null)
+
+                        var workbook = new XLWorkbook();
+                        var worksheet = workbook.Worksheets.Add("Relatorio");
+
+
+                        foreach (var r in Enumerable.Range(1, 5))
+                            foreach (var c in Enumerable.Range(1, 5))
+                                worksheet.Cell(r, c).Value = "X";
+
+
+                        /*if (Projecto.ArrAloj != null)
                         {
                             foreach (var item in Projecto.ArrAloj)
                             {
+                               
+                                
                                 //Alojamento.Insert(item);
                             }
                         }
@@ -555,20 +601,28 @@ namespace TTOrcamentos2.Controllers
                             {
                                 //ServicoTT.Insert(item);
                             }
-                        }
+                        }*/
+
+                         return GetStream(workbook);
+
+
+
+                        //workbook.SaveAs("FirstExcel.xlsx");
+
                     }
 
-                    return "Ok";
+                    //return "Ok";
                 }
                 catch (Exception ex)
                 {
 
-                    return ex.InnerException.ToString();
+                    //return ex.InnerException.ToString();
                 }
+                return strm;
             }
             else
             {
-                return "no_magic";
+                return strm;
             }
 
         }

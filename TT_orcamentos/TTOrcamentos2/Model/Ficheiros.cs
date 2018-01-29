@@ -16,6 +16,12 @@ namespace TTOrcamentos2.Model {
         public string orcamentoID { get; set; }
         public int TipoFicheiro { get; set; }
 
+        public Ficheiros()
+        {
+
+        }
+
+
         public Ficheiros(string Namefile, string Filepath, DateTime DataCriacao, string projectoID, string orcamentoID, int TipoFicheiro)
         {
             this.Namefile = Namefile;
@@ -61,6 +67,27 @@ namespace TTOrcamentos2.Model {
             }
         }
 
+
+
+
+        public static Ficheiros download(string id)
+        {
+
+            try
+            {
+                Ficheiros lista = new Ficheiros();
+                ObjectId neid = new ObjectId(id);
+                var filter = Builders<Ficheiros>.Filter.Where(x => x.Id == neid);
+
+                lista = DB.Ficheiros.Find(filter).FirstOrDefault();
+
+                return lista;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Erro Inserir Ficheiros : " + e.ToString());
+            }
+        }
         public static bool Update(Ficheiros fich)
         {
             try
@@ -77,6 +104,7 @@ namespace TTOrcamentos2.Model {
 
         public static bool Delete(Ficheiros Estado)
         {
+            
             try
             {
                 DB.Orcamentos.DeleteOne(x => x.Id == Estado.Id);
@@ -93,7 +121,7 @@ namespace TTOrcamentos2.Model {
             List<Ficheiros> lista = new List<Ficheiros>();
             try
             {
-                var filter = Builders<Ficheiros>.Filter.Where(x => x.projectoID == projectoidv || x.orcamentoID == projectoidv);
+                var filter = Builders<Ficheiros>.Filter.Where(x => x.projectoID == projectoidv);
 
                 lista = DB.Ficheiros.Find(filter).ToList();
 
