@@ -317,3 +317,11 @@ D:\Projectos\NewRepo\TT_orcamentos\TTOrcamentos2\bin\System.IO.Packaging.dll
 D:\Projectos\NewRepo\TT_orcamentos\TTOrcamentos2\bin\ClosedXML.pdb
 D:\Projectos\NewRepo\TT_orcamentos\TTOrcamentos2\bin\ClosedXML.xml
 D:\Projectos\NewRepo\TT_orcamentos\TTOrcamentos2\bin\DocumentFormat.OpenXml.xml
+F:\projects\TT_orcamentos\NewRepo\TT_orcamentos\TTOrcamentos2\bin\ClosedXML.dll
+F:\projects\TT_orcamentos\NewRepo\TT_orcamentos\TTOrcamentos2\bin\DocumentFormat.OpenXml.dll
+F:\projects\TT_orcamentos\NewRepo\TT_orcamentos\TTOrcamentos2\bin\FastMember.Signed.dll
+F:\projects\TT_orcamentos\NewRepo\TT_orcamentos\TTOrcamentos2\bin\System.IO.FileSystem.Primitives.dll
+F:\projects\TT_orcamentos\NewRepo\TT_orcamentos\TTOrcamentos2\bin\System.IO.Packaging.dll
+F:\projects\TT_orcamentos\NewRepo\TT_orcamentos\TTOrcamentos2\bin\ClosedXML.pdb
+F:\projects\TT_orcamentos\NewRepo\TT_orcamentos\TTOrcamentos2\bin\ClosedXML.xml
+F:\projects\TT_orcamentos\NewRepo\TT_orcamentos\TTOrcamentos2\bin\DocumentFormat.OpenXml.xml
