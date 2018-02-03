@@ -593,100 +593,286 @@ function LoadRecords(idOrca) {
 
 }
 
-
-function insertTabelaFornecedores() {
+function readtableAlojReport() {
     var traloj = $("#AlojamentoRecords tr:gt(0)");
+    var Uniques = [];
 
     $(traloj).each(function (index, element) {
-        var tds = element.children();
-        
+        var classname = $(element).attr('class').split(" ")[0];
+        Uniques.push(classname);
 
     });
 
-
-    /*$("#VoosRecords")
-    $("#DiariaVerRecords")
-    $("#ServicosRecords")*/
+    Uniques = jQuery.unique(Uniques);
 
 
-
-
-   // ListafornecedoresGBL.push(aux);
-
-   // console.log(JSON.stringify(ListafornecedoresGBL));
-
- /*   var uniqueNames = [];
     var ListaJson = [];
 
 
-  /*  $.each(ListafornecedoresGBL, function (i, el) {
-        if ($.inArray(el["fornecedoridv"], uniqueNames) === -1) {
-            ListaJson.push({ "Fornecedor": el["fornecedoridv"], "Data": [] })
-            uniqueNames.push(el["fornecedoridv"]);
+    $(Uniques).each(function (index, element) {
+
+        var Servicos = [];
+        var total = 0.0;
+        var recodsTr = $("#AlojamentoRecords tr." + element);
+        var name;
+        $(recodsTr).each(function (index, tr) {
+            var servico = "";
+            var TotalPvP = 0;
+            if (index === 0) {
+                name = $(tr).children()[0].innerHTML.split("<")[0];
+
+            }
+            servico = $(tr).find(".nameservico")[0].innerText;
+            TotalPvP = $(tr).find(".TotalPvP")[0].innerText.split("/")[0];
+
+            var ttest = TotalPvP.replace(',', '');
+            var valorreal = parseFloat(ttest);
+            total += valorreal;
+
+            var servi = {
+                servico: servico,
+                valor: valorreal
+            }
+
+
+            Servicos.push(servi);
+        });
+
+
+        var t = {
+            FornecedorId: element.toString(),
+            Fornecedor: name,
+            servicos: Servicos,
+            total: total,
 
         }
+        ListaJson.push(t);
 
+    });
+    return ListaJson;
+}
+
+function readtableVoosReport() {
+    var traloj = $("#VoosRecords tr:gt(0)");
+    var Uniques = [];
+
+    $(traloj).each(function (index, element) {
+        var classname = $(element).attr('class').split(" ")[0];
+        Uniques.push(classname);
 
     });
 
+    Uniques = jQuery.unique(Uniques);
 
 
+    var ListaJson = [];
 
-  /*  $("#FornecedoresRecords").find("tr:gt(0)").remove();
 
-  /*  $.each(ListafornecedoresGBL, function (index2) {
-        var obj = ListafornecedoresGBL[index2];
-        $.each(ListaJson, function (index) {
+    $(Uniques).each(function (index, element) {
 
-            if (ListaJson[index]["Fornecedor"] === obj["fornecedoridv"]) {
-                var fornname = obj["fname"];
-                var notass = obj["notas"];
-                var datass = obj["data"];
-                var valorss = obj["valor"];
-                ListaJson[index]["Data"].push({ "fname": fornname, "notas": notass, "data": datass, "valor": valorss });
+        var Servicos = [];
+        var total = 0.0;
+        var recodsTr = $("#VoosRecords tr." + element);
+        var name;
+        $(recodsTr).each(function (index, tr) {
+            var servico = "";
+            var TotalPvP = 0;
+            if (index === 0) {
+                name = $(tr).children()[0].innerHTML.split("<")[0];
 
             }
+            servico = $(tr).find(".name")[0].innerText;
+            TotalPvP = $(tr).find(".preco")[0].innerText.split("/")[0];
 
+            var ttest = TotalPvP.replace(',', '');
+            var valorreal = parseFloat(ttest);
+            total += valorreal;
+
+            var servi = {
+                servico: servico,
+                valor: valorreal
+            }
+            Servicos.push(servi);
         });
+        var t = {
+            FornecedorId: element.toString(),
+            Fornecedor: name,
+            servicos: Servicos,
+            total: total,
+
+        }
+        ListaJson.push(t);
+
+    });
+    return ListaJson;
+}
+function readtableDiariasReport() {
+    var traloj = $("#DiariaVerRecords tr:gt(0)");
+    var Uniques = [];
+
+    $(traloj).each(function (index, element) {
+        var classname = $(element).attr('class').split(" ")[0];
+        Uniques.push(classname);
 
     });
 
+    Uniques = jQuery.unique(Uniques);
 
 
-  /*  $.each(ListaJson, function (index) {
-        var lista2 = ListaJson[index]["Data"];
-        $.each(lista2, function (index2) {
+    var ListaJson = [];
 
-            var len = ListaJson[index]["Data"].length;
 
-            if (index2 === 0) {
-                $("#FornecedoresRecords tr:last").after('<tr>' +
-                    '<td rowspan="' + len + '">' + lista2[index2]["fname"] + '</td>' +
-                    '<td>' + lista2[index2]["notas"] + '</td>' +
-                    '<td>' + ConvertDateForTable(lista2[index2]["data"]) + '</td>' +
-                    '<td>' + parseFloat(lista2[index2]["valor"]).formatMoney(2, '.', ',') + '</td>' +
-                    '<td>' + 0 + '</td>' +
-                    '</tr>');
+    $(Uniques).each(function (index, element) {
+
+        var Servicos = [];
+        var total = 0.0;
+        var recodsTr = $("#DiariaVerRecords tr." + element);
+        var name;
+        $(recodsTr).each(function (index, tr) {
+            var servico = "";
+            var TotalPvP = 0;
+            if (index === 0) {
+                name = $(tr).children()[0].innerHTML.split("<")[0];
 
             }
-            else {
-                $("#FornecedoresRecords tr:last").after('<tr>' +
-                    '<td>' + lista2[index2]["notas"] + '</td>' +
-                    '<td>' + ConvertDateForTable(lista2[index2]["data"]) + '</td>' +
-                    '<td>' + parseFloat(lista2[index2]["valor"]).formatMoney(2, '.', ',') + '</td>' +
-                    '</tr>');
-            }
+            servico = $(tr).find(".nome")[0].innerText;
+            TotalPvP = $(tr).find(".total")[0].innerText.split("/")[0];
 
+            var ttest = TotalPvP.replace(',', '');
+            var valorreal = parseFloat(ttest);
+            total += valorreal;
+
+            var servi = {
+                servico: servico,
+                valor: valorreal
+            }
+            Servicos.push(servi);
         });
+        var t = {
+            FornecedorId: element.toString(),
+            Fornecedor: name,
+            servicos: Servicos,
+            total: total,
 
+        }
+        ListaJson.push(t);
 
+    });
+    return ListaJson;
+}
+function readtableServicosReport() {
+    var traloj = $("#ServicosRecords tr:gt(0)");
+    var Uniques = [];
+
+    $(traloj).each(function (index, element) {
+        var classname = $(element).attr('class').split(" ")[0];
+        Uniques.push(classname);
 
     });
 
+    Uniques = jQuery.unique(Uniques);
 
-    updateValues($("#FornecedoresRecords"));*/
+
+    var ListaJson = [];
 
 
+    $(Uniques).each(function (index, element) {
+
+        var Servicos = [];
+        var total = 0.0;
+        var recodsTr = $("#ServicosRecords tr." + element);
+        var name;
+        $(recodsTr).each(function (index, tr) {
+            var servico = "";
+            var TotalPvP = 0;
+            if (index === 0) {
+                name = $(tr).children()[0].innerHTML.split("<")[0];
+
+            }
+            servico = $(tr).find(".nome")[0].innerText;
+            TotalPvP = $(tr).find(".total")[0].innerText.split("/")[0];
+
+            var ttest = TotalPvP.replace(',', '');
+            var valorreal = parseFloat(ttest);
+            total += valorreal;
+
+            var servi = {
+                servico: servico,
+                valor: valorreal
+            }
+            Servicos.push(servi);
+        });
+        var t = {
+            FornecedorId: element.toString(),
+            Fornecedor: name,
+            servicos: Servicos,
+            total: total,
+
+        }
+        ListaJson.push(t);
+
+    });
+    return ListaJson;
+}
+
+function insertTabelaFornecedores() {
+    $("#FornecedoresRecords").find("tr:gt(0)").remove();
+    var Alojamentos = readtableAlojReport();
+
+    var Voos = readtableVoosReport();
+
+    var Diarias = readtableDiariasReport();
+
+    var Servicos = readtableServicosReport();
+
+    
+
+    $.each(Alojamentos, function (index, obj) {
+        var text;
+        $.each(obj.servicos, function (index, servico) {
+            text += servico.servico + " : "+servico.valor+"</br>";
+        });
+        $("#FornecedoresRecords tr:last").after('<tr>' +
+            '<td>' + obj.Fornecedor + '</td>' +
+            '<td>' + text + '</td>' +
+            '<td>' + parseFloat(obj.total).formatMoney(2, '.', ',') + '</td>' +
+            '</tr>');
+    });
+
+    $.each(Voos, function (index, obj) {
+        var text;
+        $.each(obj.servicos, function (index, servico) {
+            text += servico.servico + " : " + servico.valor + "</br>";
+        });
+         $("#FornecedoresRecords tr:last").after('<tr>' +
+             '<td>' + obj.Fornecedor + '</td>' +
+             '<td>' + text + '</td>' +
+             '<td>' + parseFloat(obj.total).formatMoney(2, '.', ',') + '</td>' +
+             '</tr>');
+     
+    });
+    $.each(Diarias, function (index, obj) {
+        var text;
+        $.each(obj.servicos, function (index, servico) {
+            text += servico.servico + " : " + servico.valor + "</br>";
+        });
+        $("#FornecedoresRecords tr:last").after('<tr>' +
+            '<td>' + obj.Fornecedor + '</td>' +
+            '<td>' + text + '</td>' +
+            '<td>' + parseFloat(obj.total).formatMoney(2, '.', ',') + '</td>' +
+            '</tr>');
+    });
+    $.each(Servicos, function (index, obj) {
+        var text;
+        $.each(obj.servicos, function (index, servico) {
+            text += servico.servico + " : " + servico.valor + "</br>";
+        });
+        $("#FornecedoresRecords tr:last").after('<tr>' +
+            '<td>' + obj.Fornecedor + '</td>' +
+            '<td>' + text + '</td>' +
+            '<td>' + parseFloat(obj.total).formatMoney(2, '.', ',') + '</td>' +
+            '</tr>');
+    });
 }
 function InsertTableAlojamentoHotel(hotelname, valueID) {
     var num_tabs = $("#tabs#tabs ul li").length + 1;
@@ -825,12 +1011,12 @@ function preencherTabelaServicosLoading(data) {
                         '<input type="hidden" class="HiddenRecordAPagamento" value="' + a_pagamento + '">' +
                         '<input type="hidden" class="HiddenRecordADATAPagamento" value="' + a_datapagamento + '">' +
             '</td>' +
-            '<td>' + ServicosTipoServico + '</td>' +
+            '<td class="nome">' + ServicosTipoServico + '</td>' +
             '<td>' + str + '</td>' +
             '<td>' + ServicosQuantidade + '</td>' +
             '<td><input type="number" class="smNumInput" value="' + ServicosUnidades + '"></td>' +
             '<td><input type="number"  class="smNumInput" min="0" step=0.01 value="' + ServicosMargem + '">%</td>' +
-            '<td>' + 0 + '</td>' +
+            '<td class="total">' + 0 + '</td>' +
             '<td>' + 0 + '</td>' +
             '<td>' + 0 + '</td>' +
             '<td>' + 0 + '</td>' +
@@ -965,7 +1151,8 @@ function preencherTabelaDiariasLoading(data) {
         $(RefAux).after(htmlRec);
 
 
-        $("#DiariaVerRecords tr:last").after('<tr><td>' + DiariaFornecedor + '</br>' + '-' + dataInput2 +
+        $("#DiariaVerRecords tr:last").after('<tr class="fornecedoridv">' +
+            '<td>' + DiariaFornecedor + '</br>' + '-' + dataInput2 +
              '<input type="hidden" class="HiddenRecordId" value="' + DiariaID + '">' +
              '<input type="hidden" class="HiddenRecordIdFornecedor" value="' + fornecedoridv + '">' +
              '<input type="hidden" class="HiddenRecordCambioIdv" value="' + cambioidv + '">' +
@@ -979,9 +1166,18 @@ function preencherTabelaDiariasLoading(data) {
              '<input type="hidden" class="HiddenRecordAPagamento" value="' + a_pagamento + '">' +
              '<input type="hidden" class="HiddenRecordADATAPagamento" value="' + a_datapagamento + '">' +
              '<input type="hidden" class="HiddenRecordADATA" value="' + ConvertDateForSend(DataDoRecord) + '">' +
-            '</td><td>' + DiariaNomeServico + '</td><td>' + str + '</td><td>' + DiariaQuantidade + '</td>' +
-            '<td><input type="number" class="smNumInput" value="' + DiariaUnidade + '"></td><td><input type="number"  class="smNumInput" min="0" step=0.01 value="' + DiariaMargem + '">%</td>' +
-            '<td>' + DiariaTotalPvp + '</td><td>' + DiariaTotalPAXPvp + '</td><td>' + 0 + '</td><td>' + 0 + '</td><td>' + 0 + '</td><td>' + '<img class="InfoObs" src="' + res4 + '" alt="Guardar">' + '</td><td class="OpIcons">' +
+            '</td>' +
+            '<td class="nome">' + DiariaNomeServico + '</td>' +
+            '<td>' + str + '</td>' +
+            '<td>' + DiariaQuantidade + '</td>' +
+            '<td><input type="number" class="smNumInput" value="' + DiariaUnidade + '"></td>' +
+            '<td><input type="number"  class="smNumInput" min="0" step=0.01 value="' + DiariaMargem + '">%</td>' +
+            '<td class="total">' + DiariaTotalPvp + '</td>' +
+            '<td>' + DiariaTotalPAXPvp + '</td>' +
+            '<td>' + 0 + '</td>' +
+            '<td>' + 0 + '</td>' +
+            '<td>' + 0 + '</td>' +
+            '<td>' + '<img class="InfoObs" src="' + res4 + '" alt="Guardar">' + '</td><td class="OpIcons">' +
             '<img class=" " src="' + res + '" alt="saved"><img class="SaveRecAloj" src="' + res2 + '" alt="Guardar"><img class="rmvRecord" src="' + res3 + '" alt="remover">' +
             '</td></tr>');
 
@@ -1057,12 +1253,12 @@ function preencherTabelaVoosLoading(data) {
              '<input type="hidden" class="HiddenRecordCOMISSAO" value="' + COMISSAO + '">' +
              '<input type="hidden" class="HiddenRecordADATAPagamento" value="' + a_datapagamento + '">' +
              '<input type="hidden" class="HiddenRecordValorCambio" value="' + VMoeda + '">' + '</td>' +
-            '<td>' + VoosPartida + '-' + VoosDestino + '</td>' +
+            '<td class="name">' + VoosPartida + '-' + VoosDestino + '</td>' +
             '<td>' + str + '</td>' +
             '<td>' + DISPONIBILIDADE + '</td>' +
             '<td><input type="number" class="smNumInput" value="' + VoosNLugares + '"></td>' +
             '<td><input type="number"  class="smNumInput" min="0" step=0.01 value="' + VoosMargemVenda + '">%</td>' +
-            '<td>' + 0 + '</td>' +
+            '<td class="preco">' + 0 + '</td>' +
             '<td>' + 0 + '</td>' +
             '<td>' + 0 + '</td>' +
             '<td>' + 0 + '</td>' +
@@ -1699,13 +1895,13 @@ function RefreshAlojTableDias() {
                     '<td rowspan="' + tipologias.length + '">' + NomeHotel +
                         '<input type="hidden" class="HiddenRecordId" value="' + fornecedorId + "." + NomeTipo + '">' +
                         '<input type="hidden" class="HiddenRecordIdFornecedor" value="' + 0 + '">' +
-                    '<td>' + NomeTipo +
+                    '<td  class="nameservico">' + NomeTipo +
                         '<input type="hidden" class="HiddenRecordQuartoIdv" value="' + cap + '">' +
                     '</td>' +
                     '<td >' + totalQuartos + '</td>' +
                     '<td>' + tdValor + '</td>' +
                     '<td><input type="number"  class="smNumInput" min="0" step=0.01 value="' + margem + '"></td>' +
-                    '<td>' + parseFloat(0) + '</td>' +
+                    '<td  class="TotalPvP">' + parseFloat(0) + '</td>' +
                     '<td>' + parseFloat(0) + '</td>' +
                     '<td>' + parseFloat(0) + '</td>' +
                     '<td>' + parseFloat(0) + '</td>' +
@@ -1714,7 +1910,7 @@ function RefreshAlojTableDias() {
             }
             else {
                 $("#AlojamentoRecords tr:last").after('<tr class="' + fornecedorId + " " + NomeTipo + '">' +
-                    '<td>' + NomeTipo +
+                    '<td  class="nameservico">' + NomeTipo +
                         '<input type="hidden" class="HiddenRecordId" value="' + fornecedorId + "." + NomeTipo + '">' +
                         '<input type="hidden" class="HiddenRecordQuartoIdv" value="' + cap + '">' +
                     '</td>' +
@@ -1722,7 +1918,7 @@ function RefreshAlojTableDias() {
                     '</td>' +
                     '<td>' + tdValor + '</td>' +
                     '<td><input type="number"  class="smNumInput" min="0" step=0.01 value="' + margem + '"></td>' +
-                    '<td>' + parseFloat(0) + '</td>' +
+                    '<td  class="TotalPvP">' + parseFloat(0) + '</td>' +
                     '<td>' + parseFloat(0) + '</td>' +
                     '<td>' + parseFloat(0) + '</td>' +
                     '<td>' + parseFloat(0) + '</td>' +
@@ -1730,14 +1926,14 @@ function RefreshAlojTableDias() {
                     '</tr>');
 
                 $("#AlojamentoVerRecords tr:last").after('<tr class="' + fornecedorId + " " + NomeTipo + '">' +
-                    '<td>' + NomeTipo +
+                    '<td  class="nameservico">' + NomeTipo +
                         '<input type="hidden" class="HiddenRecordId" value="' + fornecedorId + "." + NomeTipo + '">' +
                         '<input type="hidden" class="HiddenRecordQuartoIdv" value="' + cap + '">' +
                     '</td>' +
                     '<td>' + totalQuartos + '</td>' +
                     '<td>' + tdValor + '</td>' +
                     '<td><input type="number"  class="smNumInput" min="0" step=0.01 value="' + margem + '"></td>' +
-                    '<td>' + parseFloat(0) + '</td>' +
+                    '<td  class="TotalPvP">' + parseFloat(0) + '</td>' +
                     '<td>' + parseFloat(0) + '</td>' +
                     '<td>' + parseFloat(0) + '</td>' +
                     '<td>' + parseFloat(0) + '</td>' +
@@ -3431,7 +3627,7 @@ function activator() {
     }
 
 }
-$(document).ready(function () {
+$(document).ready(function (){
 
     $("#accordion").accordion({
         heightStyle: "content"
@@ -3507,6 +3703,7 @@ $(document).ready(function () {
     });
 
     $('body').on('change', '.smNumInput', function () {
+        insertTabelaFornecedores();
 
         var FiredInput = $(this).parent().parent();
         var row = $(FiredInput).children();

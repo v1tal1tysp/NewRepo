@@ -690,7 +690,7 @@ svg .icon {
       background-color: green;
 }
 .ListaDividas tr:nth-child(1){
-      background-color: red;
+      background-color: #ed4337;
 }
 
 .AddBtnPagamento{

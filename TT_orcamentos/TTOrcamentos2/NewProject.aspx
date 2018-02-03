@@ -812,9 +812,6 @@
                                     <th>Nome de Fornecedor</th>
                                     <th>Lista Despesas</th>
                                     <th>Total a Dever</th>
-                                    <th>Lista Pagamentos</th>
-                                    <th>Total Pago</th>
-                                    <th>Pago em %</th>
                                 </tr>
                                 <tr>
                                     <td>Vorwerk</td>
@@ -845,26 +842,7 @@
                                         </table>
                                     </td>
                                     <td>705</td>
-                                    <td>
-                                        <table class="ListaDPagamentos">
-                                            <tbody>
-                                                <tr>
-                                                    <th>Notas Pagamento <button  type="button" class="AddBtnPagamento" style="padding: 0px"><img class="AddPagamento" src="img\add_btn.png" alt="Guardar"/></button></th>
-                                                    <th>Valor</th>
-                                                    <th>Data</th>
-                                                    <th>Recibo</th>
-                                                </tr>
-                                                <tr>
-                                                    <td>Notas Pagamento 1</td>
-                                                    <td>705</td>
-                                                    <td>Data</td>
-                                                    <td>Anexo</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </td>
-                                    <td>705</td>
-                                    <td>100%</td>
+     
                                 </tr>
                                 <tr>
                                     <td>Teste</td>
@@ -895,26 +873,7 @@
                                         </table>
                                     </td>
                                     <td>705</td>
-                                    <td>
-                                        <table class="ListaDPagamentos">
-                                            <tbody>
-                                                <tr>
-                                                    <th>Notas Pagamento <button  type="button" class="AddBtnPagamento" style="padding: 0px"><img class="AddIcon" src="img\add_btn.png" alt="Guardar"/></button></th>
-                                                    <th>Valor</th>
-                                                    <th>Data</th>
-                                                    <th>Recibo</th>
-                                                </tr>
-                                                <tr>
-                                                    <td>Notas Pagamento 1</td>
-                                                    <td>705</td>
-                                                    <td>Data</td>
-                                                    <td>Anexo</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </td>
-                                    <td>705</td>
-                                    <td>100%</td>
+ 
                                 </tr>
                             </tbody>
                         </table>
