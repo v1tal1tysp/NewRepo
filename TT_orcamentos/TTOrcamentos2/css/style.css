@@ -34,6 +34,7 @@ background-color: #e7e7e7;
 .boneco{
     width:25px;
 }
+
 #bg {
   position: fixed; 
   top: 0; 
@@ -510,7 +511,7 @@ div.tab button.active {
     float:left;
     width:30%;
 }
-.AddOrcamentoBtn, .SaveOrcamentoBtn,.AddAlojamento,.AddVoo,.AddDiaria,.AddFornecedor,.AddServicos,.GuardarTipologiaAlojamento,.GuardarOrcamentoAlojamento, .addSaveBtn{
+.AddOrcamentoBtn, .SaveOrcamentoBtn,.AddAlojamento,.AddVoo,.AddDiaria,.AddFornecedor,.AddServicos,.GuardarTipologiaAlojamento,.GuardarOrcamentoAlojamento,.BtnAddNotas, .addSaveBtn{
     font-size: 16px;
     margin-top: 20px;
     margin-bottom: 10px;
@@ -694,7 +695,7 @@ svg .icon {
 }
 
 .AddBtnPagamento{
-    background-color: green;
+    background-color: inherit;
     border: 0px;
 }
 

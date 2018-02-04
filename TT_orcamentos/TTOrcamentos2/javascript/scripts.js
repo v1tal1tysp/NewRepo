@@ -590,7 +590,7 @@ function LoadRecords(idOrca) {
 
     $(".tablinks").css("display", "block");
     $(".ProjectMenu button").css("display", "block");
-
+    insertTabelaFornecedores();
 }
 
 function readtableAlojReport() {
@@ -817,62 +817,100 @@ function readtableServicosReport() {
 
 function insertTabelaFornecedores() {
     $("#FornecedoresRecords").find("tr:gt(0)").remove();
+    var arra = [];
+
+
     var Alojamentos = readtableAlojReport();
-
+    arra = Alojamentos;
     var Voos = readtableVoosReport();
-
+    arra = $.merge(arra, Voos);
     var Diarias = readtableDiariasReport();
-
+    arra = $.merge(arra, Diarias);
     var Servicos = readtableServicosReport();
+    arra = $.merge(arra, Servicos);
+    var nerarr = [];
+    $.each(arra, function (index, obj) {
+        nerarr.push(obj.Fornecedor);
+    });
+    nerarr = jQuery.unique(nerarr);
+    var finalArr = [];
+    $.each(nerarr, function (ind, name) {
 
-    
+        var servicos = [];
+        var t;
+        var total = 0;
+        $.each(arra, function (index, obj) {
+            if (obj.Fornecedor === name) {
+                t = obj;
+                $.merge(servicos, obj.servicos);
+                total =total + obj.total;
+            }
 
-    $.each(Alojamentos, function (index, obj) {
-        var text;
-        $.each(obj.servicos, function (index, servico) {
-            text += servico.servico + " : "+servico.valor+"</br>";
         });
+
+        t.servicos = servicos;
+        t.total = total;
+
+        finalArr.push(t);
+    });
+
+
+    var table = "<div class='ReportDiv'>Inserir nota<button  type='button' class='AddBtnPagamento' style=«'padding: 0px'><img class='AddPagamento' src='" + res5 + "' alt='Anexar Nota'></button></div>"+
+                    "<div class='ListContainer'>" +
+                    "<ul class='ListNotas'></ul>"+
+                    "</div>";
+
+    $.each(finalArr, function (index, obj) {
+        var text = "";
+        $.each(obj.servicos, function (index, servico) {
+            text += servico.servico + " : " + parseFloat(servico.valor).formatMoney(2, '.', ',') + "</br>";
+        });
+
         $("#FornecedoresRecords tr:last").after('<tr>' +
             '<td>' + obj.Fornecedor + '</td>' +
             '<td>' + text + '</td>' +
             '<td>' + parseFloat(obj.total).formatMoney(2, '.', ',') + '</td>' +
+            '<td>' + table + '</td>' +
             '</tr>');
     });
 
-    $.each(Voos, function (index, obj) {
-        var text;
+   /* $.each(Voos, function (index, obj) {
+        var text = "";
         $.each(obj.servicos, function (index, servico) {
-            text += servico.servico + " : " + servico.valor + "</br>";
+            text += servico.servico + " : " + parseFloat(servico.valor).formatMoney(2, '.', ',') + "</br>";
         });
          $("#FornecedoresRecords tr:last").after('<tr>' +
              '<td>' + obj.Fornecedor + '</td>' +
              '<td>' + text + '</td>' +
              '<td>' + parseFloat(obj.total).formatMoney(2, '.', ',') + '</td>' +
+             '<td>' + table + '</td>' +
              '</tr>');
      
     });
     $.each(Diarias, function (index, obj) {
-        var text;
+        var text = "";
         $.each(obj.servicos, function (index, servico) {
-            text += servico.servico + " : " + servico.valor + "</br>";
+            text += servico.servico + " : " + parseFloat(servico.valor).formatMoney(2, '.', ',') + "</br>";
         });
         $("#FornecedoresRecords tr:last").after('<tr>' +
             '<td>' + obj.Fornecedor + '</td>' +
             '<td>' + text + '</td>' +
             '<td>' + parseFloat(obj.total).formatMoney(2, '.', ',') + '</td>' +
+            '<td>' + table + '</td>' +
             '</tr>');
     });
     $.each(Servicos, function (index, obj) {
-        var text;
+        var text = "";
         $.each(obj.servicos, function (index, servico) {
-            text += servico.servico + " : " + servico.valor + "</br>";
+            text += servico.servico + " : " + parseFloat(servico.valor).formatMoney(2, '.', ',') + "</br>";
         });
         $("#FornecedoresRecords tr:last").after('<tr>' +
             '<td>' + obj.Fornecedor + '</td>' +
             '<td>' + text + '</td>' +
             '<td>' + parseFloat(obj.total).formatMoney(2, '.', ',') + '</td>' +
+            '<td>' + table + '</td>' +
             '</tr>');
-    });
+    });*/
 }
 function InsertTableAlojamentoHotel(hotelname, valueID) {
     var num_tabs = $("#tabs#tabs ul li").length + 1;
@@ -3148,6 +3186,15 @@ $("#AddVoo").click(function () {
     sendVoo(data, false);
 
 });
+
+
+$(".BtnAddNotas").click(function () {
+    var tr = $(this).parent().parent().parent();
+
+
+
+
+});
 $(".AddFornecedor").click(function () {
 
 
@@ -3702,6 +3749,7 @@ $(document).ready(function (){
 
     });
 
+    
     $('body').on('change', '.smNumInput', function () {
         insertTabelaFornecedores();
 

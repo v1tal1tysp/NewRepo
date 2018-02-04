@@ -812,34 +812,12 @@
                                     <th>Nome de Fornecedor</th>
                                     <th>Lista Despesas</th>
                                     <th>Total a Dever</th>
+                                    <th>Notas de Pagamento</th>
                                 </tr>
                                 <tr>
                                     <td>Vorwerk</td>
                                     <td>
-                                        <table class="ListaDividas">
-                                            <tbody>
-                                                <tr>
-                                                    <th>Notas Pagamento</th>
-                                                    <th>Data</th>
-                                                    <th>Valor</th>
-                                                </tr>
-                                                <tr>
-                                                    <td>Notas Pagamento 1</td>
-                                                    <td>data1</td>
-                                                    <td>55</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Notas Pagamento 2</td>
-                                                    <td>data2</td>
-                                                    <td>550</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Notas Pagamento 3</td>
-                                                    <td>data3</td>
-                                                    <td>100</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+
                                     </td>
                                     <td>705</td>
      
@@ -914,7 +892,7 @@
                                     <div class="row">
 
                                         <div class="col-lg-4">
-                                            <button  type="button" class="AddFornecedor" id="TabelaFornecedor">Adicionar Pagamento</button>
+                                            <button  type="button" class="BtnAddNotas" id="BtnAddNotas">Adicionar Pagamento</button>
                                             <img class="FornecedorCheck" src="img\check.png" alt="Guardar"/>
                                             <img class="FornecedorError" src="img\remove.png" alt="Guardar"/>
                                         </div>
