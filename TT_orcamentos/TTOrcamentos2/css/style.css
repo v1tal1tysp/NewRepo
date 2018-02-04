@@ -511,7 +511,10 @@ div.tab button.active {
     float:left;
     width:30%;
 }
-.AddOrcamentoBtn, .SaveOrcamentoBtn,.AddAlojamento,.AddVoo,.AddDiaria,.AddFornecedor,.AddServicos,.GuardarTipologiaAlojamento,.GuardarOrcamentoAlojamento,.BtnAddNotas, .addSaveBtn{
+.BtnReportGenerate {
+float:right;
+}
+.AddOrcamentoBtn, .SaveOrcamentoBtn,.AddAlojamento,.AddVoo,.AddDiaria,.AddFornecedor,.AddServicos,.GuardarTipologiaAlojamento,.GuardarOrcamentoAlojamento,.BtnAddNotas,.BtnReportGenerate, .addSaveBtn{
     font-size: 16px;
     margin-top: 20px;
     margin-bottom: 10px;

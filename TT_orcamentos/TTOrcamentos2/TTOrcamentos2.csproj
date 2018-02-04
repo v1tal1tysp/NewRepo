@@ -305,6 +305,7 @@
     <Compile Include="Model\Orcamentos.cs" />
     <Compile Include="Model\ProjectoTT.cs" />
     <Compile Include="Model\Quartos.cs" />
+    <Compile Include="Model\ReportFornecedores.cs" />
     <Compile Include="Model\ServicosTT_Tipos.cs" />
     <Compile Include="Model\ServicoTT.cs" />
     <Compile Include="Model\stringUtil.cs" />

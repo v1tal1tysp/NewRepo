@@ -590,7 +590,7 @@ function LoadRecords(idOrca) {
 
     $(".tablinks").css("display", "block");
     $(".ProjectMenu button").css("display", "block");
-    insertTabelaFornecedores();
+    
 }
 
 function readtableAlojReport() {
@@ -815,6 +815,9 @@ function readtableServicosReport() {
     return ListaJson;
 }
 
+$("#BtnReportGenerate").click(function () {
+    insertTabelaFornecedores();
+});
 function insertTabelaFornecedores() {
     $("#FornecedoresRecords").find("tr:gt(0)").remove();
     var arra = [];
@@ -835,7 +838,6 @@ function insertTabelaFornecedores() {
     nerarr = jQuery.unique(nerarr);
     var finalArr = [];
     $.each(nerarr, function (ind, name) {
-
         var servicos = [];
         var t;
         var total = 0;
@@ -845,12 +847,9 @@ function insertTabelaFornecedores() {
                 $.merge(servicos, obj.servicos);
                 total =total + obj.total;
             }
-
         });
-
         t.servicos = servicos;
         t.total = total;
-
         finalArr.push(t);
     });
 
@@ -873,44 +872,6 @@ function insertTabelaFornecedores() {
             '<td>' + table + '</td>' +
             '</tr>');
     });
-
-   /* $.each(Voos, function (index, obj) {
-        var text = "";
-        $.each(obj.servicos, function (index, servico) {
-            text += servico.servico + " : " + parseFloat(servico.valor).formatMoney(2, '.', ',') + "</br>";
-        });
-         $("#FornecedoresRecords tr:last").after('<tr>' +
-             '<td>' + obj.Fornecedor + '</td>' +
-             '<td>' + text + '</td>' +
-             '<td>' + parseFloat(obj.total).formatMoney(2, '.', ',') + '</td>' +
-             '<td>' + table + '</td>' +
-             '</tr>');
-     
-    });
-    $.each(Diarias, function (index, obj) {
-        var text = "";
-        $.each(obj.servicos, function (index, servico) {
-            text += servico.servico + " : " + parseFloat(servico.valor).formatMoney(2, '.', ',') + "</br>";
-        });
-        $("#FornecedoresRecords tr:last").after('<tr>' +
-            '<td>' + obj.Fornecedor + '</td>' +
-            '<td>' + text + '</td>' +
-            '<td>' + parseFloat(obj.total).formatMoney(2, '.', ',') + '</td>' +
-            '<td>' + table + '</td>' +
-            '</tr>');
-    });
-    $.each(Servicos, function (index, obj) {
-        var text = "";
-        $.each(obj.servicos, function (index, servico) {
-            text += servico.servico + " : " + parseFloat(servico.valor).formatMoney(2, '.', ',') + "</br>";
-        });
-        $("#FornecedoresRecords tr:last").after('<tr>' +
-            '<td>' + obj.Fornecedor + '</td>' +
-            '<td>' + text + '</td>' +
-            '<td>' + parseFloat(obj.total).formatMoney(2, '.', ',') + '</td>' +
-            '<td>' + table + '</td>' +
-            '</tr>');
-    });*/
 }
 function InsertTableAlojamentoHotel(hotelname, valueID) {
     var num_tabs = $("#tabs#tabs ul li").length + 1;
@@ -1032,8 +993,7 @@ function preencherTabelaServicosLoading(data) {
             str = ServicosValor + '/<span class="CurrencyRed">' + ServicosMoedaName + '</span>' + '</br>' + (ServicosValor / ServicosMoedaCompra).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>';
         }
 
-        //insertTabelaFornecedores(ServicosFornecedorID, ServicosFornecedor, ServicosTipoServico, ValorTotal);
-
+        
         $("#ServicosRecords tr:last").after('<tr class="' + servicoID + '">' +
             '<td>' + ServicosFornecedor + '<input type="hidden" class="HiddenRecordId" value="' + servicoID + '">' +
                         '<input type="hidden" class="HiddenRecordIdFornecedor" value="' + ServicosFornecedorID + '">' +
@@ -1162,7 +1122,7 @@ function preencherTabelaDiariasLoading(data) {
         else {
             str = DiariaValor + '/<span class="CurrencyRed">' + DiariaMoedaName + '</span>' + '</br>' + (DiariaValor / DiariaCambioValor).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>';
         }
-        //insertTabelaFornecedores(fornecedoridv, DiariaFornecedor, DiariaNomeServico, ValorTotal);
+
 
         RefAux += " tr:last";
         var htmlRec = '<tr class="' + DiariaID + '" ><td>' + DiariaFornecedor + '-' + DiariaAuxDia +
@@ -1272,7 +1232,7 @@ function preencherTabelaVoosLoading(data) {
         else {
             str = VoosValor + '/<span class="CurrencyRed">' + VoosMoedaName + '</span>' + '</br>' + (VoosValor / VMoeda).formatMoney(2, '.', ',') + '/<span class="Currency">EUR</span>';
         }
-        //insertTabelaFornecedores(fornecedoridv, VoosFornecedor, VoosPartida + '-' + VoosDestino, valorTotal);
+
 
         /*ciclos*/
         $('#VoosRecords tr:last').after('<tr class="'+id+'">' +
@@ -3005,6 +2965,7 @@ function sicronizeTables(Tabela, row, inId) {
 
 }
 
+
 $("#PrintThisExcel").click(function () {
     var obj = SaveAllRecords("", true);
    
@@ -3751,8 +3712,6 @@ $(document).ready(function (){
 
     
     $('body').on('change', '.smNumInput', function () {
-        insertTabelaFornecedores();
-
         var FiredInput = $(this).parent().parent();
         var row = $(FiredInput).children();
         var inp = $(row.find("input.HiddenRecordId")).val();

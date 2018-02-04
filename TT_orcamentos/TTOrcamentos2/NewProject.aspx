@@ -805,7 +805,8 @@
                 </div>
 <!-- Report fornecedores-->
                 <div id="Report" class="tabcontent">
-                    <div class="TitleTabela">Report Fornecedores</div>
+                    <div class="TitleTabela">Report Fornecedores                     <button class="BtnReportGenerate" type="button" id="BtnReportGenerate">Gerar Report</button></div>
+
                     <table class="" id="FornecedoresRecords">
                             <tbody>
                                 <tr>
