@@ -453,9 +453,11 @@ div.tab button.active {
     width: 30%;
     height: auto;
 }
-.tablinks:not(:first-child){
+.ProjectLeftMenu .tablinks:not(:first-child){
     display: none;
 }
+
+
 .ProjectMenu button{
     display: none
 }
@@ -466,16 +468,15 @@ div.tab button.active {
 
 
 .TitleTabela{
-        
-        margin-top: 20px;
-       margin-bottom: 10px;
-           font-size: 31px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 31px;
 }
+
 .TitleDefinition{
-        
-        margin-top: 20px;
-       margin-bottom: 10px;
-           font-size: 21px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 21px;
 }
 .LabelOrcamento{
     float: right;
@@ -707,7 +708,7 @@ svg .icon {
 }
 
 
-#AlojamentoRecords,#VoosRecords,.DiariaTables,#FornecedoresRecords, #ServicosRecords, #AlojamentoVerRecords, #ListaOrcamentos, #VoosVerRecords, #DiariaVerRecords, #ServicosVerRecords, #Listaprojectos{
+#Historico , #Listafornecedores , #AlojamentoRecords,#VoosRecords,.DiariaTables,#FornecedoresRecords, #ServicosRecords, #AlojamentoVerRecords, #ListaOrcamentos, #VoosVerRecords, #DiariaVerRecords, #ServicosVerRecords, #Listaprojectos{
     width: 100%;
 }
 th {

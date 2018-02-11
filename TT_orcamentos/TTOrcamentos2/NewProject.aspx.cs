@@ -18,6 +18,8 @@ namespace TT_orcamentos
             {
 
                 loadPageAux();
+                var usernjson = JsonConvert.SerializeObject(t);
+                CurrentuserHidden.Value = usernjson;
 
                 string projectid = Request.QueryString["ID"];
                 string orcamento = Request.QueryString["IDorc"];
@@ -43,10 +45,8 @@ namespace TT_orcamentos
                     OrcamentosHidden.Value = jsonOrcamentos;
 
 
-
-                   
-
-
+                    var logs = ProjectLog.GetAll(projectid);
+                    HiddenLog.Value = JsonConvert.SerializeObject(logs);
 
                     if (orcamento != null)
                     {
@@ -83,6 +83,7 @@ namespace TT_orcamentos
 
         private void loadPageAux()
         {
+
 
             var estados = Estado.GetAll();
             BundleConfigs.Value = JsonConvert.SerializeObject(estados);

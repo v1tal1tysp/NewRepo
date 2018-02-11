@@ -117,6 +117,17 @@ namespace TT_orcamentos
                 if(parrent == "0" || parrent == null)
                 {
                     nlista.Add(orcamento);
+                    string parrentorcaid = t.ToString();
+                    //ObjectId parrentObj = new ObjectId(parrent);
+                    var filter1 = Builders<Orcamentos>.Filter.Where(x => x.parrentorcamentoidv == parrentorcaid);
+
+                    var orcamentoList = DB.Orcamentos.Find(filter1).ToList();
+                    foreach (var item in orcamentoList)
+                    {
+                        nlista.Add(item);
+                    }
+
+                    
                     return nlista;
                 }
                 else

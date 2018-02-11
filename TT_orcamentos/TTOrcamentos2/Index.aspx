@@ -35,9 +35,10 @@
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="#">Lista de Orçamentos <span class="sr-only">(current)</span></a></li>
                     <li><a href="NewProject.aspx">Novo Projeto</a></li>
+                    <li><a href="FornecedoresIndex.aspx">Fornecedores</a></li>
                 </ul>
                 <ul class="nav navbar-nav" style="float:right;">
-                    <li><a href="Config.html">Configuraçoes</a></li>
+                    <li><a href="Config.aspx">Configuraçoes</a></li>
                     <li><a href="#">Sair</a></li>
                 </ul>
             </div>

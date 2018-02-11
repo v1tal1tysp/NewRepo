@@ -192,6 +192,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Config.aspx" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
@@ -202,6 +203,8 @@
     <Content Include="css\DataTables.css" />
     <Content Include="css\style.css" />
     <Content Include="fonts\Roboto-Regular.ttf" />
+    <Content Include="FornecedorDetail.aspx" />
+    <Content Include="FornecedoresIndex.aspx" />
     <Content Include="img\add_btn.png" />
     <Content Include="img\arrow_down.png" />
     <Content Include="img\background.jpg" />
@@ -217,6 +220,7 @@
     <Content Include="img\SaveIcn.png" />
     <Content Include="img\setting.png" />
     <Content Include="Index.aspx" />
+    <Content Include="javascript\ScriptsFornecedor.js" />
     <Content Include="login.aspx" />
     <Content Include="NewProject.aspx" />
     <Content Include="favicon.ico" />
@@ -249,7 +253,28 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Config.aspx.cs">
+      <DependentUpon>Config.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Config.aspx.designer.cs">
+      <DependentUpon>Config.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\PostmanController.cs" />
+    <Compile Include="FornecedorDetail.aspx.cs">
+      <DependentUpon>FornecedorDetail.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FornecedorDetail.aspx.designer.cs">
+      <DependentUpon>FornecedorDetail.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FornecedoresIndex.aspx.cs">
+      <DependentUpon>FornecedoresIndex.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FornecedoresIndex.aspx.designer.cs">
+      <DependentUpon>FornecedoresIndex.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -303,6 +328,7 @@
     <Compile Include="Model\Fornecedor.cs" />
     <Compile Include="Model\Ivas.cs" />
     <Compile Include="Model\Orcamentos.cs" />
+    <Compile Include="Model\ProjectLog.cs" />
     <Compile Include="Model\ProjectoTT.cs" />
     <Compile Include="Model\Quartos.cs" />
     <Compile Include="Model\ReportFornecedores.cs" />

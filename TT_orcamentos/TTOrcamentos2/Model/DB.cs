@@ -35,6 +35,9 @@ namespace TTOrcamentos2.Model {
         static public IMongoCollection<Alojamento> Alojamento { get; set; } = Database.GetCollection<Alojamento>("Alojamento");
         static public IMongoCollection<ReportFornecedores> ReportFornecedores { get; set; } = Database.GetCollection<ReportFornecedores>("ReportFornecedores");
 
+        static public IMongoCollection<ProjectLog> ProjectLog { get; set; } = Database.GetCollection<ProjectLog>("ProjectLog");
+
         
+
     }
 }

@@ -114,6 +114,29 @@ namespace TTOrcamentos2.Model {
             }
         }
 
+
+        public static List<dynamic> GetAllIndex()
+        {
+            List<dynamic> lista = new List<dynamic>();
+            try
+            {
+                var filter = Builders<Fornecedor>.Filter.Empty;
+                var nlt = DB.Fornecedor.Find(filter).ToList();
+
+                foreach (var item in nlt)
+                {
+                    lista.Add(item);
+                }
+
+                return lista;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Erro search Fornecedor" + e.ToString());
+            }
+        }
+
+
         public static Fornecedor Get(string Id)
         {
             try

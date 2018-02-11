@@ -362,7 +362,9 @@ namespace TTOrcamentos2.Controllers
 
             if (ProjectoTT.Insert(Projecto, out id))
             {
+
                 return id;
+
             }
             return id;
                    
@@ -688,6 +690,44 @@ namespace TTOrcamentos2.Controllers
 
 
 
+        [HttpPost]
+        [Route("api/Postman/InsertReport")]
+        public string InsertReport(JObject report)
+        {
+            var reportid = report.GetValue("myArray");
+            foreach (var item in reportid)
+            {
+                //var reportid = item.GetValue("Id");
+
+                ReportFornecedores Projecto = item.ToObject<ReportFornecedores>();
+
+                if (ReportFornecedores.Insert(Projecto))
+                {
+                    
+                }
+
+            }
+            return "ok";
+            
+
+        }
+
+
+        [HttpPost]
+        [Route("api/Postman/InsertLog")]
+        public string InsertLog(JObject report)
+        {
+            ProjectLog Projecto = report.ToObject<ProjectLog>();
+
+            if (ProjectLog.Insert(Projecto))
+            {
+
+            }
+
+            return "ok";
+
+
+        }
 
 
 
@@ -695,7 +735,7 @@ namespace TTOrcamentos2.Controllers
         [Route("api/Postman/InsertVoos")]
         public Voos InsertVoos(JObject voo)
         {
-            
+
             var projecto = voo.GetValue("Id");
             Voos Projecto = voo.ToObject<Voos>();
 
@@ -708,6 +748,7 @@ namespace TTOrcamentos2.Controllers
 
 
         }
+
 
         [HttpPost]
         [Route("api/Postman/InsertDiaria")]

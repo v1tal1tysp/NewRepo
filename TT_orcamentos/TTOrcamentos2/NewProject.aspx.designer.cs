@@ -103,6 +103,24 @@ namespace TT_orcamentos {
         protected global::System.Web.UI.WebControls.HiddenField HiddenTipoFornecedor;
         
         /// <summary>
+        /// CurrentuserHidden control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField CurrentuserHidden;
+        
+        /// <summary>
+        /// HiddenLog control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField HiddenLog;
+        
+        /// <summary>
         /// ProjectoHidden control.
         /// </summary>
         /// <remarks>

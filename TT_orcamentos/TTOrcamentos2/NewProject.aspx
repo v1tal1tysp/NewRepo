@@ -41,10 +41,10 @@
                     <ul class="nav navbar-nav">
                         <li><a href="index.aspx">Lista de Files <span class="sr-only">(current)</span></a></li>
                         <li class="active"><a href="#">File</a></li>
-                        <li><a href="#">Fornecedores</a></li>
+                        <li><a href="FornecedoresIndex.aspx">Fornecedores</a></li>
                     </ul>
                     <ul class="nav navbar-nav" style="float:right;">
-                        <li><a href="Config.html">Configuraçoes</a></li>
+                        <li><a href="Config.aspx">Configuraçoes</a></li>
                         <li><a href="#">Sair</a></li>
                     </ul>
                 </div>
@@ -59,9 +59,9 @@
         <asp:HiddenField ID="HiddenPaises" runat="server" />
         <asp:HiddenField ID="HiddenServicosTTTipos" runat="server" />
         <asp:HiddenField ID="BundleConfigs" runat="server" />
-         <asp:HiddenField ID="HiddenTipoFornecedor" runat="server" />
-
-        
+        <asp:HiddenField ID="HiddenTipoFornecedor" runat="server" />
+        <asp:HiddenField ID="CurrentuserHidden" runat="server" />
+        <asp:HiddenField ID="HiddenLog" runat="server" />
 
         <div class="ProjectForm">
 <!-- Menu.-->
@@ -805,7 +805,7 @@
                 </div>
 <!-- Report fornecedores-->
                 <div id="Report" class="tabcontent">
-                    <div class="TitleTabela">Report Fornecedores                     <button class="BtnReportGenerate" type="button" id="BtnReportGenerate">Gerar Report</button></div>
+                    <div class="TitleTabela">Report Fornecedores <button class="BtnReportGenerate" type="button" id="BtnReportGenerate">Gerar Report</button></div>
 
                     <table class="" id="FornecedoresRecords">
                             <tbody>
@@ -815,49 +815,23 @@
                                     <th>Total a Dever</th>
                                     <th>Notas de Pagamento</th>
                                 </tr>
-                                <tr>
-                                    <td>Vorwerk</td>
-                                    <td>
-
-                                    </td>
-                                    <td>705</td>
-     
-                                </tr>
-                                <tr>
-                                    <td>Teste</td>
-                                    <td>
-                                        <table class="ListaDividas">
-                                            <tbody>
-                                                <tr>
-                                                    <th>Notas Pagamento</th>
-                                                    <th>Data</th>
-                                                    <th>Valor</th>
-                                                </tr>
-                                                <tr>
-                                                    <td>Notas Pagamento 1</td>
-                                                    <td>data1</td>
-                                                    <td>55</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Notas Pagamento 2</td>
-                                                    <td>data2</td>
-                                                    <td>550</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Notas Pagamento 3</td>
-                                                    <td>data3</td>
-                                                    <td>100</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </td>
-                                    <td>705</td>
- 
-                                </tr>
                             </tbody>
                         </table>
                 </div>
                 <div id="History" class="tabcontent">
+                    <div class="TitleTabela">Historico</div>
+
+                    <table id="Historico">
+                        <tbody>
+                            <tr>
+                                <th>Utilizador</th>
+                                <th>Ação</th>
+                                <th>Data</th>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    
                 </div>
 <!--Pop Ups-->
                 <div id="NovoPagamento" class="modal">
