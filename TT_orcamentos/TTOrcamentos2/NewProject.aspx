@@ -62,6 +62,8 @@
         <asp:HiddenField ID="HiddenTipoFornecedor" runat="server" />
         <asp:HiddenField ID="CurrentuserHidden" runat="server" />
         <asp:HiddenField ID="HiddenLog" runat="server" />
+        <asp:HiddenField ID="HiddenpagamentosCliente" runat="server" />
+
 
         <div class="ProjectForm">
 <!-- Menu.-->
@@ -130,7 +132,8 @@
    
                                     </select>
                                 </div>
-                                <label for="example-text-input" class="col-lg-2 col-form-label">Data Entrada:</label>
+                                <label for="DataEntradaProjecto" class="col-lg-2 col-form-label">Data Entrada:</label>
+                                <span id="DataEntradaProjecto"></span>
                             </div>
                             <div class="row">
                                 <label for="example-text-input" class="col-lg-2 col-form-label">Designer</label>
@@ -153,7 +156,7 @@
                                     <textarea class="form-control" id="ProjectDescription" rows="3"></textarea>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row projectoAuxInputs">
 
                                 <div class="col-lg-6">
                                     <button class="AddOrcamentoPe">Adicionar um Pe</button>
@@ -259,9 +262,7 @@
                                         <tr>
                                             <th>Nome</th>
                                             <th>Estado</th>
-                                            <th>Tipo iva</th>
-                                            <th>Iva</th>
-                                            <th>Câmbio</th>
+                                            <th>Valor Custo</th>
                                             <th>Data/Hora</th>
                                             <th>Margem Venda</th>
                                             <th>Markup</th>
@@ -826,7 +827,7 @@
                 </div>
 <!-- Report fornecedores-->
                 <div id="Report" class="tabcontent">
-                    <div class="TitleTabela">Report Fornecedores <button class="BtnReportGenerate" type="button" id="BtnReportGenerate">Gerar Report</button></div>
+                    <div class="TitleTabela">Report Fornecedores <button class="BtnReportGenerate" type="button" id="BtnReportGenerate">Actualizar Report</button></div>
 
                     <table class="" id="FornecedoresRecords">
                             <tbody>
@@ -909,13 +910,13 @@
                                 </div>
                                 <label for="example-text-input" class="col-lg-1 col-form-label">Tipo de Iva</label>
                                 <div class="col-lg-2">
-                                    <select name="Estado" id="OrcamentoTipoIva" class="TipoIVA form-control">
+                                    <select name="Estado" id="PagamentoClienteTipoIva" class="TipoIVA form-control">
 
                                     </select>
                                 </div>
                                 <label for="example-text-input" class="col-lg-1 col-form-label">Iva</label>
                                 <div class="col-lg-2">
-                                    <select name="Estado" id="OrcamentoIva" class="IVA form-control">
+                                    <select name="Estado" id="PagamentoClienteIva" class="IVA form-control">
     
                                     </select>
                                 </div>
@@ -929,7 +930,7 @@
                                 <div class="col-lg-2">
                                     <input type="number" value="0" min="0" step="0.01" class="form-control" id="ValorPagamentoCliente" name="ValorPagamento" />
                                 </div>
-                                <div class="col-lg-1">
+                                <div class="col-lg-2">
                                     <select name="Moeda" id="PagamentoClienteMoedaCompra" class="moneyCtrl form-control">
                                     </select>
                                 </div>
@@ -937,7 +938,7 @@
                             <div class="row">
                                 <label for="example-text-input" class="col-lg-2 col-form-label">Anexo</label>
                                 <div class="col-lg-6">
-                                    <input type="file" class="PagamentoAnexo" id="PagamentoAnexoCliente" name="Anexo" />
+                                    <input type="file" class="PagamentoAnexoCliente" id="PagamentoAnexoCliente" name="Anexo" />
                                 </div>
 
                             </div>
@@ -945,7 +946,7 @@
                             <div class="row">
 
                                 <div class="col-lg-4">
-                                    <button  type="button" class="BtnAddNotas" id="BtnAddNotasCliente">Adicionar Pagamento</button>
+                                    <button  type="button" class="BtnPagamentoClienteNotas" id="BtnPagamentoClienteNotas">Adicionar Pagamento</button>
                                     <img class="FornecedorCheck" src="img\check.png" alt="Guardar"/>
                                     <img class="FornecedorError" src="img\remove.png" alt="Guardar"/>
                                 </div>

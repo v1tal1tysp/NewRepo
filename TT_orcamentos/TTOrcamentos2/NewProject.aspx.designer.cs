@@ -121,6 +121,15 @@ namespace TT_orcamentos {
         protected global::System.Web.UI.WebControls.HiddenField HiddenLog;
         
         /// <summary>
+        /// HiddenpagamentosCliente control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField HiddenpagamentosCliente;
+        
+        /// <summary>
         /// ProjectoHidden control.
         /// </summary>
         /// <remarks>

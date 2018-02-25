@@ -47,6 +47,7 @@
             </nav>
         </div>
         <asp:HiddenField ID="HiddenInfo" runat="server" />
+        <asp:HiddenField ID="HiddenListaDividas" runat="server" />
         <asp:HiddenField ID="HiddenTipoCustos" runat="server" />
         <asp:HiddenField ID="HiddenPaises" runat="server" />
         <asp:HiddenField ID="HiddenTipoFornecedor" runat="server" />
@@ -170,6 +171,17 @@
                 <div id="Despesas" class="tabcontent">
                     <div class="panel-body">
                         <div class="TitleTabela">Despesas</div>
+                        <table class="" id="FornecedoresRecords">
+                            <tbody>
+                                <tr>
+                                    <th>File</th>
+                                    <th>Ano</th>
+                                    <th>Total a Dever</th>
+                                    <th>Notas de Pagamento</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
                     </div>
 
                 </div>

@@ -515,7 +515,7 @@ div.tab button.active {
 .BtnReportGenerate,.BtnAddpagamentoCliente {
 float:right;
 }
-.AddOrcamentoPe, .BtnAddpagamentoCliente, .AddOrcamentoBtn, .SaveOrcamentoBtn,.AddAlojamento,.AddVoo,.AddDiaria,.AddFornecedor,.AddServicos,.GuardarTipologiaAlojamento,.GuardarOrcamentoAlojamento,.BtnAddNotas,.BtnReportGenerate, .addSaveBtn{
+.BtnPagamentoClienteNotas,.AddOrcamentoPe, .BtnAddpagamentoCliente, .AddOrcamentoBtn, .SaveOrcamentoBtn,.AddAlojamento,.AddVoo,.AddDiaria,.AddFornecedor,.AddServicos,.GuardarTipologiaAlojamento,.GuardarOrcamentoAlojamento,.BtnAddNotas,.BtnReportGenerate, .addSaveBtn{
     font-size: 16px;
     margin-top: 20px;
     margin-bottom: 10px;

@@ -48,6 +48,11 @@ namespace TT_orcamentos
                     var logs = ProjectLog.GetAll(projectid);
                     HiddenLog.Value = JsonConvert.SerializeObject(logs);
 
+
+                    var pagamentosCliente = PagamentosCliente.GetAll(projectid);
+                    HiddenpagamentosCliente.Value = JsonConvert.SerializeObject(logs);
+
+
                     if (orcamento != null)
                     {
                         //Alojamento
@@ -73,6 +78,8 @@ namespace TT_orcamentos
                         var jsonservicos = JsonConvert.SerializeObject(servicos);
                         HiddenServicos.Value = jsonservicos;
                     }
+
+
 
     
                 }

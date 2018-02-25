@@ -49,7 +49,7 @@ namespace TT_orcamentos
                         obj.o_datainicio = orc.o_datainicio;
                         obj.pe = orc.pe;
                         obj.o_numeropessoas = orc.o_numeropessoas;
-
+                        obj.Saldo = orc.c_valor;
                         ObjList.Add(obj);
 
                         

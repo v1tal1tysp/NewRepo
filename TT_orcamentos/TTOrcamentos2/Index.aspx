@@ -81,6 +81,7 @@
                                 <asp:TableHeaderCell>Data Início <br /> PAX</asp:TableHeaderCell>
                                 <asp:TableHeaderCell>File Sigav</asp:TableHeaderCell>
                                 <asp:TableHeaderCell>Descrição</asp:TableHeaderCell>
+                                <asp:TableHeaderCell>Saldo</asp:TableHeaderCell>
                             
                             </asp:TableHeaderRow>
 
@@ -172,6 +173,7 @@
 						    "p_nome": el.p_nome,
 						    "o_datainicio": el.o_datainicio,
 						    "o_numeropessoas": el.o_numeropessoas,
+                            "Saldo": el.Saldo,
 
 
 						}
@@ -200,7 +202,7 @@
 					var Sigav = ListaJson[index2]["orcamentos"][index]["Sigav"];
 					var Descri = ListaJson[index2]["orcamentos"][index]["p_descricao"];
 					var ProjectName = ListaJson[index2]["orcamentos"][index]["p_nome"];
-
+					var Saldo = ListaJson[index2]["orcamentos"][index]["Saldo"];
 					var o_datainicio = ConvertDateForOrcamentosTable(ListaJson[index2]["orcamentos"][index]["o_datainicio"]);
 					var o_numeropessoas = ListaJson[index2]["orcamentos"][index]["o_numeropessoas"];
 
@@ -227,7 +229,8 @@
                 			'<td><a href="'+page2+'">'+projectname+'</a></br>'+EstadoOrcamento+'</td>'+
                 			'<td>' + o_datainicio + '</br>' + o_numeropessoas + '</td>' +
                 			'<td>'+Sigav+'</td>'+
-                			'<td>'+Descri+'</td>'+
+                			'<td>' + Descri + '</td>' +
+                            '<td>' + Saldo.formatMoney(2, '.', ',') + '</td>' +
 							'<td class="OpIcons">' +
                     		'<img class="rmvRecord" src="' + res + '" alt="remover">' +
                     		'</td>'+
@@ -238,7 +241,8 @@
                 			'<td><a href="'+page2+'">'+projectname+'</a></br>'+EstadoOrcamento+'</td>'+
 							'<td>' + o_datainicio + '</br>' + o_numeropessoas + '</td>' +
                 			'<td>'+Sigav+'</td>'+
-                			'<td>'+Descri+'</td>'+
+                			'<td>' + Descri + '</td>' +
+                            '<td>' + Saldo.formatMoney(2, '.', ',') + '</td>' +
                 			'</tr>');
 					}
 
@@ -346,6 +350,16 @@
                     window.alert("erro actualizar Cambio")
                 });
         }
+        Number.prototype.formatMoney = function (c, d, t) {
+            var n = this,
+                c = isNaN(c = Math.abs(c)) ? 2 : c,
+                d = d === undefined ? "." : d,
+                t = t === undefined ? "," : t,
+                s = n < 0 ? "-" : "",
+                i = String(parseInt(n = Math.abs(Number(n) || 0).toFixed(c))),
+                j = (j = i.length) > 3 ? j % 3 : 0;
+            return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+        };
 
 </script>
 </body>

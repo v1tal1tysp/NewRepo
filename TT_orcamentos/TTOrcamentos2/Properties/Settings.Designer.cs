@@ -36,7 +36,7 @@ namespace TTOrcamentos2.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("D:\\DownloadDoProjecto\\")]
+        [global::System.Configuration.DefaultSettingValueAttribute("D:\\Projectos\\NewRepo\\Files\\")]
         public string PastaDocumentos {
             get {
                 return ((string)(this["PastaDocumentos"]));

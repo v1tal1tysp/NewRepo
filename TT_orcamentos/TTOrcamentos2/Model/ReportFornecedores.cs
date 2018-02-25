@@ -15,34 +15,38 @@ namespace TTOrcamentos2.Model
         public ObjectId Id { get; set; }
         public string FornecedorId { get; set; }
         public string FornecedorName { get; set; }
+        public string FornecedorNameCliente { get; set; }
+        public string NomeFile { get; set; }
         public string ProjectoId { get; set; }
         public string OrcamentoId { get; set; }
         public List<Servicos> servicos { get; set; }
         public double Total { get; set; }
         public bool   Active { get; set; }
         public string TipoMovimento { get; set; }
+        public int Ano { get; set; }
 
 
-        public ReportFornecedores(string _FornecedorId, string _FornecedorName, string _ProjectoId, string _OrcamentoId, List<Servicos> _servicos, double _Total, bool _ative, string _TipoMovimento)
+        public ReportFornecedores(string _FornecedorId, string _FornecedorName, string FornecedorNameCliente, string NomeFile, string _ProjectoId, string _OrcamentoId, List<Servicos> _servicos, double _Total, bool _ative, string _TipoMovimento, int Ano)
         {
             this.FornecedorId = _FornecedorId;
             this.FornecedorName = _FornecedorName;
+            this.FornecedorNameCliente = FornecedorNameCliente;
+            this.NomeFile = NomeFile;
             this.ProjectoId = _ProjectoId;
             this.OrcamentoId = _OrcamentoId;
             this.servicos = _servicos;
             this.Total = _Total;
             this.Active = _ative;
             this.TipoMovimento = _TipoMovimento;
+            this.Ano = Ano;
         }
 
 
-        public static bool Insert(string _FornecedorId, string _FornecedorName, string _ProjectoId, string _OrcamentoId, List<Servicos> _servicos, double _Total, bool _ative, string _TipoMovimento)
+        public static bool Insert(string _FornecedorId, string _FornecedorName, string FornecedorNameCliente, string _NomeFile, string _ProjectoId, string _OrcamentoId, List<Servicos> _servicos, double _Total, bool _ative, string _TipoMovimento, int Ano)
         {
             try
             {
-                var t = GetAll();
-                int val = t.Count();
-                ReportFornecedores cntr = new ReportFornecedores(_FornecedorId, _FornecedorName, _ProjectoId, _OrcamentoId, _servicos, _Total, _ative, _TipoMovimento);
+                ReportFornecedores cntr = new ReportFornecedores(_FornecedorId, _FornecedorName, FornecedorNameCliente, _NomeFile, _ProjectoId, _OrcamentoId, _servicos, _Total, _ative, _TipoMovimento, Ano);
                 DB.ReportFornecedores.InsertOne(cntr);
 
                 return true;
@@ -57,6 +61,7 @@ namespace TTOrcamentos2.Model
         {
             try
             {
+                //DeleteByProjecto(cambio.ProjectoId,cambio.FornecedorId);
                 DB.ReportFornecedores.InsertOne(cambio);
 
                 return true;
@@ -65,6 +70,19 @@ namespace TTOrcamentos2.Model
             {
 
                 throw new Exception("Erro Inserir ReportFornecedores" + e.ToString());
+            }
+        }
+
+        public static void DeleteByProjecto(string project, string fornecedorid)
+        {
+
+            try
+            {
+                DB.ReportFornecedores.DeleteMany(x => x.ProjectoId == project && x.FornecedorId == fornecedorid);
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Erro delete ReportFornecedores " + e.ToString());
             }
         }
 
@@ -99,12 +117,12 @@ namespace TTOrcamentos2.Model
             }
         }
 
-        public static List<ReportFornecedores> GetAll()
+        public static List<ReportFornecedores> GetAll(string fornecedorid)
         {
             List<ReportFornecedores> lista = new List<ReportFornecedores>();
             try
             {
-                var filter = Builders<ReportFornecedores>.Filter.Empty;
+                var filter = Builders<ReportFornecedores>.Filter.Where(x => x.FornecedorId == fornecedorid);
                 lista = DB.ReportFornecedores.Find(filter).ToList();
 
                 return lista;

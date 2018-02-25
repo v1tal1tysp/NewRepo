@@ -18,9 +18,11 @@ namespace TTOrcamentos2.Model {
         public string Namefile { get; set; }
         public string Filepath { get; set; }
         public string Nota { get; set; }
-        public CambioIntern cambioidv { get; set; }
+        public Tipo_Iva tipoivaidv { get; set; }
+        public Ivas ivaidv { get; set; }
+        public Cambio cambioidv { get; set; }
 
-        public PagamentosCliente(string projectoid , string fornecedor,DateTime data,double valor, string Namefile, string Filepath, CambioIntern cambioidv)
+        public PagamentosCliente(string projectoid , string fornecedor,DateTime data,double valor, string Namefile, string Filepath, Tipo_Iva tipoivaidv, Ivas ivaidv, Cambio cambioidv)
         {
             this.projectoid = projectoid;
             this.fornecedor = fornecedor;
@@ -29,13 +31,15 @@ namespace TTOrcamentos2.Model {
             this.Namefile = Namefile;
             this.Filepath = Filepath;
             this.cambioidv = cambioidv;
+            this.ivaidv = ivaidv;
+            this.tipoivaidv = tipoivaidv;
         }
 
-        public static bool Insert(string projectoid, string fornecedor, DateTime data, double valor, string Namefile, string Filepath, CambioIntern cambioidv)
+        public static bool Insert(string projectoid, string fornecedor, DateTime data, double valor, string Namefile, string Filepath, Tipo_Iva tipoivaidv, Ivas ivaidv, Cambio cambioidv)
         {
             try
             {
-                PagamentosCliente cntr = new PagamentosCliente(projectoid, fornecedor, data, valor, Namefile, Filepath, cambioidv);
+                PagamentosCliente cntr = new PagamentosCliente(projectoid, fornecedor, data, valor, Namefile, Filepath, tipoivaidv, ivaidv, cambioidv);
                 DB.PagamentosCliente.InsertOne(cntr);
 
                 return true;
@@ -78,5 +82,6 @@ namespace TTOrcamentos2.Model {
                 throw new Exception("Erro Pesquisar PagamentosCliente " + e.ToString());
             }
         }
+
     }
 }

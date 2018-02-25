@@ -14,9 +14,6 @@ namespace TTOrcamentos2.Model {
         public ObjectId Id { get; set; }
         public string projectoidv { get; set; }
         public Estado estado { get; set; }
-        public Tipo_Iva tipoivaidv { get; set; }
-        public Ivas ivaidv { get; set; }
-        public Cambio cambioidv { get; set; }
         public double c_valor { get; set; }
         public string o_nome { get; set; }
         public DateTime o_datacriacao { get; set; }
@@ -33,13 +30,10 @@ namespace TTOrcamentos2.Model {
         public bool pe { get; set; }
         public DateTime DataUpdate { get; set; }
 
-        public Orcamentos(string projectoidv, Estado estadoidv, Tipo_Iva tipoivaidv, Ivas ivaidv, Cambio cambioidv, double c_valor, string o_nome, DateTime o_datacriacao, DateTime o_datainicio, int o_numeropessoas, int o_numerodias, int o_numeronoites, double o_margemvenda, double o_markup, string o_descricao, string active, string parrentorcamentoidv, int Versao, bool pe, DateTime DataUpdate)
+        public Orcamentos(string projectoidv, Estado estadoidv, double c_valor, string o_nome, DateTime o_datacriacao, DateTime o_datainicio, int o_numeropessoas, int o_numerodias, int o_numeronoites, double o_margemvenda, double o_markup, string o_descricao, string active, string parrentorcamentoidv, int Versao, bool pe, DateTime DataUpdate)
         {
             this.projectoidv = projectoidv;
             this.estado = estadoidv;
-            this.tipoivaidv = tipoivaidv;
-            this.ivaidv = ivaidv;
-            this.cambioidv = cambioidv;
             this.c_valor = c_valor;
             this.o_nome = o_nome;
             this.o_datacriacao = o_datacriacao;
@@ -58,11 +52,11 @@ namespace TTOrcamentos2.Model {
 
         }
 
-        public static bool Insert(string projectoidv, Estado estadoidv, Tipo_Iva tipoivaidv, Ivas ivaidv, Cambio cambioidv, double c_valor, string o_nome, DateTime o_datacriacao, DateTime o_datainicio, int o_numeropessoas, int o_numerodias, int o_numeronoites, double o_margemvenda, double o_markup, string o_descricao, string active, string parrentorcamentoidv, int Versao, bool pe, DateTime DataUpdate)
+        public static bool Insert(string projectoidv, Estado estadoidv, double c_valor, string o_nome, DateTime o_datacriacao, DateTime o_datainicio, int o_numeropessoas, int o_numerodias, int o_numeronoites, double o_margemvenda, double o_markup, string o_descricao, string active, string parrentorcamentoidv, int Versao, bool pe, DateTime DataUpdate)
         {
             try
             {
-                Orcamentos cntr = new Orcamentos(projectoidv, estadoidv, tipoivaidv, ivaidv, cambioidv, c_valor, o_nome, o_datacriacao, o_datainicio, o_numeropessoas, o_numerodias, o_numeronoites, o_margemvenda, o_markup, o_descricao, active, parrentorcamentoidv, Versao, pe, DataUpdate);
+                Orcamentos cntr = new Orcamentos(projectoidv, estadoidv, c_valor, o_nome, o_datacriacao, o_datainicio, o_numeropessoas, o_numerodias, o_numeronoites, o_margemvenda, o_markup, o_descricao, active, parrentorcamentoidv, Versao, pe, DataUpdate);
                 DB.Orcamentos.InsertOne(cntr);
 
                 return true;

@@ -22,6 +22,10 @@ namespace TTOrcamentos2 {
 
                 Fornecedor forne = Fornecedor.Get(fornecedorid);
                 HiddenInfo.Value = JsonConvert.SerializeObject(forne);
+                 
+                List<ReportFornecedores> ListaDividas = ReportFornecedores.GetAll(fornecedorid);
+                HiddenListaDividas.Value = JsonConvert.SerializeObject(ListaDividas);
+
             }
             else
                 Response.Redirect("login.aspx", true);

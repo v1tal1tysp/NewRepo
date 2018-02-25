@@ -451,6 +451,67 @@ namespace TTOrcamentos2.Controllers
             
         }
 
+        [HttpPost]
+        [Route("api/Postman/insertPagamentoCliente")]
+        public void insertPagamentoCliente()
+        {
+
+            try
+            {
+                if (HttpContext.Current.Request.Files.AllKeys.Any())
+                {
+                    var objecxt = JObject.Parse( HttpContext.Current.Request.Form["PagamentoCliente"]);
+                    var httpPostedFile = HttpContext.Current.Request.Files["UploadedImage"];
+                    PagamentosCliente OBJ = objecxt.ToObject<PagamentosCliente>();
+
+
+                    if (httpPostedFile != null)
+                    {
+                        if (!Directory.Exists(Properties.Settings.Default.PastaDocumentos + OBJ.projectoid ))
+                        {
+                            Directory.CreateDirectory(Properties.Settings.Default.PastaDocumentos + OBJ.projectoid);
+                        }
+                        if (!Directory.Exists(Properties.Settings.Default.PastaDocumentos + OBJ.projectoid + "\\PagamentosCliente\\"))
+                        {
+                            Directory.CreateDirectory(Properties.Settings.Default.PastaDocumentos + OBJ.projectoid + "\\PagamentosCliente\\");
+                        }
+                        var fileSavePath = Properties.Settings.Default.PastaDocumentos + OBJ.projectoid + "\\PagamentosCliente\\" + httpPostedFile.FileName;
+                        httpPostedFile.SaveAs(fileSavePath);
+
+                        OBJ.Namefile = httpPostedFile.FileName;
+
+                        OBJ.Filepath = fileSavePath;
+
+                        PagamentosCliente.Insert(OBJ);
+                       
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+
+            }
+        }
+
+        [HttpGet]
+        [Route("api/Postman/getAllPagamentosCliente")]
+        public string getAllPagamentosCliente(string id)
+        {
+            string tst = string.Empty;
+            List<PagamentosCliente> ObjList = new List<PagamentosCliente>();
+            try
+            {
+                ObjList = PagamentosCliente.GetAll(id);
+                return JsonConvert.SerializeObject(ObjList);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return tst;
+        }
 
         [HttpPost]
         [Route("api/Postman/DownloadFile")]
