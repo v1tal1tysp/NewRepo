@@ -512,10 +512,10 @@ div.tab button.active {
     float:left;
     width:30%;
 }
-.BtnReportGenerate {
+.BtnReportGenerate,.BtnAddpagamentoCliente {
 float:right;
 }
-.AddOrcamentoBtn, .SaveOrcamentoBtn,.AddAlojamento,.AddVoo,.AddDiaria,.AddFornecedor,.AddServicos,.GuardarTipologiaAlojamento,.GuardarOrcamentoAlojamento,.BtnAddNotas,.BtnReportGenerate, .addSaveBtn{
+.AddOrcamentoPe, .BtnAddpagamentoCliente, .AddOrcamentoBtn, .SaveOrcamentoBtn,.AddAlojamento,.AddVoo,.AddDiaria,.AddFornecedor,.AddServicos,.GuardarTipologiaAlojamento,.GuardarOrcamentoAlojamento,.BtnAddNotas,.BtnReportGenerate, .addSaveBtn{
     font-size: 16px;
     margin-top: 20px;
     margin-bottom: 10px;
@@ -698,7 +698,7 @@ svg .icon {
       background-color: #ed4337;
 }
 
-.AddBtnPagamento{
+.AddBtnPagamento {
     background-color: inherit;
     border: 0px;
 }
@@ -708,7 +708,7 @@ svg .icon {
 }
 
 
-#Historico , #Listafornecedores , #AlojamentoRecords,#VoosRecords,.DiariaTables,#FornecedoresRecords, #ServicosRecords, #AlojamentoVerRecords, #ListaOrcamentos, #VoosVerRecords, #DiariaVerRecords, #ServicosVerRecords, #Listaprojectos{
+#PagamentosCliente, #Historico , #Listafornecedores , #AlojamentoRecords,#VoosRecords,.DiariaTables,#FornecedoresRecords, #ServicosRecords, #AlojamentoVerRecords, #ListaOrcamentos, #VoosVerRecords, #DiariaVerRecords, #ServicosVerRecords, #Listaprojectos{
     width: 100%;
 }
 th {

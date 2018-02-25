@@ -690,6 +690,7 @@ function sendLog(Action) {
 $("#BtnReportGenerate").click(function () {
     insertTabelaFornecedores();
 });
+
 function insertTabelaFornecedores() {
     $("#FornecedoresRecords").find("tr:gt(0)").remove();
     var arra = [];
@@ -3778,6 +3779,14 @@ $(document).ready(function (){
 
 
         $('#NovoPagamento').modal('show');
+        $('.modal-backdrop').remove();
+
+    });
+
+    $('body').on('click', '.BtnAddpagamentoCliente', function () {
+        var callClass = this.className.toString();
+        var Ptable = $(this).parent();
+        $('#PagamentoCliente').modal('show');
         $('.modal-backdrop').remove();
 
     });

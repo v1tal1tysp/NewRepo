@@ -328,6 +328,7 @@
     <Compile Include="Model\Fornecedor.cs" />
     <Compile Include="Model\Ivas.cs" />
     <Compile Include="Model\Orcamentos.cs" />
+    <Compile Include="Model\PagamentosCliente.cs" />
     <Compile Include="Model\ProjectLog.cs" />
     <Compile Include="Model\ProjectoTT.cs" />
     <Compile Include="Model\Quartos.cs" />

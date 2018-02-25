@@ -95,6 +95,7 @@
                     <div id="accordion">
                         <h3>File</h3>
                         <div class="panel-body">
+
                         <!--projecto end-->
 
                             <div class="row">
@@ -185,7 +186,7 @@
                                 
                             </div>
                         </div>
-                        <!--Orcamentos Geral-->
+                        
 
                         <h3>Orçamento <label ID="VersaoID" class="LabelOrcamento"></label></h3>
                         <div class="panel-body">
@@ -200,24 +201,15 @@
 
                                     </select>
                                 </div>
-                                <label for="example-text-input" class="col-lg-1 col-form-label">Tipo de Iva</label>
-                                <div class="col-lg-2">
-                                    <select name="Estado" id="OrcamentoTipoIva" class="TipoIVA form-control">
-
-                                    </select>
-                                </div>
-                                <label for="example-text-input" class="col-lg-1 col-form-label">Iva</label>
-                                <div class="col-lg-2">
-                                    <select name="Estado" id="OrcamentoIva" class="IVA form-control">
-    
-                                    </select>
-                                </div>
+                                <label for="example-text-input" class="col-lg-1 col-form-label">Dias</label>
                                 <div class="col-lg-1">
-                                    <select name="Moeda" id="OrcamentoMoedaCompra" class="moneyCtrl form-control">
-                                    </select>
+                                    <input class="form-control" type="number" value="0" id="OrcamentoDias"/>
+                                </div>
+                                <label for="example-text-input" class="col-lg-1 col-form-label">Noites</label>
+                                <div class="col-lg-1">
+                                    <input class="form-control" type="number" value="0" id="OrcamentoNoites"/>
                                 </div>
                             </div>
-                            <!--Pessoas  & Data de Execução & Data Final-->
                             <div class="row">
                                 <label for="example-text-input" class="col-lg-1 col-form-label">Versão</label>
                                 <div class="col-lg-2">
@@ -231,17 +223,8 @@
                                 <div class="col-lg-1">
                                     <input class="form-control" type="number" value="5" min="0" step="0.01" id="OrcamentoMargem"/>
                                 </div>
-                                <label for="example-text-input" class="col-lg-1 col-form-label">Noites</label>
-                                <div class="col-lg-1">
-                                    <input class="form-control" type="number" value="0" id="OrcamentoNoites"/>
-                                </div>
-
                             </div>
                             <div class="row">
-                                <label for="example-text-input" class="col-lg-1 col-form-label">Dias</label>
-                                <div class="col-lg-1">
-                                    <input class="form-control" type="number" value="0" id="OrcamentoDias"/>
-                                </div>
                                 <label for="example-text-input" class="col-lg-1 col-form-label">PAX</label>
                                 <div class="col-lg-2">
                                     <input class="form-control" type="number" name="Numero Pax Orçamento" value="0" id="OrcamentoNumeroDePessoas"/>
@@ -289,7 +272,45 @@
                                 </div>
                             </div>
                         </div>
-                    <!--Orcamentos Geral end-->
+                    
+
+                        <h3>Contabilidade</h3>
+                        <div class="panel-body">
+                            
+                             
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="TitleTabela">Pagamentos Recebidos <button class="BtnAddpagamentoCliente" type="button" id="BtnAddpagamentoCliente">Addicionar Pagamento</button></div>
+                                    <table id="PagamentosCliente">
+                                        <tr>
+                                            <th>Data</th>
+                                            <th>Tipo iva</th>
+                                            <th>Iva</th>
+                                            <th>Valor</th>
+                                            <th>Ver Factura</th>
+                                        </tr>
+                                    </table>
+                                </div>
+
+
+                               <div class="col-lg-6">
+                                    <div>
+                                        <label for="ValorRecebido">Valor Recebido</label>
+                                        <span id="ValorRecebido">0</span>
+                                    </div>
+                                    <div>
+                                        <label for="ValorCusto">Valor Custo</label>
+                                        <span id="ValorCusto">0</span>
+                                    </div>
+                                    <div>
+                                        <label for="Saldo">Saldo</label>
+                                        <span id="Saldo">0</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    
                     </div>
 
                 </div>
@@ -848,7 +869,7 @@
                                     </div>
                                     <div class="row">
                                         <label for="example-text-input" class="col-lg-2 col-form-label">Data</label>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-2">
                                             <input type="date" class="form-control" id="dataPagamento" name="dataPagamento" />
                                         </div>
                                         <label for="example-text-input" class="col-lg-2 col-form-label">valor</label>
@@ -875,6 +896,64 @@
                                 </div>
                             </div>
                 </div>
+                <div id="PagamentoCliente" class="modal">
+                    <div  class="modal-content2">
+                        <!-- Modal content -->
+                        <span class="close CloseNewHotel">&times;</span>
+                        <div class="panel-body">
+                            <div class="TitleTabela">Adicionar Novo Pagamento</div>
+                            <div class="row">
+                                <label for="example-text-input" class="col-lg-2 col-form-label">Nota Pagamento</label>
+                                <div class="col-lg-2">
+                                    <input type="text" class="form-control" id="notaPagamentoCliente" name="Hotel" />
+                                </div>
+                                <label for="example-text-input" class="col-lg-1 col-form-label">Tipo de Iva</label>
+                                <div class="col-lg-2">
+                                    <select name="Estado" id="OrcamentoTipoIva" class="TipoIVA form-control">
+
+                                    </select>
+                                </div>
+                                <label for="example-text-input" class="col-lg-1 col-form-label">Iva</label>
+                                <div class="col-lg-2">
+                                    <select name="Estado" id="OrcamentoIva" class="IVA form-control">
+    
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label for="example-text-input" class="col-lg-2 col-form-label">Data</label>
+                                <div class="col-lg-2">
+                                    <input type="date" class="form-control" id="dataPagamentoCliente" name="dataPagamento" />
+                                </div>
+                                <label for="example-text-input" class="col-lg-2 col-form-label">valor</label>
+                                <div class="col-lg-2">
+                                    <input type="number" value="0" min="0" step="0.01" class="form-control" id="ValorPagamentoCliente" name="ValorPagamento" />
+                                </div>
+                                <div class="col-lg-1">
+                                    <select name="Moeda" id="PagamentoClienteMoedaCompra" class="moneyCtrl form-control">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label for="example-text-input" class="col-lg-2 col-form-label">Anexo</label>
+                                <div class="col-lg-6">
+                                    <input type="file" class="PagamentoAnexo" id="PagamentoAnexoCliente" name="Anexo" />
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-lg-4">
+                                    <button  type="button" class="BtnAddNotas" id="BtnAddNotasCliente">Adicionar Pagamento</button>
+                                    <img class="FornecedorCheck" src="img\check.png" alt="Guardar"/>
+                                    <img class="FornecedorError" src="img\remove.png" alt="Guardar"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div id="NovoFornecedorModel" class="modal">
                             <div  class="modal-content2">
                                 <!-- Modal content -->
