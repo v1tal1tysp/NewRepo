@@ -1,14 +1,14 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Web;
 
 namespace TTOrcamentos2.Model {
-    public class PagamentosCliente {
+    public class PagamentosFornecedor {
+
         [BsonId]
         public ObjectId Id { get; set; }
         public string projectoid { get; set; }
@@ -22,7 +22,7 @@ namespace TTOrcamentos2.Model {
         public Ivas ivaidv { get; set; }
         public Cambio cambioidv { get; set; }
 
-        public PagamentosCliente(string projectoid , string fornecedor,DateTime data,double valor, string Namefile, string Filepath, Tipo_Iva tipoivaidv, Ivas ivaidv, Cambio cambioidv)
+        public PagamentosFornecedor(string projectoid, string fornecedor, DateTime data, double valor, string Namefile, string Filepath, Tipo_Iva tipoivaidv, Ivas ivaidv, Cambio cambioidv)
         {
             this.projectoid = projectoid;
             this.fornecedor = fornecedor;
@@ -39,8 +39,8 @@ namespace TTOrcamentos2.Model {
         {
             try
             {
-                PagamentosCliente cntr = new PagamentosCliente(projectoid, fornecedor, data, valor, Namefile, Filepath, tipoivaidv, ivaidv, cambioidv);
-                DB.PagamentosCliente.InsertOne(cntr);
+                PagamentosFornecedor cntr = new PagamentosFornecedor(projectoid, fornecedor, data, valor, Namefile, Filepath, tipoivaidv, ivaidv, cambioidv);
+                DB.PagamentosFornecedor.InsertOne(cntr);
 
                 return true;
             }
@@ -51,11 +51,11 @@ namespace TTOrcamentos2.Model {
             }
         }
 
-        public static bool Insert(PagamentosCliente pagemento)
+        public static bool Insert(PagamentosFornecedor pagemento)
         {
             try
             {
-                DB.PagamentosCliente.InsertOne(pagemento);
+                DB.PagamentosFornecedor.InsertOne(pagemento);
                 return true;
             }
             catch (Exception e)
@@ -70,8 +70,8 @@ namespace TTOrcamentos2.Model {
         {
             try
             {
-                var filter = Builders<PagamentosCliente>.Filter.Empty;
-                DB.PagamentosCliente.DeleteMany(filter);
+                var filter = Builders<PagamentosFornecedor>.Filter.Empty;
+                DB.PagamentosFornecedor.DeleteMany(filter);
                 return true;
             }
             catch (Exception e)
@@ -80,22 +80,21 @@ namespace TTOrcamentos2.Model {
             }
         }
 
-        public static List<PagamentosCliente> GetAll(string projectoidv)
+        public static List<PagamentosFornecedor> GetAll(string projectoidv)
         {
-            List<PagamentosCliente> lista = new List<PagamentosCliente>();
+            List<PagamentosFornecedor> lista = new List<PagamentosFornecedor>();
             try
             {
-                var filter = Builders<PagamentosCliente>.Filter.Where(x => x.projectoid == projectoidv);
+                var filter = Builders<PagamentosFornecedor>.Filter.Where(x => x.projectoid == projectoidv);
 
-                lista = DB.PagamentosCliente.Find(filter).ToList();
+                lista = DB.PagamentosFornecedor.Find(filter).ToList();
 
                 return lista;
             }
             catch (Exception e)
             {
-                throw new Exception("Erro Pesquisar PagamentosCliente " + e.ToString());
+                throw new Exception("Erro Pesquisar PagamentosFornecedor " + e.ToString());
             }
         }
-
     }
 }

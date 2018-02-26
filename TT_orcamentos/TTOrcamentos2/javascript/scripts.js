@@ -613,11 +613,13 @@ function readtableGenericReport(nametabela) {
         var ano = new Date();
         var projectname = $("#ProjectName").val();
         var clientname = $("#ProjectoFornecedor").val();
+        var orcamentoname = $("#OrcamentoNome").val();
         var t = {
             FornecedorId: element.toString(),
             FornecedorName: name,
             FornecedorNameCliente: clientname,
             NomeFile: projectname,
+            Nomeorcamento: orcamentoname,
             ProjectoId: projectID,
             OrcamentoId: OrcamentoID,
             servicos: Servicos,
@@ -881,7 +883,7 @@ function preencherTabelaServicosLoading(data) {
         }
 
         
-        $("#ServicosRecords tr:last").after('<tr class="' + servicoID + '">' +
+        $("#ServicosRecords tr:last").after('<tr class="' + ServicosFornecedorID + " "+ servicoID+ '">' +
             '<td>' + ServicosFornecedor + '<input type="hidden" class="HiddenRecordId" value="' + servicoID + '">' +
                         '<input type="hidden" class="HiddenRecordIdFornecedor" value="' + ServicosFornecedorID + '">' +
                         '<input type="hidden" class="HiddenRecordCambioIdv" value="' + cambioidv + '">' +
@@ -915,7 +917,7 @@ function preencherTabelaServicosLoading(data) {
             '</tr>');
 
         updateValues($("#ServicosRecords"));
-        $("#ServicosVerRecords tr:last").after('<tr class="' + servicoID + '">' +
+        $("#ServicosVerRecords tr:last").after('<tr class="' + ServicosFornecedorID + " " + servicoID + '">' +
             '<td>' + ServicosFornecedor + '<input type="hidden" class="HiddenRecordId" value="' + servicoID + '">' +
             '<input type="hidden" class="HiddenRecordIdFornecedor" value="' + ServicosFornecedorID + '">' +
                         '<input type="hidden" class="HiddenRecordCambioIdv" value="' + cambioidv + '">' +
@@ -974,7 +976,7 @@ function preencherTabelaDiariasLoading(data) {
 
         var a_pagamento = el.pagamento;
         var a_datapagamento = el.datapagamento;
-
+        var DiariaFornecedor = el.fornecedorname;
         var DiariaID = el.Id;
         var DiariaFornecedor = el.fornecedorname;
         var DiariaComisao = parseFloat(el.comissao);
@@ -1029,7 +1031,7 @@ function preencherTabelaDiariasLoading(data) {
         $(RefAux).after(htmlRec);
 
 
-        $("#DiariaVerRecords tr:last").after('<tr class="fornecedoridv">' +
+        $("#DiariaVerRecords tr:last").after('<tr class="' + fornecedoridv + " " +DiariaID + '">' +
             '<td>' + DiariaFornecedor + '</br>' + '-' + dataInput2 +
              '<input type="hidden" class="HiddenRecordId" value="' + DiariaID + '">' +
              '<input type="hidden" class="HiddenRecordIdFornecedor" value="' + fornecedoridv + '">' +
@@ -1111,7 +1113,7 @@ function preencherTabelaVoosLoading(data) {
 
 
         /*ciclos*/
-        $('#VoosRecords tr:last').after('<tr class="'+id+'">' +
+        $('#VoosRecords tr:last').after('<tr class="' + fornecedoridv + " "+ id+ '">' +
             '<td>' + VoosNomeVoo + '</br>' + VoosFornecedor + '<input type="hidden" class="HiddenRecordId" value="' + id + '">' +
              '<input type="hidden" class="HiddenRecordIdFornecedor" value="' + fornecedoridv + '">' +
              '<input type="hidden" class="HiddenRecordNomeVoo" value="' + VoosNomeVoo + '">' +
@@ -1147,7 +1149,7 @@ function preencherTabelaVoosLoading(data) {
 
         updateValues($("#VoosRecords"));
 
-        $('#VoosVerRecords tr:last').after('<tr class="'+id+'">' +
+        $('#VoosVerRecords tr:last').after('<tr class="' + fornecedoridv + " " + id + '">' +
             '<td>' + VoosNomeVoo + '<input type="hidden" class="HiddenRecordId" value="' + id + '">' +
              '<input type="hidden" class="HiddenRecordIdFornecedor" value="' + fornecedoridv + '">' +
              '<input type="hidden" class="HiddenRecordNomeVoo" value="' + VoosNomeVoo + '">' +
@@ -3147,8 +3149,9 @@ function refreshPagamentosCliente() {
 }
 
 function calcSaldo() {
-    var valorRecebido = parseFloat($("#ValorRecebido").html().replace(',', ''));
-    var valorGasto = parseFloat($("#ValorCusto").html().replace(',', ''));
+
+    var valorRecebido = $("#ValorRecebido").html().replace(/\,/g, '');
+    var valorGasto = $("#ValorCusto").html().replace(/\,/g, '');
 
     var total = valorRecebido - valorGasto;
     $("#Saldo").html(total.formatMoney(2, '.', ','));

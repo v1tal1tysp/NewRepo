@@ -1,21 +1,9 @@
-﻿var url5 = "img/add_btn.png";
-var res5 = encodeURI(url5);
-
-$(document).ready(function () {
+﻿$(document).ready(function () {
     $("#tabs").tabs();
     loadPageAuxTables();
 
     LoadFornecedorInfo();
     loadDespesas();
-
-
-    $('body').on('click', '.AddPagamento', function () {
-        var callClass = this.className.toString();
-        var Ptable = $(this).parent();
-        $('#PagamentoCliente').modal('show');
-        $('.modal-backdrop').remove();
-
-    });
 });
 
 
@@ -70,81 +58,18 @@ function loadDespesas() {
             cambio = servico.Cambio;
         });
 
-        $("#FornecedoresRecords tr:last").after('<tr class="' + obj.OrcamentoId + '">' +
+        $("#FornecedoresRecords tr:last").after('<tr>' +
             '<td>' + obj.NomeFile + '</td>' +
             '<td>' + obj.Nomeorcamento + '</td>' +
             '<td>' + obj.Ano + '</td>' +
             '<td>' + obj.Total.formatMoney(2, '.', ',') + "/" + cambio + '</td>' +
-            '<td>' + "<button  type='button' class='AddPagamento'><img class='BtnAddpagamentoFornecedor' src='" + res5 + "' alt='Anexar Nota'></button>" + '</td>' +
+            '<td>' + "asd" + '</td>' +
             '</tr>');
     });
 
 }
 
 
-
-$(".AddPagamento").click(function () {
-
-
-
-    var tipoivaidv = $("#PagamentoClienteTipoIva option:selected").val();
-    var tipoivanome = $("#PagamentoClienteTipoIva option:selected").text();
-    var ivaidv = $("#PagamentoClienteIva option:selected").val();
-    var ivaidvnome = $("#PagamentoClienteIva option:selected").text();
-    var OrcamentoCambioTXT = $("#PagamentoClienteMoedaCompra option:selected").val();
-    var OrcamentoCambioTXTNome = $("#PagamentoClienteMoedaCompra option:selected").text();
-    var CambioArr = OrcamentoCambioTXT.split("-");
-    var cambioidv = CambioArr[0];
-    var c_valor = parseFloat(CambioArr[1]);
-
-    var nota = $("#notaPagamentoCliente").val();
-    var date = $("#dataPagamentoCliente").val();
-    var valor = $("#ValorPagamentoCliente").val();
-    var fornecedorid = $("#ProjectoFornecedorID").val();
-
-
-
-
-    var data = new FormData();
-
-    var files = $("#PagamentoAnexoCliente").get(0).files;
-    var PagamentoCliente = {
-        "_id": "",
-        "projectoid": projectID,
-        "fornecedor": fornecedorid,
-        "data": date,
-        "valor": valor,
-        "Namefile": "",
-        "Filepath": "",
-        "Nota": nota,
-        "tipoivaidv": { "inId": tipoivaidv, "name": tipoivanome },
-        "ivaidv": { "inId": ivaidv, "name": ivaidvnome },
-        "cambioidv": { "inId": cambioidv, "name": OrcamentoCambioTXTNome, "value": c_valor }
-    };
-
-    if (files.length > 0) {
-        data.append("UploadedImage", files[0]);
-        data.append("PagamentoCliente", JSON.stringify(PagamentoCliente));
-    }
-
-    $.ajax({
-        type: "POST",
-        url: 'api/Postman/insertPagamentoCliente',
-        contentType: false,
-        processData: false,
-        data: data,
-        success: function (result) {
-            refreshPagamentosCliente();
-        },
-        error: function (xhr, status, p3, p4) {
-            var err = "Error " + " " + status + " " + p3 + " " + p4;
-            if (xhr.responseText && xhr.responseText[0] === "{")
-                err = JSON.parse(xhr.responseText).Message;
-            console.log(err);
-        }
-    });
-
-});
 
 
 

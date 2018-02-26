@@ -152,6 +152,21 @@ namespace TTOrcamentos2.Model {
             }
         }
 
+        public static bool Clean()
+        {
+            try
+            {
+                var filter = Builders<Voos>.Filter.Empty;
+                DB.Voos.DeleteMany(filter);
+                return true;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Erro delete Voos :" + e.ToString());
+            }
+        }
+
+
         public static bool Delete(Voos voos)
         {
             try

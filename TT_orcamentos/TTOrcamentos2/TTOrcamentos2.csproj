@@ -220,6 +220,7 @@
     <Content Include="img\SaveIcn.png" />
     <Content Include="img\setting.png" />
     <Content Include="Index.aspx" />
+    <Content Include="javascript\ScriptsConfig.js" />
     <Content Include="javascript\ScriptsFornecedor.js" />
     <Content Include="login.aspx" />
     <Content Include="NewProject.aspx" />
@@ -329,6 +330,7 @@
     <Compile Include="Model\Ivas.cs" />
     <Compile Include="Model\Orcamentos.cs" />
     <Compile Include="Model\PagamentosCliente.cs" />
+    <Compile Include="Model\PagamentosFornecedor.cs" />
     <Compile Include="Model\ProjectLog.cs" />
     <Compile Include="Model\ProjectoTT.cs" />
     <Compile Include="Model\Quartos.cs" />

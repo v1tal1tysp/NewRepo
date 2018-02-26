@@ -135,7 +135,19 @@ namespace TTOrcamentos2.Model {
                 throw new Exception("Erro delete Diarias :" + e.ToString());
             }
         }
-
+        public static bool Clean()
+        {
+            try
+            {
+                var filter = Builders<Diarias>.Filter.Empty;
+                DB.Diarias.DeleteMany(filter);
+                return true;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Erro delete Diarias :" + e.ToString());
+            }
+        }
         public static List<Diarias> GetAll(string idOrca)
         {
             List<Diarias> lista = new List<Diarias>();

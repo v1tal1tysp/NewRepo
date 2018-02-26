@@ -109,6 +109,20 @@ namespace TTOrcamentos2.Model {
             }
         }
 
+
+        public static bool Clean()
+        {
+            try
+            {
+                var filter = Builders<ProjectoTT>.Filter.Empty;
+                DB.ProjectoTT.DeleteMany(filter);
+                return true;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Erro delete Projecto :" + e.ToString());
+            }
+        }
         public static ProjectoTT Get(string projid)
         {
             try

@@ -171,16 +171,46 @@
                 <div id="Despesas" class="tabcontent">
                     <div class="panel-body">
                         <div class="TitleTabela">Despesas</div>
+                            <div class="col-lg-6">
+                                <div>
+                                    <label for="ValorRecebido">Valor Recebido</label>
+                                    <span id="ValorRecebido">0</span>
+                                </div>
+                                <div>
+                                    <label for="ValorCusto">Valor Custo</label>
+                                    <span id="ValorCusto">0</span>
+                                </div>
+                                <div>
+                                    <label for="Saldo">Saldo</label>
+                                    <span id="Saldo">0</span>
+                                </div>
+                             </div>
                         <table class="" id="FornecedoresRecords">
                             <tbody>
                                 <tr>
                                     <th>File</th>
+                                    <th>Orçamento</th>
                                     <th>Ano</th>
                                     <th>Total a Dever</th>
                                     <th>Notas de Pagamento</th>
                                 </tr>
                             </tbody>
                         </table>
+
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="TitleTabela">Pagamentos Efectuados </div>
+                                <table id="PagamentosCliente">
+                                    <tr>
+                                        <th>Data</th>
+                                        <th>Tipo iva</th>
+                                        <th>Iva</th>
+                                        <th>Valor</th>
+                                        <th>Ver Factura</th>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
                         
                     </div>
 
@@ -192,6 +222,65 @@
 
 
         </div>
+
+        <div id="PagamentoCliente" class="modal">
+                    <div  class="modal-content2">
+                        <!-- Modal content -->
+                        <span class="close CloseNewHotel">&times;</span>
+                        <div class="panel-body">
+                            <div class="TitleTabela">Adicionar Novo Pagamento</div>
+                            <div class="row">
+                                <label for="example-text-input" class="col-lg-2 col-form-label">Nota Pagamento</label>
+                                <div class="col-lg-2">
+                                    <input type="text" class="form-control" id="notaPagamentoCliente" name="Hotel" />
+                                </div>
+                                <label for="example-text-input" class="col-lg-1 col-form-label">Tipo de Iva</label>
+                                <div class="col-lg-2">
+                                    <select name="Estado" id="PagamentoClienteTipoIva" class="TipoIVA form-control">
+
+                                    </select>
+                                </div>
+                                <label for="example-text-input" class="col-lg-1 col-form-label">Iva</label>
+                                <div class="col-lg-2">
+                                    <select name="Estado" id="PagamentoClienteIva" class="IVA form-control">
+    
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label for="example-text-input" class="col-lg-2 col-form-label">Data</label>
+                                <div class="col-lg-2">
+                                    <input type="date" class="form-control" id="dataPagamentoCliente" name="dataPagamento" />
+                                </div>
+                                <label for="example-text-input" class="col-lg-2 col-form-label">valor</label>
+                                <div class="col-lg-2">
+                                    <input type="number" value="0" min="0" step="0.01" class="form-control" id="ValorPagamentoCliente" name="ValorPagamento" />
+                                </div>
+                                <div class="col-lg-2">
+                                    <select name="Moeda" id="PagamentoClienteMoedaCompra" class="moneyCtrl form-control">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label for="example-text-input" class="col-lg-2 col-form-label">Anexo</label>
+                                <div class="col-lg-6">
+                                    <input type="file" class="PagamentoAnexoCliente" id="PagamentoAnexoCliente" name="Anexo" />
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-lg-4">
+                                    <button  type="button" class="BtnPagamentoClienteNotas" id="BtnPagamentoClienteNotas">Adicionar Pagamento</button>
+                                    <img class="FornecedorCheck" src="img\check.png" alt="Guardar"/>
+                                    <img class="FornecedorError" src="img\remove.png" alt="Guardar"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
 
     </form>
     <script type="text/javascript" src="javascript\ScriptsFornecedor.js"></script>

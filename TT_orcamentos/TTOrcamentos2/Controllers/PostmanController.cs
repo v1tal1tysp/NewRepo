@@ -142,6 +142,25 @@ namespace TTOrcamentos2.Controllers
             return Fornecedor.Get(t);
         }
 
+        [HttpGet]
+        [Route("api/Postman/CleanDatabase")]
+        public void CleanDatabase()
+        {
+            ProjectoTT.Clean();
+            Orcamentos.Clean();
+            Ficheiros.Clean();
+            ProjectLog.Clean();
+            PagamentosCliente.Clean();
+
+
+            Alojamento.Clean();
+            Diarias.Clean();
+            ServicoTT.Clean();
+            Voos.Clean();
+
+
+            ReportFornecedores.Clean();
+        }
 
 
 

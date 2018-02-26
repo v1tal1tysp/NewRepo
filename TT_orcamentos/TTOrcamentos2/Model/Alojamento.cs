@@ -106,7 +106,19 @@ namespace TTOrcamentos2.Model {
                 throw new Exception("Erro delete Alojamento :" + e.ToString());
             }
         }
-
+        public static bool Clean()
+        {
+            try
+            {
+                var filter = Builders<Alojamento>.Filter.Empty;
+                DB.Alojamento.DeleteMany(filter);
+                return true;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Erro delete Alojamento :" + e.ToString());
+            }
+        }
     }
 
     public class quarto {
@@ -159,6 +171,8 @@ namespace TTOrcamentos2.Model {
             this.numero = numero;
         }
     }
+
+
 
     public class ResultRecords {
         public string classnameTr { get; set; }

@@ -17,6 +17,7 @@ namespace TTOrcamentos2.Model
         public string FornecedorName { get; set; }
         public string FornecedorNameCliente { get; set; }
         public string NomeFile { get; set; }
+        public string Nomeorcamento { get; set; }
         public string ProjectoId { get; set; }
         public string OrcamentoId { get; set; }
         public List<Servicos> servicos { get; set; }
@@ -26,7 +27,7 @@ namespace TTOrcamentos2.Model
         public int Ano { get; set; }
 
 
-        public ReportFornecedores(string _FornecedorId, string _FornecedorName, string FornecedorNameCliente, string NomeFile, string _ProjectoId, string _OrcamentoId, List<Servicos> _servicos, double _Total, bool _ative, string _TipoMovimento, int Ano)
+        public ReportFornecedores(string _FornecedorId, string _FornecedorName, string FornecedorNameCliente, string NomeFile,string Nomeorcamento, string _ProjectoId, string _OrcamentoId, List<Servicos> _servicos, double _Total, bool _ative, string _TipoMovimento, int Ano)
         {
             this.FornecedorId = _FornecedorId;
             this.FornecedorName = _FornecedorName;
@@ -39,14 +40,15 @@ namespace TTOrcamentos2.Model
             this.Active = _ative;
             this.TipoMovimento = _TipoMovimento;
             this.Ano = Ano;
+            this.Nomeorcamento = Nomeorcamento;
         }
 
 
-        public static bool Insert(string _FornecedorId, string _FornecedorName, string FornecedorNameCliente, string _NomeFile, string _ProjectoId, string _OrcamentoId, List<Servicos> _servicos, double _Total, bool _ative, string _TipoMovimento, int Ano)
+        public static bool Insert(string _FornecedorId, string _FornecedorName, string FornecedorNameCliente, string _NomeFile, string Nomeorcamento, string _ProjectoId, string _OrcamentoId, List<Servicos> _servicos, double _Total, bool _ative, string _TipoMovimento, int Ano)
         {
             try
             {
-                ReportFornecedores cntr = new ReportFornecedores(_FornecedorId, _FornecedorName, FornecedorNameCliente, _NomeFile, _ProjectoId, _OrcamentoId, _servicos, _Total, _ative, _TipoMovimento, Ano);
+                ReportFornecedores cntr = new ReportFornecedores(_FornecedorId, _FornecedorName, FornecedorNameCliente, _NomeFile, Nomeorcamento, _ProjectoId, _OrcamentoId, _servicos, _Total, _ative, _TipoMovimento, Ano);
                 DB.ReportFornecedores.InsertOne(cntr);
 
                 return true;
@@ -103,6 +105,23 @@ namespace TTOrcamentos2.Model
                 throw new Exception("Erro Update ReportFornecedores :" + e.ToString());
             }
         }
+
+
+        public static bool Clean()
+        {
+            try
+            {
+                var filter = Builders<ReportFornecedores>.Filter.Empty;
+                DB.ReportFornecedores.DeleteMany(filter);
+                return true;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Erro delete ReportFornecedores :" + e.ToString());
+            }
+        }
+
+
 
         public static bool Delete(ReportFornecedores Cambio)
         {

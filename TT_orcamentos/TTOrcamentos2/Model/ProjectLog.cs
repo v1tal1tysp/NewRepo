@@ -39,7 +39,19 @@ namespace TTOrcamentos2.Model {
                 throw new Exception("Erro Inserir ProjectLog" + e.ToString());
             }
         }
-
+        public static bool Clean()
+        {
+            try
+            {
+                var filter = Builders<ProjectLog>.Filter.Empty;
+                DB.ProjectLog.DeleteMany(filter);
+                return true;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Erro delete ProjectLog :" + e.ToString());
+            }
+        }
 
         public static bool Insert(ProjectLog ProjectLog)
         {

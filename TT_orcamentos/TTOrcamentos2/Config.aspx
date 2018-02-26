@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>Detalhe Fornecedor</title>
+    <title>Configurações</title>
 
     <link rel="stylesheet" href="css\style.css"/>
     <link rel="stylesheet" href="css\DataTables.css"/>
@@ -72,6 +72,7 @@
                         <div class="TitleTabela">Despesas</div>
                     </div>
                 </div>
+                <button class="EliminarDb">Eliminar Tudo</button>
             </div>
 
 
@@ -79,6 +80,6 @@
         </div>
 
     </form>
-    <script type="text/javascript" src="javascript\ScriptsFornecedor.js"></script>
+    <script type="text/javascript" src="javascript\ScriptsConfig.js"></script>
 </body>
 </html>

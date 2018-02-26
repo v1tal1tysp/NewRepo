@@ -133,6 +133,20 @@ namespace TTOrcamentos2.Model {
             }
         }
 
+        public static bool Clean()
+        {
+            try
+            {
+                var filter = Builders<Orcamentos>.Filter.Empty;
+                DB.Orcamentos.DeleteMany(filter);
+                return true;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Erro delete Orcamentos :" + e.ToString());
+            }
+        }
+
         public static List<Orcamentos> GetAll()
         {
             List<Orcamentos> lista = new List<Orcamentos>();

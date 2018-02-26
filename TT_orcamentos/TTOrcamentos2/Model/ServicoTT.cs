@@ -124,6 +124,20 @@ namespace TTOrcamentos2.Model {
             }
         }
 
+        public static bool Clean()
+        {
+            try
+            {
+                var filter = Builders<ServicoTT>.Filter.Empty;
+                DB.ServicoTT.DeleteMany(filter);
+                return true;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Erro delete ServicoTT :" + e.ToString());
+            }
+        }
+
         public static bool Delete(ServicoTT voos)
         {
             try

@@ -38,6 +38,7 @@ namespace TTOrcamentos2.Model {
         static public IMongoCollection<ProjectLog> ProjectLog { get; set; } = Database.GetCollection<ProjectLog>("ProjectLog");
 
         static public IMongoCollection<PagamentosCliente> PagamentosCliente { get; set; } = Database.GetCollection<PagamentosCliente>("PagamentosCliente");
+        static public IMongoCollection<PagamentosFornecedor> PagamentosFornecedor { get; set; } = Database.GetCollection<PagamentosFornecedor>("PagamentosFornecedor");
 
 
         

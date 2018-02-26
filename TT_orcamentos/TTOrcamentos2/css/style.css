@@ -587,19 +587,22 @@ height: 50px;
         margin-right: 20px;
 
 }
-.AddPagamento, .AddIcon{
+.AddPagamento, .BtnAddpagamentoFornecedor, .AddIcon{
         height: 32px;
 }
-.AddPagamento,.ApplyToTableColumn, .AddIcon:hover{
+.AddPagamento,.BtnAddpagamentoFornecedor,.ApplyToTableColumn, .AddIcon:hover{
 height: 34px;
 }
 
-.AddPagamento , .ApplyToTableColumn{
+.AddPagamento ,.BtnAddpagamentoFornecedor, .ApplyToTableColumn{
         height: 32px;
 }
-.AddPagamento:hover{
+.BtnAddpagamentoFornecedor, .AddPagamento:hover{
 height: 34px;
 }
+
+
+
 
 
 
@@ -698,9 +701,10 @@ svg .icon {
       background-color: #ed4337;
 }
 
-.AddBtnPagamento {
+.AddBtnPagamento ,.AddPagamento{
     background-color: inherit;
     border: 0px;
+    padding: 0px;
 }
 
 .ListaDividas, .ListaDPagamentos tr:nth-child(even) {

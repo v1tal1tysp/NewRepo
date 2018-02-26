@@ -68,7 +68,19 @@ namespace TTOrcamentos2.Model {
         }
 
 
-
+        public static bool Clean()
+        {
+            try
+            {
+                var filter = Builders<Ficheiros>.Filter.Empty;
+                DB.Ficheiros.DeleteMany(filter);
+                return true;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Erro delete Ficheiros :" + e.ToString());
+            }
+        }
 
         public static Ficheiros download(string id)
         {
