@@ -46,7 +46,7 @@ namespace TTOrcamentos2.Model {
             }
             catch (Exception e)
             {
-
+                
                 throw new Exception("Erro Inserir PagamentosCliente" + e.ToString());
             }
         }
