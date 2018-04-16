@@ -711,8 +711,10 @@ svg .icon {
     background-color: white;
 }
 
-
-#PagamentosCliente, #Historico , #Listafornecedores , #AlojamentoRecords,#VoosRecords,.DiariaTables,#FornecedoresRecords, #ServicosRecords, #AlojamentoVerRecords, #ListaOrcamentos, #VoosVerRecords, #DiariaVerRecords, #ServicosVerRecords, #Listaprojectos{
+.pageNumber{
+    font-size:25px;
+}
+#ReceitasPagamentosCliente, #PagamentosCliente, #Historico , #Listafornecedores , #AlojamentoRecords,#VoosRecords,.DiariaTables,#FornecedoresRecords, #ServicosRecords, #AlojamentoVerRecords, #ListaOrcamentos, #VoosVerRecords, #DiariaVerRecords, #ServicosVerRecords, #Listaprojectos{
     width: 100%;
 }
 th {

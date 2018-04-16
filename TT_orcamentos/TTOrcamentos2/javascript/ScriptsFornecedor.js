@@ -7,7 +7,7 @@ $(document).ready(function () {
 
     LoadFornecedorInfo();
     loadDespesas();
-
+    refreshPagamentosCliente();
 
     $('body').on('click', '.AddPagamento', function () {
         var callClass = this.className.toString();
@@ -81,8 +81,57 @@ function loadDespesas() {
 
 }
 
+function refreshPagamentosCliente() {
+    $("#ReceitasPagamentosCliente").find("tr:gt(0)").remove();
+    var fornecodrid = $("#Fornecedorid").val();
+    $.ajax({
+        type: "GET",
+        url: 'api/Postman/getAllPagamentosClienteByFornecedor?id=' + fornecodrid,
+        success: function (result) {
+
+            var pagamentosRecebidos = JSON.parse(result);
+            var totalRecebido = 0;
+            $.each(pagamentosRecebidos, function (index, item) {
 
 
+                /*  item.projectoid
+                  item.fornecedor
+                  item.data
+                  item.valor
+                  item.Namefile
+                  item.Filepath
+                  item.Nota
+                  item.tipoivaidv.name
+                  item.ivaidv.name
+                  item.cambioidv*/
+
+                $('#ReceitasPagamentosCliente tr:last').after('<tr class="' + item.Id + '">' +
+                    '<td>' + ConvertDateForTableDiarias(item.data) + '</td>' +
+                    '<td>' + item.projectname + '</td>' +
+                    '<td>' + item.ivaidv.name + '</td>' +
+                    '<td>' + item.valor.formatMoney(2, '.', ',') + '</td>' +
+                    '<td>Link</td>' +
+                    '</tr>');
+
+                totalRecebido += item.valor;
+            });
+
+
+            $("#ReceitasValorRecebido").html(totalRecebido.formatMoney(2, '.', ','));
+
+            
+        },
+        error: function (xhr, status, p3, p4) {
+            var err = "Error " + " " + status + " " + p3 + " " + p4;
+            if (xhr.responseText && xhr.responseText[0] === "{")
+                err = JSON.parse(xhr.responseText).Message;
+            console.log(err);
+        }
+    });
+
+
+}
+//pagamento de receçao
 $(".AddPagamento").click(function () {
 
 
@@ -159,6 +208,26 @@ Number.prototype.formatMoney = function (c, d, t) {
     return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
 };
 
+function ConvertDateForTableDiarias(date) {
+    var dataIni = function (d) {
+
+        if (d.getMonth() < 10) {
+            if (d.getDate() < 10)
+                var date = "" + d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear();
+            else
+                var date = d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear();
+        }
+        else {
+            if (d.getDate() < 10)
+                var date = "" + d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear();
+            else
+                var date = d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear();
+        }
+
+        return date;
+    }(new Date(date));
+    return dataIni;
+}
 
 function loadPageAuxTables() {
 
@@ -208,4 +277,130 @@ function openTab(evt, cityName) {
     document.getElementById(cityName).style.display = "block";
     evt.currentTarget.className += " active";
 }
+//pagamento de despesa
+$(".BtnPagamentoClienteNotas").click(function () {
 
+
+
+    var tipoivaidv = $("#PagamentoClienteTipoIva option:selected").val();
+    var tipoivanome = $("#PagamentoClienteTipoIva option:selected").text();
+    var ivaidv = $("#PagamentoClienteIva option:selected").val();
+    var ivaidvnome = $("#PagamentoClienteIva option:selected").text();
+    var OrcamentoCambioTXT = $("#PagamentoClienteMoedaCompra option:selected").val();
+    var OrcamentoCambioTXTNome = $("#PagamentoClienteMoedaCompra option:selected").text();
+    var CambioArr = OrcamentoCambioTXT.split("-");
+    var cambioidv = CambioArr[0];
+    var c_valor = parseFloat(CambioArr[1]);
+
+    var nota = $("#notaPagamentoCliente").val();
+    var date = $("#dataPagamentoCliente").val();
+    var valor = $("#ValorPagamentoCliente").val();
+    var fornecedorid = $("#ProjectoFornecedorID").val();
+    var ProjectName = $("#ProjectName").val();
+
+
+
+    var data = new FormData();
+
+    var files = $("#PagamentoAnexoCliente").get(0).files;
+    var PagamentoCliente = {
+        "_id": "",
+        "projectoid": projectID,
+        "fornecedor": fornecedorid,
+        "projectname": ProjectName,
+        "data": date,
+        "valor": valor,
+        "Namefile": "",
+        "Filepath": "",
+        "Nota": nota,
+        "tipoivaidv": { "inId": tipoivaidv, "name": tipoivanome },
+        "ivaidv": { "inId": ivaidv, "name": ivaidvnome },
+        "cambioidv": { "inId": cambioidv, "name": OrcamentoCambioTXTNome, "value": c_valor }
+    };
+
+    if (files.length > 0) {
+        data.append("UploadedImage", files[0]);
+        data.append("PagamentoCliente", JSON.stringify(PagamentoCliente));
+    }
+
+    $.ajax({
+        type: "POST",
+        url: 'api/Postman/insertPagamentoCliente',
+        contentType: false,
+        processData: false,
+        data: data,
+        success: function (result) {
+            refreshPagamentosCliente();
+        },
+        error: function (xhr, status, p3, p4) {
+            var err = "Error " + " " + status + " " + p3 + " " + p4;
+            if (xhr.responseText && xhr.responseText[0] === "{")
+                err = JSON.parse(xhr.responseText).Message;
+            console.log(err);
+        }
+    });
+
+});
+function refreshPagamentosCliente() {
+    $("#PagamentosCliente").find("tr:gt(0)").remove();
+    $.ajax({
+        type: "GET",
+        url: 'api/Postman/getAllPagamentosCliente?id=' + projectID,
+        success: function (result) {
+
+            var pagamentosRecebidos = JSON.parse(result);
+            var totalRecebido = 0;
+            $.each(pagamentosRecebidos, function (index, item) {
+
+
+                /*  item.projectoid
+                  item.fornecedor
+                  item.data
+                  item.valor
+                  item.Namefile
+                  item.Filepath
+                  item.Nota
+                  item.tipoivaidv.name
+                  item.ivaidv.name
+                  item.cambioidv*/
+
+                $('#PagamentosCliente tr:last').after('<tr class="' + item.Id + '">' +
+                    '<td>' + ConvertDateForTableDiarias(item.data) + '</td>' +
+                    '<td>' + item.tipoivaidv.name + '</td>' +
+                    '<td>' + item.ivaidv.name + '</td>' +
+                    '<td>' + item.valor.formatMoney(2, '.', ',') + '</td>' +
+                    '<td>Link</td>' +
+                    '</tr>');
+
+                totalRecebido += item.valor;
+            });
+
+
+            $("#ValorRecebido").html(totalRecebido.formatMoney(2, '.', ','));
+
+            calcSaldo();
+        },
+        error: function (xhr, status, p3, p4) {
+            var err = "Error " + " " + status + " " + p3 + " " + p4;
+            if (xhr.responseText && xhr.responseText[0] === "{")
+                err = JSON.parse(xhr.responseText).Message;
+            console.log(err);
+        }
+    });
+
+
+}
+
+
+
+var tableToExcel = (function () {
+    var uri = 'data:application/vnd.ms-excel;base64,'
+      , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><meta http-equiv="content-type" content="text/plain; charset=UTF-8"/></head><body><table>{table}</table></body></html>'
+      , base64 = function (s) { return window.btoa(unescape(encodeURIComponent(s))) }
+      , format = function (s, c) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }) }
+    return function (table, name) {
+        if (!table.nodeType) table = document.getElementById(table)
+        var ctx = { worksheet: name || 'Worksheet', table: table.innerHTML }
+        window.location.href = uri + base64(format(template, ctx))
+    }
+})()

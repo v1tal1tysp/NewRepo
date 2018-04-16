@@ -252,7 +252,7 @@
 
 
 			});
-
+			PrepareTables("Listaprojectos", 20);
 
 		}
 		function LoadList(){
@@ -342,7 +342,45 @@
 		}
 
 
+		function PrepareTables(TableName, cnt) {
+		    var InTableName = $("#" + TableName);
 
+
+		    var Container = $(InTableName).parent()[0];
+
+		    var totalRows = $(InTableName).find('tr:gt(0)').length;
+		    var recordPerPage = cnt;
+		    var totalPages = Math.ceil(totalRows / recordPerPage);
+		    var $pages = $('<div id="pages"></div>');
+		    for (i = 0; i < totalPages; i++) {
+		        $('<span class="pageNumber">&nbsp;' + (i + 1) + '</span>').appendTo($pages);
+		    }
+
+		    $pages.appendTo(Container);
+
+		    $('.pageNumber').hover(
+              function () {
+                  $(this).addClass('focus');
+              },
+              function () {
+                  $(this).removeClass('focus');
+              }
+            );
+
+		    $(InTableName).find('tr:has(td)').hide();
+		    var tr = $(InTableName).find('tr:gt(0)');
+		    for (var i = 0; i <= recordPerPage - 1; i++) {
+		        $(tr[i]).show();
+		    }
+		    $('span').click(function (event) {
+		        $(InTableName).find('tr:gt(0)').hide();
+		        var nBegin = ($(this).text() - 1) * recordPerPage;
+		        var nEnd = $(this).text() * recordPerPage - 1;
+		        for (var i = nBegin; i <= nEnd; i++) {
+		            $(tr[i]).show();
+		        }
+		    });
+		};
         function sendCambio(objectToSend) {
             $.post('api/Postman/UpdateCambio', objectToSend,
                 function (returnedData) {

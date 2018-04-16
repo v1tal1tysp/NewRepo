@@ -365,17 +365,25 @@ function sendrecords(objectToSend) {
 
 function sendToExcell(objectToSend) {
 
+    var text = JSON.stringify(objectToSend);
+    //window.location.href = "api/Postman/PrintProjectExcel?objecttext=" + encodeURIComponent(text);
+    
+    $.ajax({
+        url: 'api/Postman/PrintProjectExcel',
+        type: 'GET',
+        dataType: 'json',
+        data: JSON.stringify({ objecttext: text }),
+        success: function (data, textStatus, xhr) {
+            console.log(data);
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            console.log('Error in Operation');
+        }
+    });
 
-    $.post('api/Postman/PrintExcel', objectToSend,
-        function (returnedData) {
 
-            var tadasd = returnedData;
-            console.log("Ok");
-
-
-        }).fail(function (response) {
-            console.log("error");
-        });
+   
+    
 }
 
 
@@ -537,7 +545,7 @@ function LoadingOrcamentos(id, IdOrcOut) {
         });
         insertTabelaFornecedores();
     }
-
+    PrepareTables("ListaOrcamentos", 3);
 }
 function LoadRecords(idOrca) {
 
@@ -3054,7 +3062,7 @@ $(".BtnPagamentoClienteNotas").click(function () {
     var date = $("#dataPagamentoCliente").val();
     var valor = $("#ValorPagamentoCliente").val();
     var fornecedorid = $("#ProjectoFornecedorID").val();
-
+    var ProjectName = $("#ProjectName").val();
 
 
 
@@ -3064,7 +3072,8 @@ $(".BtnPagamentoClienteNotas").click(function () {
     var PagamentoCliente = {
         "_id": "",
         "projectoid": projectID,
-        "fornecedor":fornecedorid,
+        "fornecedor": fornecedorid,
+        "projectname":ProjectName,
         "data": date,
         "valor":valor,
         "Namefile": "",
@@ -4208,6 +4217,7 @@ function loadPageAuxTables() {
             '</tr>');
         });
     }
+    PrepareTables("Historico",25);
 
 
     var items = JSON.parse($("#HiddenServicosTTTipos").val());
@@ -4595,3 +4605,43 @@ function openTab(evt, cityName) {
     evt.currentTarget.className += " active";
 }
 
+function PrepareTables(TableName , cnt) {
+    var InTableName = $("#" + TableName);
+
+
+    var Container = $(InTableName).parent()[0];
+
+    var totalRows = $(InTableName).find('tr:gt(0)').length;
+    var recordPerPage = cnt;
+    var totalPages = Math.ceil(totalRows / recordPerPage);
+    var $pages = $('<div id="pages"></div>');
+    for (i = 0; i < totalPages; i++) {
+        $('<span class="pageNumber">&nbsp;' + (i + 1) + '</span>').appendTo($pages);
+    }
+
+    $pages.appendTo(Container);
+
+    $('.pageNumber').hover(
+      function () {
+          $(this).addClass('focus');
+      },
+      function () {
+          $(this).removeClass('focus');
+      }
+    );
+
+
+    $(InTableName).find('tr:has(td)').hide();
+    var tr = $(InTableName).find( 'tr:gt(0)');
+    for (var i = 0; i <= recordPerPage - 1; i++) {
+        $(tr[i]).show();
+    }
+    $('span').click(function (event) {
+        $(InTableName).find('tr:gt(0)').hide();
+        var nBegin = ($(this).text() - 1) * recordPerPage;
+        var nEnd = $(this).text() * recordPerPage - 1;
+        for (var i = nBegin; i <= nEnd; i++) {
+            $(tr[i]).show();
+        }
+    });
+};

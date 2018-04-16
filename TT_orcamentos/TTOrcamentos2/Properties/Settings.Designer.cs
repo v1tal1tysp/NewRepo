@@ -36,10 +36,19 @@ namespace TTOrcamentos2.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("D:\\Projectos\\NewRepo\\Files\\")]
+        [global::System.Configuration.DefaultSettingValueAttribute("F:\\projects\\TT_orcamentos\\NewRepo\\Files\\")]
         public string PastaDocumentos {
             get {
                 return ((string)(this["PastaDocumentos"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("D:\\Projectos\\NewRepo\\Files\\")]
+        public string Pasta2 {
+            get {
+                return ((string)(this["Pasta2"]));
             }
         }
     }

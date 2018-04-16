@@ -63,7 +63,7 @@ namespace TTOrcamentos2.Model
         {
             try
             {
-                //DeleteByProjecto(cambio.ProjectoId,cambio.FornecedorId);
+                DeleteByProjecto(cambio.ProjectoId,cambio.FornecedorId);
                 DB.ReportFornecedores.InsertOne(cambio);
 
                 return true;

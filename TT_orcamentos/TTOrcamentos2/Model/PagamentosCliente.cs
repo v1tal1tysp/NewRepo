@@ -13,6 +13,7 @@ namespace TTOrcamentos2.Model {
         public ObjectId Id { get; set; }
         public string projectoid { get; set; }
         public string fornecedor { get; set; }
+        public string projectname { get; set; }
         public DateTime data { get; set; }
         public double valor { get; set; }
         public string Namefile { get; set; }
@@ -97,5 +98,25 @@ namespace TTOrcamentos2.Model {
             }
         }
 
+
+
+        public static List<PagamentosCliente> GetAllByfornecedor(string fornecedorid)
+        {
+            List<PagamentosCliente> lista = new List<PagamentosCliente>();
+            try
+            {
+                var filter = Builders<PagamentosCliente>.Filter.Where(x => x.fornecedor == fornecedorid);
+
+                lista = DB.PagamentosCliente.Find(filter).ToList();
+
+                return lista;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Erro Pesquisar PagamentosCliente " + e.ToString());
+            }
+        }
+
+        
     }
 }

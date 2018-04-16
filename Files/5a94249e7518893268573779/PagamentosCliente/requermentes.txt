@@ -1,0 +1,32 @@
+Growop tem como objectivo criar simulaçao de cultivação.
+isto inclui:
+-criar um compartimento;
+-Addicionar varios equipamentos
+	-Lights
+	-Air exhaust
+	-Climate Control;
+	-Addicionar varias plantas;
+
+Com isto o objectivo é dar um overview sobre todo o processo, deste:
+	-Gastos de electrecidade;
+	-Timeline de passos(Acçoes humanas);
+	-Timeline de nutrição
+	-Total de gastos;
+	-Timeline das Luzes
+
+/*base*/
+Tipos de Operaçoes:
+	-Soil
+	-hydro
+	-Airponics
+	
+	-Conforme o tipo de operaçao a base podera diferenciar:
+		-(Soil)Vasos com terra:
+			- varios tipos de terra e pedras
+		-(Hydro)
+			- varias rochas e etc
+
+/*Equipment*/
+
+lights
+	

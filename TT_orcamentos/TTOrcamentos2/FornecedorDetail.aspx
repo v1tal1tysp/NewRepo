@@ -4,6 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
+    <meta http-equiv="content-type" content="text/plain; charset=UTF-8"/>
     <title>Detalhe Fornecedor</title>
 
     <link rel="stylesheet" href="css\style.css"/>
@@ -51,7 +52,8 @@
         <asp:HiddenField ID="HiddenTipoCustos" runat="server" />
         <asp:HiddenField ID="HiddenPaises" runat="server" />
         <asp:HiddenField ID="HiddenTipoFornecedor" runat="server" />
-
+        <asp:HiddenField ID="HiddenpagamentosCliente" runat="server" />
+        
         <div class="ProjectForm">
   
             <div class="tab">
@@ -59,6 +61,7 @@
                 <div class="FornecedorMenu">
                     <button type="button" class="tablinks active" onclick="openTab(event, 'Geral')">Geral</button>
                     <button type="button" class="tablinks" onclick="openTab(event, 'Despesas')">Despesas</button>
+                    <button type="button" class="tablinks" onclick="openTab(event, 'Receitas')">Receitas</button>
                 </div>
             </div>
 
@@ -172,30 +175,34 @@
                     <div class="panel-body">
                         <div class="TitleTabela">Despesas</div>
                             <div class="col-lg-6">
+                               <div>
+                                   <label for="ValorRecebido">Valor Recebido</label>
+                                   <span id="ValorRecebido">0</span>
+                               </div>
+                               <div>
+                                   <label for="ValorCusto">Valor Custo</label>
+                                   <span id="ValorCusto">0</span>
+                               </div>
+                               <div>
+                                   <label for="Saldo">Saldo</label>
+                                   <span id="Saldo">0</span>
+                               </div>
                                 <div>
-                                    <label for="ValorRecebido">Valor Recebido</label>
-                                    <span id="ValorRecebido">0</span>
+
+                                    <button  type="button" class="BtnPrintDespesas" onclick="tableToExcel('FornecedoresRecords', 'Despesas')" >Imprimir Despesas</button>
                                 </div>
-                                <div>
-                                    <label for="ValorCusto">Valor Custo</label>
-                                    <span id="ValorCusto">0</span>
-                                </div>
-                                <div>
-                                    <label for="Saldo">Saldo</label>
-                                    <span id="Saldo">0</span>
-                                </div>
-                             </div>
-                        <table class="" id="FornecedoresRecords">
-                            <tbody>
-                                <tr>
-                                    <th>File</th>
-                                    <th>Orçamento</th>
-                                    <th>Ano</th>
-                                    <th>Total a Dever</th>
-                                    <th>Notas de Pagamento</th>
-                                </tr>
-                            </tbody>
-                        </table>
+                            </div>
+                            <table class="" id="FornecedoresRecords">
+                                <tbody>
+                                    <tr>
+                                        <th>File</th>
+                                        <th>Orçamento</th>
+                                        <th>Ano</th>
+                                        <th>Total a Dever</th>
+                                        <th>Notas de Pagamento</th>
+                                    </tr>
+                                </tbody>
+                            </table>
 
                         <div class="row">
                             <div class="col-lg-6">
@@ -216,6 +223,36 @@
 
                 </div>
             
+
+
+                <div id="Receitas" class="tabcontent">
+                    <div class="panel-body">
+                        <div class="TitleTabela">Receitas</div>
+                            <div class="col-lg-6">
+                                <div>
+                                    <label for="ReceitasValorRecebido">Valor Recebido</label>
+                                    <span id="ReceitasValorRecebido">0</span>
+                                </div>
+    
+                             </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="TitleTabela">Pagamentos Recebidos </div>
+                                <table id="ReceitasPagamentosCliente">
+                                    <tr>
+                                        <th>Data</th>
+                                        <th>Projecto</th>
+                                        <th>Iva</th>
+                                        <th>Valor</th>
+                                        <th>Ver Factura</th>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                </div>
             
             </div>
 

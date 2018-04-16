@@ -33,7 +33,7 @@
 
             <div class="menu collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li><a href="#">Lista de Orçamentos <span class="sr-only">(current)</span></a></li>
+                    <li><a href="Index.aspx">Lista de Orçamentos <span class="sr-only">(current)</span></a></li>
                     <li><a href="NewProject.aspx">Novo Projeto</a></li>
                     <li class="active"><a href="FornecedoresIndex.aspx">Fornecedores</a></li>
                 </ul>

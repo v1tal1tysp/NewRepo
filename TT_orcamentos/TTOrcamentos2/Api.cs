@@ -108,6 +108,7 @@ namespace TT_orcamentos
             var filter = Builders<Orcamentos>.Filter.Where(x => x.Id ==  t);
 
             var orcamento = DB.Orcamentos.Find(filter).FirstOrDefault();
+
             List<Orcamentos> nlista = new List<Orcamentos>();
             if (orcamento != null)
             {
@@ -128,7 +129,7 @@ namespace TT_orcamentos
                     }
 
                     
-                    return nlista;
+                    return nlista.OrderByDescending(p => p.o_datacriacao).ToList();
                 }
                 else
                 {
@@ -153,7 +154,7 @@ namespace TT_orcamentos
                 }
 
             }
-            return nlista;
+            return nlista.OrderByDescending(p => p.o_datacriacao).ToList();
 
 
         }

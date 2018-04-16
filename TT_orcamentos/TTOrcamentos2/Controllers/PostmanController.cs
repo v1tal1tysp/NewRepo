@@ -532,6 +532,26 @@ namespace TTOrcamentos2.Controllers
             return tst;
         }
 
+        [HttpGet]
+        [Route("api/Postman/getAllPagamentosClienteByFornecedor")]
+        public string getAllPagamentosClienteByFornecedor(string id)
+        {
+            string tst = string.Empty;
+            List<PagamentosCliente> ObjList = new List<PagamentosCliente>();
+            try
+            {
+                ObjList = PagamentosCliente.GetAllByfornecedor(id);
+                return JsonConvert.SerializeObject(ObjList);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return tst;
+        }
+
+
         [HttpPost]
         [Route("api/Postman/DownloadFile")]
         public HttpResponseMessage DownloadFile(JObject obj)
@@ -634,11 +654,13 @@ namespace TTOrcamentos2.Controllers
             fs.Position = 0;
             return fs;
         }
-        [HttpPost]
+
+
+     /*   [HttpPost]
         [Route("api/Postman/PrintExcel")]
-        public Stream PrintExcel(JObject container)
+        public MemoryStream PrintExcel(JObject container)
         {
-            Stream strm  = new MemoryStream();
+            MemoryStream Response = new MemoryStream();
             if (container != null)
             {
                 try
@@ -656,38 +678,55 @@ namespace TTOrcamentos2.Controllers
                                 worksheet.Cell(r, c).Value = "X";
 
 
-                        /*if (Projecto.ArrAloj != null)
-                        {
-                            foreach (var item in Projecto.ArrAloj)
-                            {
-                               
-                                
-                                //Alojamento.Insert(item);
-                            }
-                        }
-                        if (Projecto.ArrVoos != null)
-                        {
-                            foreach (var item in Projecto.ArrVoos)
-                            {
-                                //Voos.Insert(item);
-                            }
-                        }
-                        if (Projecto.ArrDiarias != null)
-                        {
-                            foreach (var item in Projecto.ArrDiarias)
-                            {
-                                //Diarias.Insert(item);
-                            }
-                        }
-                        if (Projecto.ArrServicos != null)
-                        {
-                            foreach (var item in Projecto.ArrServicos)
-                            {
-                                //ServicoTT.Insert(item);
-                            }
-                        }*/
 
-                         return GetStream(workbook);
+                        var dataBytes = File.ReadAllBytes();
+                        var dataStream = new MemoryStream(dataBytes);
+                        httpResponseMessage.Content = new StreamContent(bookStuff);
+
+
+                        /*if (Projecto.ArrAloj != null)
+                         {
+                             foreach (var item in Projecto.ArrAloj)
+                             {
+                                
+                                 
+                                 //Alojamento.Insert(item);
+                             }
+                         }
+                         if (Projecto.ArrVoos != null)
+                         {
+                             foreach (var item in Projecto.ArrVoos)
+                             {
+                                 //Voos.Insert(item);
+                             }
+                         }
+                         if (Projecto.ArrDiarias != null)
+                         {
+                             foreach (var item in Projecto.ArrDiarias)
+                             {
+                                 //Diarias.Insert(item);
+                             }
+                         }
+                         if (Projecto.ArrServicos != null)
+                         {
+                             foreach (var item in Projecto.ArrServicos)
+                             {
+                                 //ServicoTT.Insert(item);
+                             }
+                        }*/
+/*
+
+                        string myName = Server.UrlEncode(ReportName + "_" + DateTime.Now.ToShortDateString() + ".xlsx");
+                        MemoryStream stream = GetStream(ExcelWorkbook);
+
+                        Response.Clear();
+                        Response.Buffer = true;
+                        Response.AddHeader("content-disposition", "attachment; filename=" + myName);
+                        Response.ContentType = "application/vnd.ms-excel";
+                        Response.BinaryWrite(stream.ToArray());
+                        Response.End();
+
+                        return gets MemoryStream(workbook);
 
 
 
@@ -710,6 +749,103 @@ namespace TTOrcamentos2.Controllers
             }
 
         }
+    */
+
+        [HttpGet]
+        [Route("api/Postman/PrintProjectExcel")]
+        public HttpResponseMessage PrintProjectExcel([FromUri]string objecttext)
+        {
+            JObject container = JObject.Parse(objecttext);
+
+            XLWorkbook book=  generateProjectExlReport(container);
+
+            var bookpath = Properties.Settings.Default.PastaDocumentos+"Relatorio_" + DateTime.Now.Year + "_" + DateTime.Now.Month + "_" + DateTime.Now.Day + "_" + DateTime.Now.Hour + "_" + DateTime.Now.Minute  + ".xlsx";
+
+            string bookName = "Relatorio_" + DateTime.Now.Year + "_" + DateTime.Now.Month + "_" + DateTime.Now.Day + "_" + DateTime.Now.Hour + "_" + DateTime.Now.Minute + ".xlsx";
+            book.SaveAs(bookpath);
+
+            //converting Pdf file into bytes array  
+            var dataBytes = File.ReadAllBytes(bookpath);
+            //adding bytes to memory stream   
+            var dataStream = new MemoryStream(dataBytes);
+
+            HttpResponseMessage httpResponseMessage = Request.CreateResponse(HttpStatusCode.OK);
+            httpResponseMessage.Content = new StreamContent(dataStream);
+            httpResponseMessage.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
+            httpResponseMessage.Content.Headers.ContentDisposition.FileName = bookName;
+            httpResponseMessage.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/octet-stream");
+
+            return httpResponseMessage;
+        }
+
+        public XLWorkbook generateProjectExlReport(JObject container)
+        {
+            if (container != null)
+            {
+                try
+                {
+                        SaveRecordsModel Projecto = container.ToObject<SaveRecordsModel>();
+         
+                        var workbook = new XLWorkbook();
+
+                        var worksheet = workbook.Worksheets.Add("Relatorio");
+
+
+                        foreach (var r in Enumerable.Range(1, 5))
+                            foreach (var c in Enumerable.Range(1, 5))
+                                worksheet.Cell(r, c).Value = "X";
+
+
+                        /*if (Projecto.ArrAloj != null)
+                         {
+                             foreach (var item in Projecto.ArrAloj)
+                             {
+                                
+                                 
+                                 //Alojamento.Insert(item);
+                             }
+                         }
+                         if (Projecto.ArrVoos != null)
+                         {
+                             foreach (var item in Projecto.ArrVoos)
+                             {
+                                 //Voos.Insert(item);
+                             }
+                         }
+                         if (Projecto.ArrDiarias != null)
+                         {
+                             foreach (var item in Projecto.ArrDiarias)
+                             {
+                                 //Diarias.Insert(item);
+                             }
+                         }
+                         if (Projecto.ArrServicos != null)
+                         {
+                             foreach (var item in Projecto.ArrServicos)
+                             {
+                                 //ServicoTT.Insert(item);
+                             }
+                        }*/
+
+
+
+                        return workbook;
+
+
+           
+                }
+                catch(Exception e)
+                {
+                    return null;
+                }
+
+           }
+            else
+            {
+                return null;
+            }
+        }
+
 
 
         [HttpPost]

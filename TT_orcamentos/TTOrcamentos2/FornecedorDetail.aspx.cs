@@ -26,6 +26,9 @@ namespace TTOrcamentos2 {
                 List<ReportFornecedores> ListaDividas = ReportFornecedores.GetAll(fornecedorid);
                 HiddenListaDividas.Value = JsonConvert.SerializeObject(ListaDividas);
 
+                var pagamentosCliente = PagamentosCliente.GetAllByfornecedor(fornecedorid);
+                HiddenpagamentosCliente.Value = JsonConvert.SerializeObject(pagamentosCliente);
+
             }
             else
                 Response.Redirect("login.aspx", true);
